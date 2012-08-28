@@ -30,11 +30,11 @@
 #include <string.h>
 
 static char *
-make_patch (libunicodenames_names_db db, unsigned int codepoint)
+make_patch (unicodenames_names_db db, unsigned int codepoint)
 {
   char *patch = NULL;
-  const char *name = libunicodenames_name (db, codepoint);
-  const char *annot = libunicodenames_annot (db, codepoint);
+  const char *name = unicodenames_name (db, codepoint);
+  const char *annot = unicodenames_annotation (db, codepoint);
   if (name != NULL && annot != NULL)
     {
       patch = (char *) malloc (strlen (name) + strlen (annot) + 100);
@@ -53,7 +53,7 @@ main (int argc, char *argv[])
   //unsigned int random_codepoint_count;
   //(void) sscanf(argv[3], "%u", &random_codepoint_count);
 
-  libunicodenames_names_db db = libunicodenames_names_db_open (db_file);
+  unicodenames_names_db db = unicodenames_names_db_open (db_file);
   if (db != NULL)
     {
       char nameslist[2000000];
@@ -82,7 +82,7 @@ main (int argc, char *argv[])
       if (failure_count == 0)
         exit_code = 0;
 
-      libunicodenames_names_db_close (db);
+      unicodenames_names_db_close (db);
     }
 
   return exit_code;

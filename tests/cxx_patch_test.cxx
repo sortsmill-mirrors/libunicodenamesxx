@@ -34,7 +34,7 @@ make_patch (unicodenames & db, unsigned int codepoint)
 {
   char *patch = NULL;
   const char *name = db.name (codepoint);
-  const char *annot = db.annot (codepoint);
+  const char *annot = db.annotation (codepoint);
   if (name != NULL && annot != NULL)
     {
       patch = (char *) malloc (strlen (name) + strlen (annot) + 100);

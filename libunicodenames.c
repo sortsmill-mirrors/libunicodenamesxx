@@ -30,7 +30,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-typedef struct libunicodenames_names___db
+typedef struct unicodenames_names___db
 {
   unsigned int version;
   unsigned int codepoint_count;
@@ -38,7 +38,7 @@ typedef struct libunicodenames_names___db
   unsigned int *name_offsets;
   unsigned int *annot_offsets;
   char *strings;
-} libunicodenames_names___db;
+} unicodenames_names___db;
 
 static const char *names_db_id_string = "libunicodenames names db       ";
 
@@ -96,7 +96,7 @@ read_strings (FILE * f, char **strings, size_t size)
 }
 
 static bool
-read_names_db_tables (FILE * f, libunicodenames_names_db handle)
+read_names_db_tables (FILE * f, unicodenames_names_db handle)
 {
   unsigned int strings_size;
 
@@ -119,10 +119,10 @@ read_names_db_tables (FILE * f, libunicodenames_names_db handle)
   return successful;
 }
 
-libunicodenames_names_db
-libunicodenames_names_db_open (const char *filename)
+unicodenames_names_db
+unicodenames_names_db_open (const char *filename)
 {
-  libunicodenames_names_db handle = NULL;
+  unicodenames_names_db handle = NULL;
 
   FILE *f = fopen (filename, "rb");
   if (f != NULL)
@@ -130,8 +130,7 @@ libunicodenames_names_db_open (const char *filename)
       if (string_matches (f, names_db_id_string))
         {
           handle =
-            (libunicodenames_names_db)
-            malloc (sizeof (libunicodenames_names___db));
+            (unicodenames_names_db) malloc (sizeof (unicodenames_names___db));
           if (handle != NULL)
             {
               handle->codepoints = NULL;
@@ -141,7 +140,7 @@ libunicodenames_names_db_open (const char *filename)
               bool successful = read_names_db_tables (f, handle);
               if (!successful)
                 {
-                  libunicodenames_names_db_close (handle);
+                  unicodenames_names_db_close (handle);
                   handle = NULL;
                 }
             }
@@ -153,7 +152,7 @@ libunicodenames_names_db_open (const char *filename)
 }
 
 void
-libunicodenames_names_db_close (libunicodenames_names_db handle)
+unicodenames_names_db_close (unicodenames_names_db handle)
 {
   free (handle->codepoints);
   free (handle->name_offsets);
@@ -171,7 +170,7 @@ compare_codepoints (const void *codepoint1, const void *codepoint2)
 }
 
 static int
-codepoint_index (libunicodenames_names_db handle, unsigned int codepoint)
+codepoint_index (unicodenames_names_db handle, unsigned int codepoint)
 {
   int index = -1;
   unsigned int *p = (unsigned int *) bsearch (&codepoint, handle->codepoints,
@@ -184,33 +183,33 @@ codepoint_index (libunicodenames_names_db handle, unsigned int codepoint)
 }
 
 static inline unsigned int
-name_offset_at_index (libunicodenames_names_db handle, int index)
+name_offset_at_index (unicodenames_names_db handle, int index)
 {
   return handle->name_offsets[index];
 }
 
 static inline unsigned int
-annot_offset_at_index (libunicodenames_names_db handle, int index)
+annot_offset_at_index (unicodenames_names_db handle, int index)
 {
   return handle->annot_offsets[index];
 }
 
 static inline const char *
-name_at_index (libunicodenames_names_db handle, int index)
+name_at_index (unicodenames_names_db handle, int index)
 {
   return (const char *) (handle->strings +
                          name_offset_at_index (handle, index));
 }
 
 static inline const char *
-annot_at_index (libunicodenames_names_db handle, int index)
+annot_at_index (unicodenames_names_db handle, int index)
 {
   return (const char *) (handle->strings +
                          annot_offset_at_index (handle, index));
 }
 
 const char *
-libunicodenames_name (libunicodenames_names_db handle, unsigned int codepoint)
+unicodenames_name (unicodenames_names_db handle, unsigned int codepoint)
 {
   const char *name = NULL;
   int index = codepoint_index (handle, codepoint);
@@ -220,7 +219,7 @@ libunicodenames_name (libunicodenames_names_db handle, unsigned int codepoint)
 }
 
 const char *
-libunicodenames_annot (libunicodenames_names_db handle, unsigned int codepoint)
+unicodenames_annotation (unicodenames_names_db handle, unsigned int codepoint)
 {
   const char *annot = NULL;
   int index = codepoint_index (handle, codepoint);

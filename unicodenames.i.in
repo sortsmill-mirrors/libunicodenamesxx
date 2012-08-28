@@ -22,10 +22,10 @@
 #include <libunicodenames.h>
 %}
 
-%ignore libunicodenames_names_db_open;
-%ignore libunicodenames_names_db_close;
-%ignore libunicodenames_name;
-%ignore libunicodenames_annot;
+%ignore unicodenames_names_db_open;
+%ignore unicodenames_names_db_close;
+%ignore unicodenames_name;
+%ignore unicodenames_annotation;
 
 %catches(const char *) unicodenames::unicodenames;
 

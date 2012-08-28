@@ -26,21 +26,21 @@ extern "C"
 #endif
 
   /* A names db handle. */
-  typedef struct libunicodenames_names___db *libunicodenames_names_db;
+  typedef struct unicodenames_names___db *unicodenames_names_db;
 
   /* Open a names db. */
-  libunicodenames_names_db libunicodenames_names_db_open (const char *filename);
+  unicodenames_names_db unicodenames_names_db_open (const char *filename);
 
   /* Close a names db. */
-  void libunicodenames_names_db_close (libunicodenames_names_db handle);
+  void unicodenames_names_db_close (unicodenames_names_db handle);
 
   /* Retrieve the name of a Unicode codepoint. */
-  const char *libunicodenames_name (libunicodenames_names_db handle,
-                                   unsigned int codepoint);
+  const char *unicodenames_name (unicodenames_names_db handle,
+                                 unsigned int codepoint);
 
   /* Retrieve the annotation of a Unicode codepoint. */
-  const char *libunicodenames_annot (libunicodenames_names_db handle,
-                                    unsigned int codepoint);
+  const char *unicodenames_annotation (unicodenames_names_db handle,
+                                       unsigned int codepoint);
 
 #ifdef __cplusplus
 }
@@ -52,13 +52,13 @@ class unicodenames
 {
 private:
 
-  libunicodenames_names_db db;
+  unicodenames_names_db db;
 
 public:
 
   inline unicodenames (const char *filename)
   {
-    db = libunicodenames_names_db_open (filename);
+    db = unicodenames_names_db_open (filename);
     if (!db)
       // FIXME: Is this what really should be thrown here? It may
       // change in the future.
@@ -67,17 +67,17 @@ public:
 
   inline ~ unicodenames ()
   {
-    libunicodenames_names_db_close (db);
+    unicodenames_names_db_close (db);
   }
 
   inline const char *name (unsigned int codepoint)
   {
-    return libunicodenames_name (db, codepoint);
+    return unicodenames_name (db, codepoint);
   }
 
-  inline const char *annot (unsigned int codepoint)
+  inline const char *annotation (unsigned int codepoint)
   {
-    return libunicodenames_annot (db, codepoint);
+    return unicodenames_annotation (db, codepoint);
   }
 };
 

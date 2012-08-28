@@ -29,7 +29,7 @@ import random, string, sys
 
 def make_patch(db, codepoint):
     name = db.name(codepoint)
-    annot = db.annot(codepoint)
+    annot = db.annotation(codepoint)
     patch = None
     if name is not None and annot is not None:
         patch = "{:04X}\t{}\n{}".format(codepoint, name, annot)

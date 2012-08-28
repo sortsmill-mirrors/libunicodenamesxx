@@ -24,11 +24,11 @@ int
 main (int argc, char *argv[])
 {
   int exit_code = 1;
-  libunicodenames_names_db db = libunicodenames_names_db_open (argv[1]);
+  unicodenames_names_db db = unicodenames_names_db_open (argv[1]);
   if (db != NULL)
     {
       exit_code = 0;
-      libunicodenames_names_db_close (db);
+      unicodenames_names_db_close (db);
     }
   return exit_code;
 }
