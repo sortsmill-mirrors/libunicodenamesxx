@@ -96,6 +96,37 @@ endif PYTHON_FFI
 
 #--------------------------------------------------------------------------
 
+######################################################################
+##                                                                  ##
+##  A note for the developers:                                      ##
+##                                                                  ##
+##  You should use Mercurial (not Git) when making a dist package.  ##
+##  Otherwise you will not get the proper ChangeLog file.           ##
+##                                                                  ##
+######################################################################
+
+dist-hook: make-changelog
+
+make-changelog:
+	@if hg log -r tip > /dev/null 2> /dev/null; then \
+		hg log --style=changelog > $(distdir)/ChangeLog; \
+		echo; \
+		echo "----------------------------------------------------------------"; \
+		echo "hg log --style=changelog > $(distdir)/ChangeLog"; \
+		echo "----------------------------------------------------------------"; \
+		echo; \
+	else \
+		echo "If you do not mind, please report that the ChangeLog is missing." > $(distdir)/ChangeLog; \
+		echo "Report at: https://github.com/chemoelectric/libunicodenames/issues" >> $(distdir)/ChangeLog; \
+		echo; \
+		echo "----------------------------------------------------------------"; \
+		echo "The ChangeLog was not made! You need Mercurial to make it."; \
+		echo "If you are making a real release, please do it from within"; \
+		echo "a Mercurial repository. Consider using Mercurial with hg-git."; \
+		echo "----------------------------------------------------------------"; \
+		echo; \
+	fi
+
 MOSTLYCLEANFILES = unicodenames.py unicodenames.pyc
 MOSTLYCLEANFILES += unicodenames.pyo unicodenames_wrap.cxx
 MOSTLYCLEANFILES += stamp-pyffi

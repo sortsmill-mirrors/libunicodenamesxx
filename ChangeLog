@@ -1,0 +1,7 @@
+1970-01-01  Barry Schwartz  <github@crudfactory.com>
+
+        * *: The ChangeLog is auto-generated when releasing. If you
+        are seeing this, use 'git log' for a detailed list of changes.
+
+	If you use Mercurial and the hg-git plugin, then
+	'hg log --style=changelog' will print an actual change log.

@@ -4,6 +4,7 @@ syntax: glob
 build
 build.*
 
+ChangeLog
 aclocal.m4
 configure
 configure.scan
