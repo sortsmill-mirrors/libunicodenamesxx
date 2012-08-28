@@ -1,0 +1,34 @@
+# -*- shell-script -*-
+# @configure_input@
+# Configurable variable values for Autoconf test suite.
+
+LC_ALL=C
+
+srcdir="@srcdir@"
+builddir="@builddir@"
+top_srcdir="@top_srcdir@"
+top_builddir="@top_builddir@"
+abs_srcdir="@abs_srcdir@"
+abs_builddir="@abs_builddir@"
+abs_top_srcdir="@abs_top_srcdir@"
+abs_top_builddir="@abs_top_builddir@"
+
+prefix="@prefix@"
+exec_prefix="@exec_prefix@"
+bindir="@bindir@"
+libdir="@libdir@"
+includedir="@includedir@"
+datarootdir="@datarootdir@"
+mandir="@mandir@"
+localedir="@localedir@"
+
+doing_installcheck="test x\"${1}\" = x\"AUTOTEST_PATH=@bindir@\""
+
+skip_python="test x@enable_python@ != xyes"
+PYTHON="@PYTHON@"
+#if ${doing_installcheck}; then
+#    :
+#else
+#    PYTHONPATH="@abs_top_builddir@/.libs:@abs_top_srcdir@/.libs:@abs_top_builddir@:@abs_top_srcdir@"
+#fi
+PYTHONPATH="@abs_top_builddir@/.libs:@abs_top_srcdir@/.libs:@abs_top_builddir@:@abs_top_srcdir@"

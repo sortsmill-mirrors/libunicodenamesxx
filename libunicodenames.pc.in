@@ -1,0 +1,15 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+bindir=@bindir@
+libdir=@libdir@
+includedir=@includedir@
+datarootdir=@datarootdir@
+mandir=@mandir@
+localedir=@localedir@
+
+Name: libunicodenames
+Description: retrieves Unicode names and annotations
+Version: @VERSION@
+Libs: -L${libdir} -lunicodenames
+Cflags: -I${includedir}
+

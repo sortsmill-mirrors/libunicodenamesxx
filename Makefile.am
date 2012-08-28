@@ -1,0 +1,106 @@
+#  Copyright (C) 2012 Barry Schwartz
+# 
+#  This file is part of LibUnicodeNames.
+#  
+#  LibUnicodeNames is free software: you can redistribute it and/or
+#  modify it under the terms of the GNU Lesser General Public License
+#  as published by the Free Software Foundation, either version 3 of
+#  the License, or (at your option) any later version.
+#  
+#  LibUnicodeNames is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+#  Lesser General Public License for more details.
+#  
+#  You should have received a copy of the GNU Lesser General Public
+#  License along with LibUnicodeNames.  If not, see
+#  <http://www.gnu.org/licenses/>.
+
+ACLOCAL_AMFLAGS = -I m4
+
+if TESTSUITE
+SUBDIRS = . tests
+endif TESTSUITE
+
+#--------------------------------------------------------------------------
+
+NAMESLIST_EN = "http://www.unicode.org/Public/UNIDATA/NamesList.txt"
+NAMESLIST_EN_ENCODING = ISO-8859-1
+NAMESLIST_FR = "http://hapax.qc.ca/ListeDesNoms-5.0.0.txt"
+NAMESLIST_FR_ENCODING = UTF-8
+
+#--------------------------------------------------------------------------
+
+pkgconfigdir = ${libdir}/pkgconfig
+nodist_pkgconfig_DATA = libunicodenames.pc
+
+lib_LTLIBRARIES = libunicodenames.la
+include_HEADERS = libunicodenames.h
+dist_pkgdata_DATA = en.names-db fr.names-db
+
+EXTRA_SCRIPTS = make-names-db.awk
+
+MAKE_NAMES_DB = $(ENV) LC_ALL=C $(GAWK) -f $(srcdir)/make-names-db.awk
+
+AM_CFLAGS = $(WARNING_CFLAGS)
+
+libunicodenames_la_SOURCES = libunicodenames.c libunicodenames.h
+libunicodenames_la_LDFLAGS = -no-undefined -version-info=1.0.0
+
+nodist_EXTRA_DATA = NamesList.txt ListeDesNoms.txt
+nodist_EXTRA_DATA += NamesList.UTF-8 ListeDesNoms.UTF-8
+
+rebuild-names-db: NamesList.UTF-8 ListeDesNoms.UTF-8
+	$(MAKE_NAMES_DB) NamesList.UTF-8 > $(srcdir)/en.names-db
+	$(MAKE_NAMES_DB) ListeDesNoms.UTF-8 > $(srcdir)/fr.names-db
+
+CRLF_TO_LF = $(SED) -e 's/\r//g'
+
+NamesList.UTF-8: NamesList.txt
+	$(ICONV) -f $(NAMESLIST_EN_ENCODING) NamesList.txt -t UTF-8 | $(CRLF_TO_LF) > NamesList.UTF-8
+
+ListeDesNoms.UTF-8: ListeDesNoms.txt
+	$(ICONV) -f $(NAMESLIST_FR_ENCODING) ListeDesNoms.txt -t UTF-8 | $(CRLF_TO_LF) > ListeDesNoms.UTF-8
+
+NamesList.txt:
+	$(WGET) $(NAMESLIST_EN) -O $@
+
+ListeDesNoms.txt:
+	$(WGET) $(NAMESLIST_FR) -O $@
+
+#--------------------------------------------------------------------------
+
+if PYTHON_FFI
+
+python_PYTHON = libunicodenames.py
+python_LTLIBRARIES = _unicodenames.la
+
+_unicodenames_la_SOURCES = unicodenames_wrap.cxx libunicodenames.h
+_unicodenames_la_CPPFLAGS = $(AX_SWIG_PYTHON_CPPFLAGS)
+_unicodenames_la_CFLAGS = $(SWIG_PYTHON_WARNING_CFLAGS)
+_unicodenames_la_LIBS = $(AX_SWIG_PYTHON_LIBS)
+_unicodenames_la_LIBADD = libunicodenames.la
+_unicodenames_la_LDFLAGS = -module -shared -avoid-version
+
+# This ugly code exists so SWIG gets run if _either one_ of
+# unicodenames.py and unicodenames_wrap.cxx is out of date or missing.
+unicodenames.py unicodenames_wrap.cxx: stamp-pyffi
+	@if test ! -f $@; then rm -f stamp-pyffi; else :; fi
+	@if test ! -f $@; then $(MAKE) $(AM_MAKEFLAGS) stamp-pyffi; else :; fi
+
+stamp-pyffi: unicodenames.i libunicodenames.h
+	$(SWIG) -Wall -Wextra -c++ $(AX_SWIG_PYTHON_OPT) -I$(srcdir) unicodenames.i
+	@touch stamp-pyffi
+
+endif PYTHON_FFI
+
+#--------------------------------------------------------------------------
+
+MOSTLYCLEANFILES = unicodenames.py unicodenames.pyc
+MOSTLYCLEANFILES += unicodenames.pyo unicodenames_wrap.cxx
+MOSTLYCLEANFILES += stamp-pyffi
+
+DISTCLEANFILES = NamesList.txt ListeDesNoms.txt
+DISTCLEANFILES += NamesList.UTF-8 ListeDesNoms.UTF-8
+
+#--------------------------------------------------------------------------
