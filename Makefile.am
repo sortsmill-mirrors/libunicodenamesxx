@@ -51,7 +51,7 @@ libunicodenames_la_SOURCES = use_names_db.c find_names_db.c
 libunicodenames_la_SOURCES += libunicodenames.h noinst_header.h
 libunicodenames_la_SOURCES += libgettext.h
 nodist_libunicodenames_la_SOURCES = config.h
-libunicodenames_la_LDFLAGS = -no-undefined -version-info=1.0.0
+libunicodenames_la_LDFLAGS = -no-undefined -version-info 1:0:0
 
 libunicodenames___la_SOURCES = cxx_bindings.cxx
 libunicodenames___la_SOURCES += libunicodenames.h noinst_header.h
