@@ -23,12 +23,7 @@
 #endif
 #endif
 
-#include "config.h"
-#include "libunicodenames.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
+#include "noinst_header.h"
 
 typedef struct unicodenames_names___db
 {

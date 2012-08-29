@@ -16,30 +16,55 @@
 // License along with LibUnicodeNames.  If not, see
 // <http://www.gnu.org/licenses/>.
 
-
-#include <libunicodenames.h>
-#include <stdlib.h>
+#include "noinst_header.h"
 
 using namespace libunicodenames;
 
-int
-main (int argc, char *argv[])
+const char *
+unicodenames_exception::what ()
+throw ()
 {
-  if (argc != 2)
-    abort ();
+  return "unknown exception";
+}
 
-  int exit_code = 0;
-  try
-  {
-    unicodenames db1 (argv[1]);
-    unicodenames *db2 = new unicodenames (argv[1]);
-    delete db2;
-  }
-  catch (unicodenames_exception & e)
-  {
-    exit_code = 1;
-  }
-  return exit_code;
+const char *
+memory_exhausted::what ()
+throw ()
+{
+  return ("virtual memory exhausted");
+}
+
+const char *
+open_failed::what ()
+throw ()
+{
+  return ("open failed");
+}
+
+char *
+libunicodenames::names_db_for_current_locale ()
+{
+  char *c_path = unicodenames_names_db_for_current_locale ();
+  if (!c_path)
+    throw memory_exhausted ();
+  char *path = new char[strlen (c_path) + 1];
+  if (!path)
+    throw memory_exhausted ();
+  strcpy (path, c_path);
+  free (c_path);
+  return path;
+}
+
+unicodenames::unicodenames (const char *filename)
+{
+  db = unicodenames_names_db_open (filename);
+  if (!db)
+    throw open_failed ();
+}
+
+unicodenames::~unicodenames ()
+{
+  unicodenames_names_db_close (db);
 }
 
 // local variables:

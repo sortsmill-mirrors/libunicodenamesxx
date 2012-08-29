@@ -4,6 +4,8 @@ syntax: glob
 build
 build.*
 
+intl
+
 ChangeLog
 aclocal.m4
 configure
@@ -41,6 +43,7 @@ tests/testsuite
 
 syntax: regexp
 
+^m4/(?!ax_).*\.m4$
 \.la$
 \.lo$
 \.mo$

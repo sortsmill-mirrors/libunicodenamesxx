@@ -18,8 +18,9 @@
 
 ACLOCAL_AMFLAGS = -I m4
 
+SUBDIRS = intl . po
 if TESTSUITE
-SUBDIRS = . tests
+SUBDIRS += tests
 endif TESTSUITE
 
 #--------------------------------------------------------------------------
@@ -32,9 +33,9 @@ NAMESLIST_FR_ENCODING = UTF-8
 #--------------------------------------------------------------------------
 
 pkgconfigdir = ${libdir}/pkgconfig
-nodist_pkgconfig_DATA = libunicodenames.pc
+nodist_pkgconfig_DATA = libunicodenames.pc libunicodenames++.pc
 
-lib_LTLIBRARIES = libunicodenames.la
+lib_LTLIBRARIES = libunicodenames.la libunicodenames++.la
 include_HEADERS = libunicodenames.h
 dist_pkgdata_DATA = en.names-db fr.names-db
 
@@ -42,10 +43,22 @@ EXTRA_SCRIPTS = make-names-db.awk
 
 MAKE_NAMES_DB = $(ENV) LC_ALL=C $(GAWK) -f $(srcdir)/make-names-db.awk
 
+AM_CPPFLAGS = -DPKGDATADIR=\"${pkgdatadir}/\"
 AM_CFLAGS = $(WARNING_CFLAGS)
+AM_CXXFLAGS = $(WARNING_CXXFLAGS)
 
-libunicodenames_la_SOURCES = libunicodenames.c libunicodenames.h
+libunicodenames_la_SOURCES = use_names_db.c find_names_db.c
+libunicodenames_la_SOURCES += libunicodenames.h noinst_header.h
+libunicodenames_la_SOURCES += libgettext.h
+nodist_libunicodenames_la_SOURCES = config.h
 libunicodenames_la_LDFLAGS = -no-undefined -version-info=1.0.0
+
+libunicodenames___la_SOURCES = cxx_bindings.cxx
+libunicodenames___la_SOURCES += libunicodenames.h noinst_header.h
+libunicodenames___la_SOURCES += libgettext.h
+nodist_libunicodenames___la_SOURCES = $(nodist_libunicodenames_la_SOURCES)
+libunicodenames___la_LIBADD = libunicodenames.la
+libunicodenames___la_LDFLAGS = $(libunicodenames_la_LDFLAGS)
 
 nodist_EXTRA_DATA = NamesList.txt ListeDesNoms.txt
 nodist_EXTRA_DATA += NamesList.UTF-8 ListeDesNoms.UTF-8
@@ -72,14 +85,14 @@ ListeDesNoms.txt:
 
 if PYTHON_FFI
 
-python_PYTHON = libunicodenames.py
+python_PYTHON = unicodenames.py
 python_LTLIBRARIES = _unicodenames.la
 
 _unicodenames_la_SOURCES = unicodenames_wrap.cxx libunicodenames.h
 _unicodenames_la_CPPFLAGS = $(AX_SWIG_PYTHON_CPPFLAGS)
-_unicodenames_la_CFLAGS = $(SWIG_PYTHON_WARNING_CFLAGS)
+_unicodenames_la_CXXFLAGS = $(WARNING_CXXFLAGS) $(SWIG_PYTHON_WARNING_CXXFLAGS)
 _unicodenames_la_LIBS = $(AX_SWIG_PYTHON_LIBS)
-_unicodenames_la_LIBADD = libunicodenames.la
+_unicodenames_la_LIBADD = libunicodenames++.la libunicodenames.la
 _unicodenames_la_LDFLAGS = -module -shared -avoid-version
 
 # This ugly code exists so SWIG gets run if _either one_ of
@@ -89,7 +102,7 @@ unicodenames.py unicodenames_wrap.cxx: stamp-pyffi
 	@if test ! -f $@; then $(MAKE) $(AM_MAKEFLAGS) stamp-pyffi; else :; fi
 
 stamp-pyffi: unicodenames.i libunicodenames.h
-	$(SWIG) -Wall -Wextra -c++ $(AX_SWIG_PYTHON_OPT) -I$(srcdir) unicodenames.i
+	$(SWIG) -c++ $(AX_SWIG_PYTHON_OPT) -I$(srcdir) unicodenames.i
 	@touch stamp-pyffi
 
 endif PYTHON_FFI

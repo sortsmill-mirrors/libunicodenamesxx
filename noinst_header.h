@@ -17,26 +17,13 @@
 // <http://www.gnu.org/licenses/>.
 
 
-#include <libunicodenames.h>
+#include "config.h"
+#include "libunicodenames.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
 
-int
-main (int argc, char *argv[])
-{
-  if (argc != 2)
-    abort ();
-
-  int exit_code = 1;
-  unicodenames_names_db db = unicodenames_names_db_open (argv[1]);
-  if (db != NULL)
-    {
-      exit_code = 0;
-      unicodenames_names_db_close (db);
-    }
-  return exit_code;
-}
-
-// local variables:
-// c-file-style: "gnu"
-// end:
+#include "libgettext.h"
+#define _(String) gettext (String)
+#define N_(String) gettext_noop (String)

@@ -29,6 +29,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+using namespace libunicodenames;
+
 static char *
 make_patch (unicodenames & db, unsigned int codepoint)
 {
@@ -46,12 +48,13 @@ make_patch (unicodenames & db, unsigned int codepoint)
 int
 main (int argc, char *argv[])
 {
+  if (argc != 3)
+    abort ();
+
   int exit_code = 1;
 
   const char *db_file = argv[1];
   const char *nameslist_file = argv[2];
-  //unsigned int random_codepoint_count;
-  //(void) sscanf(argv[3], "%u", &random_codepoint_count);
 
   unicodenames db (db_file);
 

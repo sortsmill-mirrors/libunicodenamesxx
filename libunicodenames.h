@@ -1,3 +1,4 @@
+/*
 // Copyright (C) 2012 Barry Schwartz
 //
 // This file is part of LibUnicodeNames.
@@ -15,7 +16,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with LibUnicodeNames.  If not, see
 // <http://www.gnu.org/licenses/>.
-
+*/
 
 #ifndef _LIBUNICODENAMES_H
 #define _LIBUNICODENAMES_H
@@ -28,17 +29,23 @@ extern "C"
   /* A names db handle. */
   typedef struct unicodenames_names___db *unicodenames_names_db;
 
+  /* Get the path of the names db for the current locale. The string
+     should be freed by the caller. */
+  char *unicodenames_names_db_for_current_locale (void);
+
   /* Open a names db. */
   unicodenames_names_db unicodenames_names_db_open (const char *filename);
 
   /* Close a names db. */
   void unicodenames_names_db_close (unicodenames_names_db handle);
 
-  /* Retrieve the name of a Unicode codepoint. */
+  /* Retrieve the name of a Unicode codepoint. The string must not
+     be freed by the caller. */
   const char *unicodenames_name (unicodenames_names_db handle,
                                  unsigned int codepoint);
 
-  /* Retrieve the annotation of a Unicode codepoint. */
+  /* Retrieve the annotation of a Unicode codepoint. The string must
+     not be freed by the caller. */
   const char *unicodenames_annotation (unicodenames_names_db handle,
                                        unsigned int codepoint);
 
@@ -48,38 +55,49 @@ extern "C"
 
 #ifdef __cplusplus
 
-class unicodenames
+#include <exception>
+
+namespace libunicodenames
 {
-private:
 
-  unicodenames_names_db db;
-
-public:
-
-  inline unicodenames (const char *filename)
+  class unicodenames_exception:public std::exception
   {
-    db = unicodenames_names_db_open (filename);
-    if (!db)
-      // FIXME: Is this what really should be thrown here? It may
-      // change in the future.
-      throw "unicodenames constructor failed";
-  }
+    virtual const char *what () throw ();
+  };
 
-  inline ~ unicodenames ()
+  class memory_exhausted:public unicodenames_exception
   {
-    unicodenames_names_db_close (db);
-  }
+    virtual const char *what () throw ();
+  };
 
-  inline const char *name (unsigned int codepoint)
+  class open_failed:public unicodenames_exception
   {
-    return unicodenames_name (db, codepoint);
-  }
+    virtual const char *what () throw ();
+  };
 
-  inline const char *annotation (unsigned int codepoint)
+  char *names_db_for_current_locale ();
+
+  class unicodenames
   {
-    return unicodenames_annotation (db, codepoint);
-  }
-};
+  private:
+    unicodenames_names_db db;
+
+  public:
+    unicodenames (const char *filename);
+     ~unicodenames ();
+
+    const char *name (unsigned int codepoint)
+    {
+      return unicodenames_name (db, codepoint);
+    }
+
+    const char *annotation (unsigned int codepoint)
+    {
+      return unicodenames_annotation (db, codepoint);
+    }
+  };
+
+};                              // libunicodenames
 
 #endif /* __cplusplus */
 

@@ -17,25 +17,31 @@
 // <http://www.gnu.org/licenses/>.
 
 
-#include <libunicodenames.h>
-#include <stdio.h>
-#include <stdlib.h>
+#if ! defined (__cplusplus)
+#if ! defined (__STDC_VERSION__) || __STDC_VERSION__ < 199901L
+#error C99 or C++ is required.
+#endif
+#endif
 
-int
-main (int argc, char *argv[])
+#include "noinst_header.h"
+
+#ifndef PKGDATADIR
+#error You must define PKGDATADIR.
+#endif
+
+static const char pkgdatadir[] = PKGDATADIR;
+
+char *
+unicodenames_names_db_for_current_locale (void)
 {
-  if (argc != 2)
-    abort ();
-
-  int exit_code = 1;
-  unicodenames_names_db db = unicodenames_names_db_open (argv[1]);
-  if (db != NULL)
-    {
-      exit_code = 0;
-      unicodenames_names_db_close (db);
-    }
-  return exit_code;
+  const char *db_name = _("en.names-db");
+  char *full_path =
+    (char *) malloc (strlen (pkgdatadir) + strlen (db_name) + 1);
+  strcpy (full_path, pkgdatadir);
+  strcat (full_path, db_name);
+  return full_path;
 }
+
 
 // local variables:
 // c-file-style: "gnu"

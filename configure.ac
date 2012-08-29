@@ -22,18 +22,24 @@
 
 AC_PREREQ([2.69])
 AC_INIT([libunicodenames],[1.0.0-beta1],[https://github.com/chemoelectric/libunicodenames/issues])
-AC_CONFIG_SRCDIR([libunicodenames.c])
+AC_CONFIG_SRCDIR([libunicodenames.h])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR([config])
 AC_CONFIG_TESTDIR([tests])
 AC_CANONICAL_BUILD
 AC_CANONICAL_HOST
 AC_CONFIG_HEADERS([config.h])
-AM_INIT_AUTOMAKE([1.12.2 silent-rules -Wall -Werror])
+AM_INIT_AUTOMAKE([1.12.2 -Wall])
 AM_MAINTAINER_MODE([enable])
 AC_USE_SYSTEM_EXTENSIONS
 AM_PROG_AR
 LT_INIT
+AM_GNU_GETTEXT_VERSION([0.18.1])
+
+# I am going to try enabling silent-rules by default, so builders are
+# more likely to see warnings. Use --disable-silent-rules or "make
+# V=1" if you need to see the rules.
+AM_SILENT_RULES([yes])
 
 AC_ARG_ENABLE([tests],
    [AS_HELP_STRING([--disable-tests],[do not build the test suite])],
@@ -46,6 +52,8 @@ AC_PROG_CXX
 AC_PROG_CC_C99
 AM_PROG_CC_C_O
 AC_PROG_CPP
+AC_PROG_AWK
+AC_PROG_YACC
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
@@ -71,29 +79,57 @@ AC_SUBST([enable_python])
 
 
 # Checks for header files.
-AC_CHECK_HEADERS([stdlib.h string.h])
+AC_CHECK_HEADERS([argz.h fcntl.h float.h inttypes.h langinfo.h libintl.h limits.h locale.h malloc.h stddef.h stdint.h stdio_ext.h stdlib.h string.h sys/param.h unistd.h wchar.h])
 AC_HEADER_STDBOOL
+AC_FUNC_ALLOCA
 
 
 # Checks for typedefs, structures, and compiler characteristics.
+AC_C_INLINE
+AC_TYPE_INT32_T
+AC_TYPE_INT64_T
 AC_TYPE_SIZE_T
+AC_TYPE_UINT16_T
+AC_TYPE_UINT32_T
+AC_TYPE_UINT8_T
+AC_CHECK_TYPES([ptrdiff_t])
 
+AC_LANG_PUSH([C])
 AC_SUBST([WARNING_CFLAGS],[])
-AC_SUBST([EXTRA_WARNING_CFLAGS],[])
-AC_SUBST([SWIG_PYTHON_WARNING_CFLAGS],[])
 AX_CHECK_COMPILE_FLAG([-Wall],[WARNING_CFLAGS+=" -Wall"])
 AX_CHECK_COMPILE_FLAG([-Wextra],[WARNING_CFLAGS+=" -Wextra"])
+AX_CHECK_COMPILE_FLAG([-Wcast-align],[WARNING_CFLAGS+=" -Wcast-align"])
+AX_CHECK_COMPILE_FLAG([-Wbad-function-cast],[WARNING_CFLAGS+=" -Wbad-function-cast"])
+AX_CHECK_COMPILE_FLAG([-Wc++-compat],[WARNING_CFLAGS+=" -Wc++-compat"])
+AC_LANG_POP
+
+AC_LANG_PUSH([C++])
+AC_SUBST([WARNING_CXXFLAGS],[])
+AX_CHECK_COMPILE_FLAG([-Wall],[WARNING_CXXFLAGS+=" -Wall"])
+AX_CHECK_COMPILE_FLAG([-Wextra],[WARNING_CXXFLAGS+=" -Wextra"])
+AX_CHECK_COMPILE_FLAG([-Wcast-align],[WARNING_CXXFLAGS+=" -Wcast-align"])
+AC_LANG_POP
+
+AC_LANG_PUSH([C++])
+AC_SUBST([SWIG_PYTHON_WARNING_CXXFLAGS],[])
 AX_CHECK_COMPILE_FLAG([-Wno-unused-but-set-variable],
-                      [SWIG_PYTHON_WARNING_CFLAGS+=" -Wno-unused-but-set-variable"])
+                      [SWIG_PYTHON_WARNING_CXXFLAGS+=" -Wno-unused-but-set-variable"])
+AC_LANG_POP
 
 
 # Checks for library functions.
 AC_FUNC_MALLOC
-AC_CHECK_FUNCS([floor memset strstr])
+AM_GNU_GETTEXT
+AC_FUNC_MALLOC
+AC_FUNC_MBRTOWC
+AC_FUNC_MMAP
+AC_FUNC_REALLOC
+AC_CHECK_FUNCS([__argz_count __argz_next __argz_stringify floor getcwd localeconv mblen mbrlen memchr mempcpy memset munmap nl_langinfo setlocale stpcpy strcasecmp strchr strcspn strdup strstr strtoul])
 
 
 AC_CONFIG_FILES([Makefile])
-AC_CONFIG_FILES([libunicodenames.pc])
+AC_CONFIG_FILES([libunicodenames.pc libunicodenames++.pc])
 AC_CONFIG_FILES([unicodenames.i])
+AC_CONFIG_FILES([po/Makefile.in intl/Makefile])
 AC_CONFIG_FILES([tests/Makefile tests/atlocal])
 AC_OUTPUT

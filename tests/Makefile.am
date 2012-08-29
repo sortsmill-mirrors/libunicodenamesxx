@@ -59,15 +59,20 @@ noinst_PROGRAMS =
 
 noinst_PROGRAMS += c_create_delete
 c_create_delete_SOURCES = c_create_delete.c
+c_create_delete_LDADD = $(top_builddir)/libunicodenames.la
 noinst_PROGRAMS += cxx_create_delete
 cxx_create_delete_SOURCES = cxx_create_delete.cxx
+cxx_create_delete_LDADD = $(top_builddir)/libunicodenames++.la
 
 noinst_PROGRAMS += c_patch_test
 c_patch_test_SOURCES = c_patch_test.c
+c_patch_test_LDADD = $(top_builddir)/libunicodenames.la
 noinst_PROGRAMS += cxx_patch_test
 cxx_patch_test_SOURCES = cxx_patch_test.cxx
+cxx_patch_test_LDADD = $(top_builddir)/libunicodenames++.la
 
 AM_CPPFLAGS = -I$(top_srcdir)
-LDADD = $(top_builddir)/libunicodenames.la
+AM_CFLAGS = $(WARNING_CFLAGS)
+AM_CXXFLAGS = $(WARNING_CXXFLAGS)
 
 DISTCLEANFILES = atconfig

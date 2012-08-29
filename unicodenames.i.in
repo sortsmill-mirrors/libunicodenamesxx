@@ -18,15 +18,53 @@
 
 
 %module unicodenames
+
 %{
 #include <libunicodenames.h>
+using namespace libunicodenames;
 %}
 
+#pragma SWIG nowarn=+202,+309,+403,+512,+321,+322
+#pragma SWIG nowarn=401
+
+%ignore unicodenames_names_db_for_current_locale;
 %ignore unicodenames_names_db_open;
 %ignore unicodenames_names_db_close;
 %ignore unicodenames_name;
 %ignore unicodenames_annotation;
 
-%catches(const char *) unicodenames::unicodenames;
+#ifdef SWIGPYTHON
+
+%exception {
+    try {
+        $action
+    }
+    catch (unicodenames_exception) {
+        PyErr_SetString(PyExc_RuntimeError, "unknown exception");
+        SWIG_fail;
+    }
+}
+
+%exception {
+    try {
+        $action
+    }
+    catch (memory_exhausted) {
+        PyErr_SetString(PyExc_MemoryError, "virtual memory exhausted");
+        SWIG_fail;
+    }
+}
+
+%exception {
+    try {
+        $action
+    }
+    catch (open_failed) {
+        PyErr_SetString(PyExc_IOError, "open failed");
+        SWIG_fail;
+    }
+}
+
+#endif  // SWIG_PYTHON
 
 %include <libunicodenames.h>
