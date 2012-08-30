@@ -39,35 +39,45 @@ lib_LTLIBRARIES = libunicodenames.la libunicodenames++.la
 include_HEADERS = libunicodenames.h
 dist_pkgdata_DATA = en.names-db fr.names-db
 
-EXTRA_SCRIPTS = make-names-db.awk
-
-MAKE_NAMES_DB = $(ENV) LC_ALL=C $(GAWK) -f $(srcdir)/make-names-db.awk
-
 AM_CPPFLAGS = -DPKGDATADIR=\"${pkgdatadir}/\"
 AM_CPPFLAGS += -DLOCALEDIR=\"${localedir}/\"
 AM_CPPFLAGS += -DTEXTDOMAIN=\"${PACKAGE}\"
 AM_CFLAGS = $(WARNING_CFLAGS)
 AM_CXXFLAGS = $(WARNING_CXXFLAGS)
 
-libunicodenames_la_SOURCES = use_names_db.c find_names_db.c
+libunicodenames_la_SOURCES = use_names_db.c use_blocks_db.c find_db.c
+libunicodenames_la_SOURCES += common_code.c
 libunicodenames_la_SOURCES += libunicodenames.h noinst_header.h
 libunicodenames_la_SOURCES += libgettext.h
 nodist_libunicodenames_la_SOURCES = config.h
 libunicodenames_la_LDFLAGS = -no-undefined -version-info 1:0:0
+libunicodenames_la_LDFLAGS += -export-symbols $(srcdir)/libunicodenames.sym
 
 libunicodenames___la_SOURCES = cxx_bindings.cxx
 libunicodenames___la_SOURCES += libunicodenames.h noinst_header.h
 libunicodenames___la_SOURCES += libgettext.h
 nodist_libunicodenames___la_SOURCES = $(nodist_libunicodenames_la_SOURCES)
 libunicodenames___la_LIBADD = libunicodenames.la
-libunicodenames___la_LDFLAGS = $(libunicodenames_la_LDFLAGS)
+libunicodenames___la_LDFLAGS = -no-undefined -version-info 1:0:0
+
+EXTRA_DIST = $(srcdir)/libunicodenames.sym
+
+EXTRA_SCRIPTS = make-names-db.awk make-blocks-db.awk
+MAKE_NAMES_DB = $(ENV) LC_ALL=C $(GAWK) -f $(srcdir)/make-names-db.awk
+MAKE_BLOCKS_DB = $(ENV) LC_ALL=C $(GAWK) -f $(srcdir)/make-blocks-db.awk
 
 nodist_EXTRA_DATA = NamesList.txt ListeDesNoms.txt
 nodist_EXTRA_DATA += NamesList.UTF-8 ListeDesNoms.UTF-8
 
+rebuild-db: rebuild-names-db rebuild-blocks-db
+
 rebuild-names-db: NamesList.UTF-8 ListeDesNoms.UTF-8
 	$(MAKE_NAMES_DB) NamesList.UTF-8 > $(srcdir)/en.names-db
 	$(MAKE_NAMES_DB) ListeDesNoms.UTF-8 > $(srcdir)/fr.names-db
+
+rebuild-blocks-db: NamesList.UTF-8 ListeDesNoms.UTF-8
+	$(MAKE_BLOCKS_DB) NamesList.UTF-8 > $(srcdir)/en.blocks-db
+	$(MAKE_BLOCKS_DB) ListeDesNoms.UTF-8 > $(srcdir)/fr.blocks-db
 
 CRLF_TO_LF = $(SED) -e 's/\r//g'
 

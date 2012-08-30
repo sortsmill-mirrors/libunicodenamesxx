@@ -1,5 +1,10 @@
 # List of source files containing translatable strings.
 # Copyright (C) 2012 Barry Schwartz
      
-find_names_db.c
+common_code.c
+find_db.c
+use_blocks_db.c
+use_names_db.c
+cxx_bindings.cxx
+
 

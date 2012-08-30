@@ -29,17 +29,32 @@ extern "C"
   /* A names db handle. */
   typedef struct unicodenames_names___db *unicodenames_names_db;
 
+  /* A blocks db handle. */
+  typedef struct unicodenames_blocks___db *unicodenames_blocks_db;
+
   /* Get the path of the names db for the current locale. The string
      should be freed by the caller. If locale_base is non-NULL, then
      use it as the base directory for MO files; otherwise use the
      compiled-in locale directory. */
   char *unicodenames_names_db_for_current_locale (const char *locale_base);
 
+  /* Get the path of the blocks db for the current locale. The string
+     should be freed by the caller. If locale_base is non-NULL, then
+     use it as the base directory for MO files; otherwise use the
+     compiled-in locale directory. */
+  char *unicodenames_blocks_db_for_current_locale (const char *locale_base);
+
   /* Open a names db. */
   unicodenames_names_db unicodenames_names_db_open (const char *filename);
 
+  /* Open a blocks db. */
+  unicodenames_blocks_db unicodenames_blocks_db_open (const char *filename);
+
   /* Close a names db. */
   void unicodenames_names_db_close (unicodenames_names_db handle);
+
+  /* Close a blocks db. */
+  void unicodenames_blocks_db_close (unicodenames_blocks_db handle);
 
   /* Retrieve the name of a Unicode codepoint. The string must not
      be freed by the caller. */
@@ -78,6 +93,7 @@ namespace libunicodenames
   };
 
   char *names_db_for_current_locale (const char *locale_base = 0);
+  char *blocks_db_for_current_locale (const char *locale_base = 0);
 
   class unicodenames
   {

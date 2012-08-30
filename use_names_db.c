@@ -38,79 +38,26 @@ typedef struct unicodenames_names___db
 static const char *names_db_id_string = "libunicodenames names db       ";
 
 static bool
-string_matches (FILE * f, const char *s)
-{
-  const size_t s_len = strlen (s);
-  char buffer[s_len + 1];
-  size_t num_bytes = fread (buffer, 1, s_len + 1, f);
-  return (num_bytes == s_len + 1 && memcmp (buffer, s, s_len + 1) == 0);
-}
-
-static bool
-read_uint (FILE * f, unsigned int *i)
-{
-  unsigned char buffer[4];
-  size_t num_bytes = fread (buffer, 1, 4, f);
-  if (num_bytes == 4)
-    *i =
-      (unsigned int) buffer[0] | ((unsigned int) buffer[1] << 8) |
-      ((unsigned int) buffer[2] << 16) | ((unsigned int) buffer[3] << 24);
-  return (num_bytes == 4);
-}
-
-static bool
-read_uint_array (FILE * f, unsigned int **i_array, size_t size)
-{
-  *i_array = (unsigned int *) malloc (size * sizeof (unsigned int));
-  bool successful = (*i_array != NULL);
-  size_t j = 0;
-  while (successful && j < size)
-    {
-      successful = read_uint (f, &(*i_array)[j]);
-      j++;
-    }
-  if (!successful)
-    {
-      free (*i_array);
-      *i_array = NULL;
-    }
-  return successful;
-}
-
-static bool
-read_strings (FILE * f, char **strings, size_t size)
-{
-  *strings = (char *) malloc (size);
-  bool successful = (*strings != NULL);
-  if (successful)
-    {
-      size_t num_bytes = fread (*strings, 1, size, f);
-      successful = (num_bytes == size);
-    }
-  return successful;
-}
-
-static bool
 read_names_db_tables (FILE * f, unicodenames_names_db handle)
 {
   unsigned int strings_size;
 
-  bool successful = (read_uint (f, &handle->version) && handle->version == 1);
+  bool successful = (__read_uint (f, &handle->version) && handle->version == 1);
   if (successful)
-    successful = read_uint (f, &handle->codepoint_count);
-  if (successful)
-    successful =
-      read_uint_array (f, &handle->codepoints, handle->codepoint_count);
+    successful = __read_uint (f, &handle->codepoint_count);
   if (successful)
     successful =
-      read_uint_array (f, &handle->name_offsets, handle->codepoint_count);
+      __read_uint_array (f, &handle->codepoints, handle->codepoint_count);
   if (successful)
     successful =
-      read_uint_array (f, &handle->annot_offsets, handle->codepoint_count);
+      __read_uint_array (f, &handle->name_offsets, handle->codepoint_count);
   if (successful)
-    successful = read_uint (f, &strings_size);
+    successful =
+      __read_uint_array (f, &handle->annot_offsets, handle->codepoint_count);
   if (successful)
-    successful = read_strings (f, &handle->strings, strings_size);
+    successful = __read_uint (f, &strings_size);
+  if (successful)
+    successful = __read_strings (f, &handle->strings, strings_size);
   return successful;
 }
 
@@ -122,7 +69,7 @@ unicodenames_names_db_open (const char *filename)
   FILE *f = fopen (filename, "rb");
   if (f != NULL)
     {
-      if (string_matches (f, names_db_id_string))
+      if (__string_matches (f, names_db_id_string))
         {
           handle =
             (unicodenames_names_db) malloc (sizeof (unicodenames_names___db));

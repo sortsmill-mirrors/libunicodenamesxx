@@ -24,21 +24,31 @@ const char *
 unicodenames_exception::what ()
 throw ()
 {
-  return "unknown exception";
+  return _("unknown exception");
 }
 
 const char *
 memory_exhausted::what ()
 throw ()
 {
-  return ("virtual memory exhausted");
+  return (_("virtual memory exhausted"));
 }
 
 const char *
 open_failed::what ()
 throw ()
 {
-  return ("open failed");
+  return (_("open failed"));
+}
+
+static char *
+malloc_to_new (const char *s)
+{
+  char *t = new char[strlen (s) + 1];
+  if (!t)
+    throw memory_exhausted ();
+  strcpy (t, s);
+  return t;
 }
 
 char *
@@ -47,10 +57,18 @@ libunicodenames::names_db_for_current_locale (const char *locale_base)
   char *c_path = unicodenames_names_db_for_current_locale (locale_base);
   if (!c_path)
     throw memory_exhausted ();
-  char *path = new char[strlen (c_path) + 1];
-  if (!path)
+  char *path = malloc_to_new (c_path);
+  free (c_path);
+  return path;
+}
+
+char *
+libunicodenames::blocks_db_for_current_locale (const char *locale_base)
+{
+  char *c_path = unicodenames_blocks_db_for_current_locale (locale_base);
+  if (!c_path)
     throw memory_exhausted ();
-  strcpy (path, c_path);
+  char *path = malloc_to_new (c_path);
   free (c_path);
   return path;
 }
