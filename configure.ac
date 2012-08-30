@@ -131,5 +131,6 @@ AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([libunicodenames.pc libunicodenames++.pc])
 AC_CONFIG_FILES([unicodenames.i])
 AC_CONFIG_FILES([po/Makefile.in])
-AC_CONFIG_FILES([tests/GNUmakefile tests/Makefile:tests/Makefile.in tests/atlocal])
+AC_CONFIG_FILES([tests/GNUmakefile tests/atlocal])
+AC_CONFIG_FILES([tests/Makefile])
 AC_OUTPUT

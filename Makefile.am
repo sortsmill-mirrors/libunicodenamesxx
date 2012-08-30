@@ -38,6 +38,7 @@ nodist_pkgconfig_DATA = libunicodenames.pc libunicodenames++.pc
 lib_LTLIBRARIES = libunicodenames.la libunicodenames++.la
 include_HEADERS = libunicodenames.h
 dist_pkgdata_DATA = en.names-db fr.names-db
+info_TEXINFOS = libunicodenames.texi
 
 AM_CPPFLAGS = -DPKGDATADIR=\"${pkgdatadir}/\"
 AM_CPPFLAGS += -DLOCALEDIR=\"${localedir}/\"
