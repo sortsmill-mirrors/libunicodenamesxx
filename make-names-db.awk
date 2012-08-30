@@ -47,6 +47,10 @@ BEGIN {
 }
 
 0 <= codepoint {
+    sub(/^\t\*/, "\t•", $0)
+    sub(/^\tx/, "\t→", $0)
+    sub(/^\t:/, "\t≍", $0)
+    sub(/^\t#/, "\t≅", $0)
     uniannot[codepoint] = uniannot[codepoint] uniannot_prefix $0
     uniannot_prefix = "\n"
     next
@@ -98,3 +102,7 @@ function print_uint(n)
     printf("%c", and(rshift(n,16), 255))
     printf("%c", and(rshift(n,24), 255))
 }
+
+# local variables:
+# coding: utf-8
+# end:
