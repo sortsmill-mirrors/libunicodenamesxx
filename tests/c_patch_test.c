@@ -23,22 +23,66 @@
 // FIXME: Include a test that the patches do not overflow -- that they
 // cover only the annotation and nothing past it.
 
-
 #include <libunicodenames.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <locale.h>
+
+// UTF-8 encodings.
+static const char bullet[] = "\xe2\x80\xa2";
+static const char arrow[] = "\xe2\x86\x92";
+static const char equiv[] = "\xe2\x89\x8d";
+static const char approx[] = "\xe2\x89\x85";
 
 static char *
-make_patch (unicodenames_names_db db, unsigned int codepoint)
+make_patch (uninm_names_db db, unsigned int codepoint)
 {
+  size_t bullet_len = strlen (bullet);
+  size_t arrow_len = strlen (arrow);
+  size_t equiv_len = strlen (equiv);
+  size_t approx_len = strlen (approx);
+
   char *patch = NULL;
-  const char *name = unicodenames_name (db, codepoint);
-  const char *annot = unicodenames_annotation (db, codepoint);
+  const char *name = uninm_name (db, codepoint);
+  const char *annot = uninm_annotation (db, codepoint);
   if (name != NULL && annot != NULL)
     {
-      patch = (char *) malloc (strlen (name) + strlen (annot) + 100);
-      (void) sprintf (patch, "%04X\t%s\n%s", codepoint, name, annot);
+      size_t patch_len = strlen (name) + strlen (annot) + 100;
+      patch = (char *) malloc (patch_len);
+      memset (patch, 0, patch_len);
+      (void) sprintf (patch, "%04X\t%s\n", codepoint, name);
+      int i = 0;
+      int j = strchr (patch, '\0') - patch;
+      while (annot[i] != '\0')
+        {
+          if (strncmp (annot + i, bullet, bullet_len) == 0) 
+            {
+              patch[j] = '*';
+              i += bullet_len;
+            }
+          else if (strncmp (annot + i, arrow, arrow_len) == 0) 
+            {
+              patch[j] = 'x';
+              i += arrow_len;
+            }
+          else if (strncmp (annot + i, equiv, equiv_len) == 0) 
+            {
+              patch[j] = ':';
+              i += equiv_len;
+            }
+          else if (strncmp (annot + i, approx, approx_len) == 0) 
+            {
+              patch[j] = '#';
+              i += approx_len;
+            }
+          else
+            {
+              patch[j] = annot[i];
+              i++;
+            }
+          j++;
+        }
     }
   return patch;
 }
@@ -49,12 +93,14 @@ main (int argc, char *argv[])
   if (argc != 3)
     abort ();
 
+  setlocale (LC_ALL, "C");
+
   int exit_code = 1;
 
   const char *db_file = argv[1];
   const char *nameslist_file = argv[2];
 
-  unicodenames_names_db db = unicodenames_names_db_open (db_file);
+  uninm_names_db db = uninm_names_db_open (db_file);
   if (db != NULL)
     {
       char nameslist[2000000];
@@ -83,7 +129,7 @@ main (int argc, char *argv[])
       if (failure_count == 0)
         exit_code = 0;
 
-      unicodenames_names_db_close (db);
+      uninm_names_db_close (db);
     }
 
   return exit_code;

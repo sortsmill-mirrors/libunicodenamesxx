@@ -26,44 +26,50 @@ extern "C"
 {
 #endif
 
+  typedef struct uninm_blocks_record
+  {
+    unsigned int start_point;
+    unsigned int end_point;
+  } uninm_blocks_record;
+
   /* A names db handle. */
-  typedef struct unicodenames_names___db *unicodenames_names_db;
+  typedef struct uninm_names___db *uninm_names_db;
 
   /* A blocks db handle. */
-  typedef struct unicodenames_blocks___db *unicodenames_blocks_db;
+  typedef struct uninm_blocks___db *uninm_blocks_db;
 
   /* Get the path of the names db for the current locale. The string
      should be freed by the caller. If locale_base is non-NULL, then
      use it as the base directory for MO files; otherwise use the
      compiled-in locale directory. */
-  char *unicodenames_names_db_for_current_locale (const char *locale_base);
+  char *uninm_names_db_for_current_locale (const char *locale_base);
 
   /* Get the path of the blocks db for the current locale. The string
      should be freed by the caller. If locale_base is non-NULL, then
      use it as the base directory for MO files; otherwise use the
      compiled-in locale directory. */
-  char *unicodenames_blocks_db_for_current_locale (const char *locale_base);
+  char *uninm_blocks_db_for_current_locale (const char *locale_base);
 
   /* Open a names db. */
-  unicodenames_names_db unicodenames_names_db_open (const char *filename);
+  uninm_names_db uninm_names_db_open (const char *filename);
 
   /* Open a blocks db. */
-  unicodenames_blocks_db unicodenames_blocks_db_open (const char *filename);
+  uninm_blocks_db uninm_blocks_db_open (const char *filename);
 
   /* Close a names db. */
-  void unicodenames_names_db_close (unicodenames_names_db handle);
+  void uninm_names_db_close (uninm_names_db handle);
 
   /* Close a blocks db. */
-  void unicodenames_blocks_db_close (unicodenames_blocks_db handle);
+  void uninm_blocks_db_close (uninm_blocks_db handle);
 
   /* Retrieve the name of a Unicode codepoint. The string must not
      be freed by the caller. */
-  const char *unicodenames_name (unicodenames_names_db handle,
+  const char *uninm_name (uninm_names_db handle,
                                  unsigned int codepoint);
 
   /* Retrieve the annotation of a Unicode codepoint. The string must
      not be freed by the caller. */
-  const char *unicodenames_annotation (unicodenames_names_db handle,
+  const char *uninm_annotation (uninm_names_db handle,
                                        unsigned int codepoint);
 
 #ifdef __cplusplus
@@ -98,7 +104,7 @@ namespace libunicodenames
   class unicodenames
   {
   private:
-    unicodenames_names_db db;
+    uninm_names_db db;
 
   public:
     unicodenames (const char *filename);
@@ -106,12 +112,12 @@ namespace libunicodenames
 
     const char *name (unsigned int codepoint)
     {
-      return unicodenames_name (db, codepoint);
+      return uninm_name (db, codepoint);
     }
 
     const char *annotation (unsigned int codepoint)
     {
-      return unicodenames_annotation (db, codepoint);
+      return uninm_annotation (db, codepoint);
     }
   };                            /* class unicodenames */
 

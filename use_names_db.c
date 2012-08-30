@@ -25,7 +25,7 @@
 
 #include "noinst_header.h"
 
-typedef struct unicodenames_names___db
+typedef struct uninm_names___db
 {
   unsigned int version;
   unsigned int codepoint_count;
@@ -33,12 +33,12 @@ typedef struct unicodenames_names___db
   unsigned int *name_offsets;
   unsigned int *annot_offsets;
   char *strings;
-} unicodenames_names___db;
+} uninm_names___db;
 
 static const char *names_db_id_string = "libunicodenames names db       ";
 
 static bool
-read_names_db_tables (FILE * f, unicodenames_names_db handle)
+read_names_db_tables (FILE * f, uninm_names_db handle)
 {
   unsigned int strings_size;
 
@@ -61,10 +61,10 @@ read_names_db_tables (FILE * f, unicodenames_names_db handle)
   return successful;
 }
 
-unicodenames_names_db
-unicodenames_names_db_open (const char *filename)
+uninm_names_db
+uninm_names_db_open (const char *filename)
 {
-  unicodenames_names_db handle = NULL;
+  uninm_names_db handle = NULL;
 
   FILE *f = fopen (filename, "rb");
   if (f != NULL)
@@ -72,7 +72,7 @@ unicodenames_names_db_open (const char *filename)
       if (__string_matches (f, names_db_id_string))
         {
           handle =
-            (unicodenames_names_db) malloc (sizeof (unicodenames_names___db));
+            (uninm_names_db) malloc (sizeof (uninm_names___db));
           if (handle != NULL)
             {
               handle->codepoints = NULL;
@@ -82,7 +82,7 @@ unicodenames_names_db_open (const char *filename)
               bool successful = read_names_db_tables (f, handle);
               if (!successful)
                 {
-                  unicodenames_names_db_close (handle);
+                  uninm_names_db_close (handle);
                   handle = NULL;
                 }
             }
@@ -94,7 +94,7 @@ unicodenames_names_db_open (const char *filename)
 }
 
 void
-unicodenames_names_db_close (unicodenames_names_db handle)
+uninm_names_db_close (uninm_names_db handle)
 {
   free (handle->codepoints);
   free (handle->name_offsets);
@@ -112,7 +112,7 @@ compare_codepoints (const void *codepoint1, const void *codepoint2)
 }
 
 static int
-codepoint_index (unicodenames_names_db handle, unsigned int codepoint)
+codepoint_index (uninm_names_db handle, unsigned int codepoint)
 {
   int index = -1;
   unsigned int *p = (unsigned int *) bsearch (&codepoint, handle->codepoints,
@@ -125,33 +125,33 @@ codepoint_index (unicodenames_names_db handle, unsigned int codepoint)
 }
 
 static inline unsigned int
-name_offset_at_index (unicodenames_names_db handle, int index)
+name_offset_at_index (uninm_names_db handle, int index)
 {
   return handle->name_offsets[index];
 }
 
 static inline unsigned int
-annot_offset_at_index (unicodenames_names_db handle, int index)
+annot_offset_at_index (uninm_names_db handle, int index)
 {
   return handle->annot_offsets[index];
 }
 
 static inline const char *
-name_at_index (unicodenames_names_db handle, int index)
+name_at_index (uninm_names_db handle, int index)
 {
   return (const char *) (handle->strings +
                          name_offset_at_index (handle, index));
 }
 
 static inline const char *
-annot_at_index (unicodenames_names_db handle, int index)
+annot_at_index (uninm_names_db handle, int index)
 {
   return (const char *) (handle->strings +
                          annot_offset_at_index (handle, index));
 }
 
 const char *
-unicodenames_name (unicodenames_names_db handle, unsigned int codepoint)
+uninm_name (uninm_names_db handle, unsigned int codepoint)
 {
   const char *name = NULL;
   int index = codepoint_index (handle, codepoint);
@@ -161,7 +161,7 @@ unicodenames_name (unicodenames_names_db handle, unsigned int codepoint)
 }
 
 const char *
-unicodenames_annotation (unicodenames_names_db handle, unsigned int codepoint)
+uninm_annotation (uninm_names_db handle, unsigned int codepoint)
 {
   const char *annot = NULL;
   int index = codepoint_index (handle, codepoint);

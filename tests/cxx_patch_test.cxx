@@ -28,19 +28,64 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <locale.h>
 
 using namespace libunicodenames;
+
+// UTF-8 encodings.
+static const char bullet[] = "\xe2\x80\xa2";
+static const char arrow[] = "\xe2\x86\x92";
+static const char equiv[] = "\xe2\x89\x8d";
+static const char approx[] = "\xe2\x89\x85";
 
 static char *
 make_patch (unicodenames & db, unsigned int codepoint)
 {
+  size_t bullet_len = strlen (bullet);
+  size_t arrow_len = strlen (arrow);
+  size_t equiv_len = strlen (equiv);
+  size_t approx_len = strlen (approx);
+
   char *patch = NULL;
   const char *name = db.name (codepoint);
   const char *annot = db.annotation (codepoint);
   if (name != NULL && annot != NULL)
     {
-      patch = (char *) malloc (strlen (name) + strlen (annot) + 100);
-      (void) sprintf (patch, "%04X\t%s\n%s", codepoint, name, annot);
+      size_t patch_len = strlen (name) + strlen (annot) + 100;
+      patch = (char *) malloc (patch_len);
+      memset (patch, 0, patch_len);
+      (void) sprintf (patch, "%04X\t%s\n", codepoint, name);
+      int i = 0;
+      int j = strchr (patch, '\0') - patch;
+      while (annot[i] != '\0')
+        {
+          if (strncmp (annot + i, bullet, bullet_len) == 0) 
+            {
+              patch[j] = '*';
+              i += bullet_len;
+            }
+          else if (strncmp (annot + i, arrow, arrow_len) == 0) 
+            {
+              patch[j] = 'x';
+              i += arrow_len;
+            }
+          else if (strncmp (annot + i, equiv, equiv_len) == 0) 
+            {
+              patch[j] = ':';
+              i += equiv_len;
+            }
+          else if (strncmp (annot + i, approx, approx_len) == 0) 
+            {
+              patch[j] = '#';
+              i += approx_len;
+            }
+          else
+            {
+              patch[j] = annot[i];
+              i++;
+            }
+          j++;
+        }
     }
   return patch;
 }
@@ -50,6 +95,8 @@ main (int argc, char *argv[])
 {
   if (argc != 3)
     abort ();
+
+  setlocale (LC_ALL, "C");
 
   int exit_code = 1;
 

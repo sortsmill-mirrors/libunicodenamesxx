@@ -39,14 +39,14 @@ main (int argc, char *argv[])
   int exit_code = 1;
   const char *loc = setlocale (LC_MESSAGES, locale);
   printf("%s\n", loc);
-  char *db_file = unicodenames_names_db_for_current_locale (localedir);
+  char *db_file = uninm_names_db_for_current_locale (localedir);
   printf("%s\n", basename(db_file));
-  unicodenames_names_db db = unicodenames_names_db_open (db_file);
+  uninm_names_db db = uninm_names_db_open (db_file);
   if (db != NULL)
     {
       exit_code = 0;
-      printf ("%s\n", unicodenames_name (db, codepoint));
-      unicodenames_names_db_close (db);
+      printf ("%s\n", uninm_name (db, codepoint));
+      uninm_names_db_close (db);
     }
   free (db_file);
   return exit_code;

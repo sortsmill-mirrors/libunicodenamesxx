@@ -28,11 +28,11 @@ main (int argc, char *argv[])
     abort ();
 
   int exit_code = 1;
-  unicodenames_names_db db = unicodenames_names_db_open (argv[1]);
+  uninm_names_db db = uninm_names_db_open (argv[1]);
   if (db != NULL)
     {
       exit_code = 0;
-      unicodenames_names_db_close (db);
+      uninm_names_db_close (db);
     }
   return exit_code;
 }

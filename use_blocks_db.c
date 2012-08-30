@@ -25,48 +25,45 @@
 
 #include "noinst_header.h"
 
-typedef struct unicodenames_blocks___record
-{
-  unsigned int start_point;
-  unsigned int end_point;
-  unsigned int string_offset;
-} unicodenames_blocks___record;
-
-typedef struct unicodenames_blocks___db
+typedef struct uninm_blocks___db
 {
   unsigned int version;
   unsigned int block_count;
-  unicodenames_blocks___record *records;
+  uninm_blocks_record *records;
+  unsigned int *string_offsets;
   char *strings;
-} unicodenames_blocks___db;
+} uninm_blocks___db;
 
 static const char *blocks_db_id_string = "libunicodenames blocks db      ";
 
 static bool
-read_records (FILE * f, unicodenames_blocks___record **records, unsigned int size)
+read_records (FILE * f, uninm_blocks_record **records, unsigned int **offsets, unsigned int size)
 {
-  *records = (unicodenames_blocks___record *) malloc (size * sizeof (unicodenames_blocks___record));
-  bool successful = (*records != NULL);
+  *records = (uninm_blocks_record *) malloc (size * sizeof (uninm_blocks_record));
+  *offsets = (unsigned int *) malloc (size * sizeof (unsigned int));
+  bool successful = (*records != NULL && *offsets != NULL);
   size_t j = 0;
   while (successful && j < size)
     {
-      successful = __read_uint (f, &((*records)[j].start_point));
+      successful = __read_uint (f, &(*records)[j].start_point);
       if (successful)
-        successful = __read_uint (f, &((*records)[j].end_point));
+        successful = __read_uint (f, &(*records)[j].end_point);
       if (successful)
-        successful = __read_uint (f, &((*records)[j].string_offset));
+        successful = __read_uint (f, &(*offsets)[j]);
       j++;
     }
   if (!successful)
     {
+      free (*offsets);
       free (*records);
+      *offsets = NULL;
       *records = NULL;
     }
   return successful;
 }
 
 static bool
-read_blocks_db_tables (FILE * f, unicodenames_blocks_db handle)
+read_blocks_db_tables (FILE * f, uninm_blocks_db handle)
 {
   unsigned int strings_size;
 
@@ -74,7 +71,7 @@ read_blocks_db_tables (FILE * f, unicodenames_blocks_db handle)
   if (successful)
     successful = __read_uint (f, &handle->block_count);
   if (successful)
-    successful = read_records (f, &handle->records, handle->block_count);
+    successful = read_records (f, &handle->records, &handle->string_offsets, handle->block_count);
   if (successful)
     successful = __read_uint (f, &strings_size);
   if (successful)
@@ -82,10 +79,10 @@ read_blocks_db_tables (FILE * f, unicodenames_blocks_db handle)
   return successful;
 }
 
-unicodenames_blocks_db
-unicodenames_blocks_db_open (const char *filename)
+uninm_blocks_db
+uninm_blocks_db_open (const char *filename)
 {
-  unicodenames_blocks_db handle = NULL;
+  uninm_blocks_db handle = NULL;
 
   FILE *f = fopen (filename, "rb");
   if (f != NULL)
@@ -93,15 +90,16 @@ unicodenames_blocks_db_open (const char *filename)
       if (__string_matches (f, blocks_db_id_string))
         {
           handle =
-            (unicodenames_blocks_db) malloc (sizeof (unicodenames_blocks___db));
+            (uninm_blocks_db) malloc (sizeof (uninm_blocks___db));
           if (handle != NULL)
             {
               handle->records = NULL;
+              handle->string_offsets = NULL;
               handle->strings = NULL;
               bool successful = read_blocks_db_tables (f, handle);
               if (!successful)
                 {
-                  unicodenames_blocks_db_close (handle);
+                  uninm_blocks_db_close (handle);
                   handle = NULL;
                 }
             }
@@ -113,9 +111,10 @@ unicodenames_blocks_db_open (const char *filename)
 }
 
 void
-unicodenames_blocks_db_close (unicodenames_blocks_db handle)
+uninm_blocks_db_close (uninm_blocks_db handle)
 {
   free (handle->records);
+  free (handle->string_offsets);
   free (handle->strings);
   free (handle);
 }

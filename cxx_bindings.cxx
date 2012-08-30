@@ -54,7 +54,7 @@ malloc_to_new (const char *s)
 char *
 libunicodenames::names_db_for_current_locale (const char *locale_base)
 {
-  char *c_path = unicodenames_names_db_for_current_locale (locale_base);
+  char *c_path = uninm_names_db_for_current_locale (locale_base);
   if (!c_path)
     throw memory_exhausted ();
   char *path = malloc_to_new (c_path);
@@ -65,7 +65,7 @@ libunicodenames::names_db_for_current_locale (const char *locale_base)
 char *
 libunicodenames::blocks_db_for_current_locale (const char *locale_base)
 {
-  char *c_path = unicodenames_blocks_db_for_current_locale (locale_base);
+  char *c_path = uninm_blocks_db_for_current_locale (locale_base);
   if (!c_path)
     throw memory_exhausted ();
   char *path = malloc_to_new (c_path);
@@ -75,14 +75,14 @@ libunicodenames::blocks_db_for_current_locale (const char *locale_base)
 
 unicodenames::unicodenames (const char *filename)
 {
-  db = unicodenames_names_db_open (filename);
+  db = uninm_names_db_open (filename);
   if (!db)
     throw open_failed ();
 }
 
 unicodenames::~unicodenames ()
 {
-  unicodenames_names_db_close (db);
+  uninm_names_db_close (db);
 }
 
 // local variables:

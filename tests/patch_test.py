@@ -1,17 +1,19 @@
+# -*- coding: utf-8 -*-
+
 #  Copyright (C) 2012 Barry Schwartz
-# 
+#
 #  This file is part of LibUnicodeNames.
-#  
+#
 #  LibUnicodeNames is free software: you can redistribute it and/or
 #  modify it under the terms of the GNU Lesser General Public License
 #  as published by the Free Software Foundation, either version 3 of
 #  the License, or (at your option) any later version.
-#  
+#
 #  LibUnicodeNames is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 #  Lesser General Public License for more details.
-#  
+#
 #  You should have received a copy of the GNU Lesser General Public
 #  License along with LibUnicodeNames.  If not, see
 #  <http://www.gnu.org/licenses/>.
@@ -25,13 +27,22 @@
 
 
 import unicodenames
-import random, string, sys
+import random, re, string, sys
+
+bullet_re = re.compile('\t•')
+arrow_re = re.compile('\t→')
+equiv_re = re.compile('\t≍')
+approx_re = re.compile('\t≅')
 
 def make_patch(db, codepoint):
     name = db.name(codepoint)
     annot = db.annotation(codepoint)
     patch = None
     if name is not None and annot is not None:
+        annot = bullet_re.sub('\t*', annot)
+        annot = arrow_re.sub('\tx', annot)
+        annot = equiv_re.sub('\t:', annot)
+        annot = approx_re.sub('\t#', annot)
         patch = "{:04X}\t{}\n{}".format(codepoint, name, annot)
     return patch
 
