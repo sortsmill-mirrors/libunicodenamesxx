@@ -119,7 +119,7 @@ AC_LANG_POP
 
 # Checks for library functions.
 AC_FUNC_MALLOC
-AM_GNU_GETTEXT
+AM_GNU_GETTEXT([external])
 AC_FUNC_MALLOC
 AC_FUNC_MBRTOWC
 AC_FUNC_MMAP
@@ -130,6 +130,6 @@ AC_CHECK_FUNCS([__argz_count __argz_next __argz_stringify floor getcwd localecon
 AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([libunicodenames.pc libunicodenames++.pc])
 AC_CONFIG_FILES([unicodenames.i])
-AC_CONFIG_FILES([po/Makefile.in intl/Makefile])
-AC_CONFIG_FILES([tests/Makefile tests/atlocal])
+AC_CONFIG_FILES([po/Makefile.in])
+AC_CONFIG_FILES([tests/GNUmakefile tests/Makefile:tests/Makefile.in tests/atlocal])
 AC_OUTPUT

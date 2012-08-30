@@ -53,7 +53,8 @@ $(TESTSUITE): $(srcdir)/testsuite.at $(srcdir)/package.m4
 	$(AUTOTEST) -I '$(srcdir)' -o $@.tmp $@.at
 	mv $@.tmp $@
 
-dist_noinst_SCRIPTS = import_unicodenames.py create_delete.py patch_test.py
+dist_noinst_SCRIPTS = import_unicodenames.py create_delete.py	\
+	names_db_locale.py patch_test.py
 
 noinst_PROGRAMS =
 
@@ -63,6 +64,13 @@ c_create_delete_LDADD = $(top_builddir)/libunicodenames.la
 noinst_PROGRAMS += cxx_create_delete
 cxx_create_delete_SOURCES = cxx_create_delete.cxx
 cxx_create_delete_LDADD = $(top_builddir)/libunicodenames++.la
+
+noinst_PROGRAMS += c_names_db_locale
+c_names_db_locale_SOURCES = c_names_db_locale.c
+c_names_db_locale_LDADD = $(top_builddir)/libunicodenames.la
+noinst_PROGRAMS += cxx_names_db_locale
+cxx_names_db_locale_SOURCES = cxx_names_db_locale.cxx
+cxx_names_db_locale_LDADD = $(top_builddir)/libunicodenames++.la
 
 noinst_PROGRAMS += c_patch_test
 c_patch_test_SOURCES = c_patch_test.c
@@ -74,5 +82,9 @@ cxx_patch_test_LDADD = $(top_builddir)/libunicodenames++.la
 AM_CPPFLAGS = -I$(top_srcdir)
 AM_CFLAGS = $(WARNING_CFLAGS)
 AM_CXXFLAGS = $(WARNING_CXXFLAGS)
+
+check-local: override TESTSUITEFLAGS += LIBUNICODENAMES_INSTALLED=no
+
+installcheck-local: override TESTSUITEFLAGS += LIBUNICODENAMES_INSTALLED=yes
 
 DISTCLEANFILES = atconfig

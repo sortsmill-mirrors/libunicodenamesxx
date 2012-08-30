@@ -30,8 +30,10 @@ extern "C"
   typedef struct unicodenames_names___db *unicodenames_names_db;
 
   /* Get the path of the names db for the current locale. The string
-     should be freed by the caller. */
-  char *unicodenames_names_db_for_current_locale (void);
+     should be freed by the caller. If locale_base is non-NULL, then
+     use it as the base directory for MO files; otherwise use the
+     compiled-in locale directory. */
+  char *unicodenames_names_db_for_current_locale (const char *locale_base);
 
   /* Open a names db. */
   unicodenames_names_db unicodenames_names_db_open (const char *filename);
@@ -53,7 +55,7 @@ extern "C"
 }
 #endif
 
-#ifdef __cplusplus
+#ifdef __cplusplus              /* C++ bindings */
 
 #include <exception>
 
@@ -75,7 +77,7 @@ namespace libunicodenames
     virtual const char *what () throw ();
   };
 
-  char *names_db_for_current_locale ();
+  char *names_db_for_current_locale (const char *locale_base = 0);
 
   class unicodenames
   {
@@ -95,9 +97,9 @@ namespace libunicodenames
     {
       return unicodenames_annotation (db, codepoint);
     }
-  };
+  };                            /* class unicodenames */
 
-};                              // libunicodenames
+};                              /* namespace libunicodenames */
 
 #endif /* __cplusplus */
 

@@ -16,17 +16,38 @@
 // License along with LibUnicodeNames.  If not, see
 // <http://www.gnu.org/licenses/>.
 
-#ifndef TEXTDOMAIN
-#error You must define TEXTDOMAIN.
-#endif
 
-#include "config.h"
-#include "libunicodenames.h"
+#include <libunicodenames.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
+#include <locale.h>
+#include <libgen.h>
 
-#include "libgettext.h"
+using namespace libunicodenames;
 
-#define _(String) dgettext (TEXTDOMAIN, String)
+int
+main (int argc, char *argv[])
+{
+  if (argc != 4)
+    abort ();
+
+  const char *locale = argv[1];
+
+  unsigned int codepoint;
+  sscanf (argv[2], "%x", &codepoint);
+
+  const char *localedir = (argv[3][0] == '\0') ? NULL : argv[3];
+
+  const char *loc = setlocale (LC_MESSAGES, locale);
+  printf("%s\n", loc);
+  char *db_file = names_db_for_current_locale (localedir);
+  printf("%s\n", basename(db_file));
+  unicodenames db (db_file);
+  printf ("%s\n", db.name (codepoint));
+  delete db_file;
+  return 0;
+}
+
+// local variables:
+// c-file-style: "gnu"
+// end:

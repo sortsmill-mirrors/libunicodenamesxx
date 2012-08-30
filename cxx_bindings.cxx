@@ -42,9 +42,9 @@ throw ()
 }
 
 char *
-libunicodenames::names_db_for_current_locale ()
+libunicodenames::names_db_for_current_locale (const char *locale_base)
 {
-  char *c_path = unicodenames_names_db_for_current_locale ();
+  char *c_path = unicodenames_names_db_for_current_locale (locale_base);
   if (!c_path)
     throw memory_exhausted ();
   char *path = new char[strlen (c_path) + 1];

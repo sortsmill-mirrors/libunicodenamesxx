@@ -4,8 +4,6 @@ syntax: glob
 build
 build.*
 
-intl
-
 ChangeLog
 aclocal.m4
 configure
@@ -35,6 +33,8 @@ libtool
 libltdl
 Makefile
 Makefile.in
+GNUmakefile
+GNUmakefile.in
 .libs
 .deps
 tests/package.m4

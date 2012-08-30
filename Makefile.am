@@ -18,7 +18,7 @@
 
 ACLOCAL_AMFLAGS = -I m4
 
-SUBDIRS = intl . po
+SUBDIRS = . po
 if TESTSUITE
 SUBDIRS += tests
 endif TESTSUITE
@@ -44,6 +44,8 @@ EXTRA_SCRIPTS = make-names-db.awk
 MAKE_NAMES_DB = $(ENV) LC_ALL=C $(GAWK) -f $(srcdir)/make-names-db.awk
 
 AM_CPPFLAGS = -DPKGDATADIR=\"${pkgdatadir}/\"
+AM_CPPFLAGS += -DLOCALEDIR=\"${localedir}/\"
+AM_CPPFLAGS += -DTEXTDOMAIN=\"${PACKAGE}\"
 AM_CFLAGS = $(WARNING_CFLAGS)
 AM_CXXFLAGS = $(WARNING_CXXFLAGS)
 

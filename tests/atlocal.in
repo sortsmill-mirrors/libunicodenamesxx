@@ -26,9 +26,9 @@ doing_installcheck="test x\"${1}\" = x\"AUTOTEST_PATH=@bindir@\""
 
 skip_python="test x@enable_python@ != xyes"
 PYTHON="@PYTHON@"
-#if ${doing_installcheck}; then
-#    :
-#else
-#    PYTHONPATH="@abs_top_builddir@/.libs:@abs_top_srcdir@/.libs:@abs_top_builddir@:@abs_top_srcdir@"
-#fi
-PYTHONPATH="@abs_top_builddir@/.libs:@abs_top_srcdir@/.libs:@abs_top_builddir@:@abs_top_srcdir@"
+
+if test x${LIBUNICODENAMES_INSTALLED} = xyes; then
+    :
+else
+    PYTHONPATH="@abs_top_builddir@/.libs:@abs_top_srcdir@/.libs:@abs_top_builddir@:@abs_top_srcdir@"
+fi

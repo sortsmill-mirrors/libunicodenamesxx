@@ -29,11 +29,25 @@
 #error You must define PKGDATADIR.
 #endif
 
+#ifndef TEXTDOMAIN
+#error You must define TEXTDOMAIN.
+#endif
+
+#ifndef LOCALEDIR
+#error You must define LOCALEDIR.
+#endif
+
 static const char pkgdatadir[] = PKGDATADIR;
+static const char localedir[] = LOCALEDIR;
+static const char textdomain_name[] = TEXTDOMAIN;
 
 char *
-unicodenames_names_db_for_current_locale (void)
+unicodenames_names_db_for_current_locale (const char *locale_base)
 {
+  if (locale_base == NULL)
+    (void) bindtextdomain (textdomain_name, localedir);
+  else
+    (void) bindtextdomain (textdomain_name, locale_base);
   const char *db_name = _("en.names-db");
   char *full_path =
     (char *) malloc (strlen (pkgdatadir) + strlen (db_name) + 1);
