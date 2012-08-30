@@ -52,9 +52,9 @@ malloc_to_new (const char *s)
 }
 
 char *
-libunicodenames::names_db_for_current_locale (const char *locale_base)
+libunicodenames::find_names_db (const char *locale_base)
 {
-  char *c_path = uninm_names_db_for_current_locale (locale_base);
+  char *c_path = uninm_find_names_db (locale_base);
   if (!c_path)
     throw memory_exhausted ();
   char *path = malloc_to_new (c_path);
@@ -63,9 +63,9 @@ libunicodenames::names_db_for_current_locale (const char *locale_base)
 }
 
 char *
-libunicodenames::blocks_db_for_current_locale (const char *locale_base)
+libunicodenames::find_blocks_db (const char *locale_base)
 {
-  char *c_path = uninm_blocks_db_for_current_locale (locale_base);
+  char *c_path = uninm_find_blocks_db (locale_base);
   if (!c_path)
     throw memory_exhausted ();
   char *path = malloc_to_new (c_path);

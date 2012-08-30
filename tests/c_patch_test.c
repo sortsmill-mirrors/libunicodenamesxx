@@ -56,22 +56,22 @@ make_patch (uninm_names_db db, unsigned int codepoint)
       int j = strchr (patch, '\0') - patch;
       while (annot[i] != '\0')
         {
-          if (strncmp (annot + i, bullet, bullet_len) == 0) 
+          if (strncmp (annot + i, bullet, bullet_len) == 0)
             {
               patch[j] = '*';
               i += bullet_len;
             }
-          else if (strncmp (annot + i, arrow, arrow_len) == 0) 
+          else if (strncmp (annot + i, arrow, arrow_len) == 0)
             {
               patch[j] = 'x';
               i += arrow_len;
             }
-          else if (strncmp (annot + i, equiv, equiv_len) == 0) 
+          else if (strncmp (annot + i, equiv, equiv_len) == 0)
             {
               patch[j] = ':';
               i += equiv_len;
             }
-          else if (strncmp (annot + i, approx, approx_len) == 0) 
+          else if (strncmp (annot + i, approx, approx_len) == 0)
             {
               patch[j] = '#';
               i += approx_len;

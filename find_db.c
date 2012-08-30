@@ -56,13 +56,13 @@ db_for_current_locale (const char *locale_base, const char *db_name)
 }
 
 char *
-uninm_names_db_for_current_locale (const char *locale_base)
+uninm_find_names_db (const char *locale_base)
 {
   return db_for_current_locale (locale_base, _("en.names-db"));
 }
 
 char *
-uninm_blocks_db_for_current_locale (const char *locale_base)
+uninm_find_blocks_db (const char *locale_base)
 {
   return db_for_current_locale (locale_base, _("en.blocks-db"));
 }

@@ -1,5 +1,5 @@
-uninm_names_db_for_current_locale
-uninm_blocks_db_for_current_locale
+uninm_find_names_db
+uninm_find_blocks_db
 uninm_names_db_open
 uninm_blocks_db_open
 uninm_names_db_close

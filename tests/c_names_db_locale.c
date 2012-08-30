@@ -38,9 +38,9 @@ main (int argc, char *argv[])
 
   int exit_code = 1;
   const char *loc = setlocale (LC_MESSAGES, locale);
-  printf("%s\n", loc);
-  char *db_file = uninm_names_db_for_current_locale (localedir);
-  printf("%s\n", basename(db_file));
+  printf ("%s\n", loc);
+  char *db_file = uninm_find_names_db (localedir);
+  printf ("%s\n", basename (db_file));
   uninm_names_db db = uninm_names_db_open (db_file);
   if (db != NULL)
     {

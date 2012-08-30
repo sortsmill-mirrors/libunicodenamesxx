@@ -39,9 +39,9 @@ main (int argc, char *argv[])
   const char *localedir = (argv[3][0] == '\0') ? NULL : argv[3];
 
   const char *loc = setlocale (LC_MESSAGES, locale);
-  printf("%s\n", loc);
-  char *db_file = names_db_for_current_locale (localedir);
-  printf("%s\n", basename(db_file));
+  printf ("%s\n", loc);
+  char *db_file = find_names_db (localedir);
+  printf ("%s\n", basename (db_file));
   unicodenames db (db_file);
   printf ("%s\n", db.name (codepoint));
   delete db_file;

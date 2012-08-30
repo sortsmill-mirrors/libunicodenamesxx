@@ -37,9 +37,11 @@ typedef struct uninm_blocks___db
 static const char *blocks_db_id_string = "libunicodenames blocks db      ";
 
 static bool
-read_records (FILE * f, uninm_blocks_record **records, unsigned int **offsets, unsigned int size)
+read_records (FILE * f, uninm_blocks_record ** records,
+              unsigned int **offsets, unsigned int size)
 {
-  *records = (uninm_blocks_record *) malloc (size * sizeof (uninm_blocks_record));
+  *records =
+    (uninm_blocks_record *) malloc (size * sizeof (uninm_blocks_record));
   *offsets = (unsigned int *) malloc (size * sizeof (unsigned int));
   bool successful = (*records != NULL && *offsets != NULL);
   size_t j = 0;
@@ -67,11 +69,14 @@ read_blocks_db_tables (FILE * f, uninm_blocks_db handle)
 {
   unsigned int strings_size;
 
-  bool successful = (__read_uint (f, &handle->version) && handle->version == 1);
+  bool successful = (__read_uint (f, &handle->version)
+                     && handle->version == 1);
   if (successful)
     successful = __read_uint (f, &handle->block_count);
   if (successful)
-    successful = read_records (f, &handle->records, &handle->string_offsets, handle->block_count);
+    successful =
+      read_records (f, &handle->records, &handle->string_offsets,
+                    handle->block_count);
   if (successful)
     successful = __read_uint (f, &strings_size);
   if (successful)
@@ -89,8 +94,7 @@ uninm_blocks_db_open (const char *filename)
     {
       if (__string_matches (f, blocks_db_id_string))
         {
-          handle =
-            (uninm_blocks_db) malloc (sizeof (uninm_blocks___db));
+          handle = (uninm_blocks_db) malloc (sizeof (uninm_blocks___db));
           if (handle != NULL)
             {
               handle->records = NULL;

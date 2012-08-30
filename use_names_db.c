@@ -42,7 +42,8 @@ read_names_db_tables (FILE * f, uninm_names_db handle)
 {
   unsigned int strings_size;
 
-  bool successful = (__read_uint (f, &handle->version) && handle->version == 1);
+  bool successful = (__read_uint (f, &handle->version)
+                     && handle->version == 1);
   if (successful)
     successful = __read_uint (f, &handle->codepoint_count);
   if (successful)
@@ -71,8 +72,7 @@ uninm_names_db_open (const char *filename)
     {
       if (__string_matches (f, names_db_id_string))
         {
-          handle =
-            (uninm_names_db) malloc (sizeof (uninm_names___db));
+          handle = (uninm_names_db) malloc (sizeof (uninm_names___db));
           if (handle != NULL)
             {
               handle->codepoints = NULL;

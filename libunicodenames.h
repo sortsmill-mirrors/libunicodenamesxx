@@ -42,13 +42,13 @@ extern "C"
      should be freed by the caller. If locale_base is non-NULL, then
      use it as the base directory for MO files; otherwise use the
      compiled-in locale directory. */
-  char *uninm_names_db_for_current_locale (const char *locale_base);
+  char *uninm_find_names_db (const char *locale_base);
 
   /* Get the path of the blocks db for the current locale. The string
      should be freed by the caller. If locale_base is non-NULL, then
      use it as the base directory for MO files; otherwise use the
      compiled-in locale directory. */
-  char *uninm_blocks_db_for_current_locale (const char *locale_base);
+  char *uninm_find_blocks_db (const char *locale_base);
 
   /* Open a names db. */
   uninm_names_db uninm_names_db_open (const char *filename);
@@ -64,13 +64,12 @@ extern "C"
 
   /* Retrieve the name of a Unicode codepoint. The string must not
      be freed by the caller. */
-  const char *uninm_name (uninm_names_db handle,
-                                 unsigned int codepoint);
+  const char *uninm_name (uninm_names_db handle, unsigned int codepoint);
 
   /* Retrieve the annotation of a Unicode codepoint. The string must
      not be freed by the caller. */
   const char *uninm_annotation (uninm_names_db handle,
-                                       unsigned int codepoint);
+                                unsigned int codepoint);
 
 #ifdef __cplusplus
 }
@@ -98,8 +97,8 @@ namespace libunicodenames
     virtual const char *what () throw ();
   };
 
-  char *names_db_for_current_locale (const char *locale_base = 0);
-  char *blocks_db_for_current_locale (const char *locale_base = 0);
+  char *find_names_db (const char *locale_base = 0);
+  char *find_blocks_db (const char *locale_base = 0);
 
   class unicodenames
   {

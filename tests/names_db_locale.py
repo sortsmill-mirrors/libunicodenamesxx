@@ -28,7 +28,7 @@ exit_code = 0
 try:
     loc = locale.setlocale(locale.LC_MESSAGES, my_locale)
     print(loc)
-    names_db = unicodenames.names_db_for_current_locale(localedir)
+    names_db = unicodenames.find_names_db(localedir)
     print(os.path.basename(names_db))
     db = unicodenames.unicodenames(names_db)
     print(db.name(codepoint))
