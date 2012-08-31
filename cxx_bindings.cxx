@@ -41,6 +41,13 @@ throw ()
   return (_("open failed"));
 }
 
+const char *
+index_error::what ()
+throw ()
+{
+  return (_("index error"));
+}
+
 static char *
 malloc_to_new (const char *s)
 {
@@ -84,6 +91,40 @@ unicodenames::~unicodenames ()
 {
   uninm_names_db_close (db);
 }
+
+unicodeblocks::unicodeblocks (const char *filename)
+{
+  db = uninm_blocks_db_open (filename);
+  if (!db)
+    throw open_failed ();
+}
+
+unicodeblocks::~unicodeblocks ()
+{
+  uninm_blocks_db_close (db);
+}
+
+unsigned int
+unicodeblocks::block_start (int i)
+{
+  check_index (i);
+  return uninm_block_start (db, i);
+}
+
+unsigned int
+unicodeblocks::block_end (int i)
+{
+  check_index (i);
+  return uninm_block_end (db, i);
+}
+
+const char *
+unicodeblocks::name (int i)
+{
+  check_index (i);
+  return uninm_block_name (db, i);
+}
+
 
 // local variables:
 // c-file-style: "gnu"

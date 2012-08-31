@@ -16,19 +16,40 @@
 #  License along with LibUnicodeNames.  If not, see
 #  <http://www.gnu.org/licenses/>.
 
-
 import unicodenames
 import sys
 
-exit_code = 0
+def make_patch(db, i):
+    name = db.name(i)
+    patch = None
+    if name is not None:
+        patch = "@@\t{:04X}\t{}\t{:04X}".format(db.block_start(i),
+                                                db.name(i),
+                                                db.block_end(i))
+    return patch
 
-try:
-    db = unicodenames.unicodenames(sys.argv[1])
-    del db
-except IOError as e:
-    print(e)
+db_file = sys.argv[1]
+nameslist_file = sys.argv[2]
+print(db_file)
+print(nameslist_file)
+
+db = unicodenames.unicodeblocks(db_file)
+nameslist = file(nameslist_file).read()
+
+failure_count = 0
+
+for i in range(0, db.num_blocks()):
+    patch = make_patch(db, i)
+    if nameslist.find(patch) < 0:
+        print("Failure: block #" + str(i))
+        failure_count += 1
+    i += 1
+
+print("num blocks = " + str(db.num_blocks()))
+print("failure_count = " + str(failure_count))
+
+exit_code = 0
+if failure_count != 0 or db.num_blocks() <= 0:
     exit_code = 1
-except:
-    exit_code = 2
 
 exit(exit_code)

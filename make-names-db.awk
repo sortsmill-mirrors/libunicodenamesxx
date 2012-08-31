@@ -80,9 +80,8 @@ function print_offsets(some_unilist, start_offset)
     PROCINFO["sorted_in"] = "@ind_num_asc"
     offset = start_offset
     for (codepoint in some_unilist) {
-        len = length(some_unilist[codepoint])
         print_uint(offset)
-        offset += len + 1
+        offset += length(some_unilist[codepoint]) + 1
     }
     return offset
 }

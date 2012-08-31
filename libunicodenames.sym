@@ -6,3 +6,7 @@ uninm_names_db_close
 uninm_blocks_db_close
 uninm_name
 uninm_annotation
+uninm_num_blocks
+uninm_block_start
+uninm_block_end
+uninm_block_name

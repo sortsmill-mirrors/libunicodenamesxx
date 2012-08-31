@@ -16,19 +16,29 @@
 #  License along with LibUnicodeNames.  If not, see
 #  <http://www.gnu.org/licenses/>.
 
-
 import unicodenames
 import sys
 
-exit_code = 0
+db_file = sys.argv[1]
+print(db_file)
+
+db = unicodenames.unicodeblocks(db_file)
+
+failure_count = 0
 
 try:
-    db = unicodenames.unicodenames(sys.argv[1])
-    del db
-except IOError as e:
-    print(e)
     exit_code = 1
-except:
-    exit_code = 2
+    print(db.name(-1))
+except IndexError as e:
+    print(e)
+    exit_code = 0
+
+if exit_code == 0:
+    try:
+        exit_code = 1
+        print(db.name(db.num_blocks()))
+    except IndexError as e:
+        print(e)
+        exit_code = 0
 
 exit(exit_code)

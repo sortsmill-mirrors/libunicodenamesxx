@@ -27,11 +27,18 @@ using namespace libunicodenames;
 #pragma SWIG nowarn=+202,+309,+403,+512,+321,+322
 #pragma SWIG nowarn=401
 
-%ignore unicodenames_names_db_for_current_locale;
-%ignore unicodenames_names_db_open;
-%ignore unicodenames_names_db_close;
-%ignore unicodenames_name;
-%ignore unicodenames_annotation;
+%ignore uninm_find_names_db;
+%ignore uninm_find_blocks_db;
+%ignore uninm_names_db_open;
+%ignore uninm_names_db_close;
+%ignore uninm_blocks_db_open;
+%ignore uninm_blocks_db_close;
+%ignore uninm_name;
+%ignore uninm_annotation;
+%ignore uninm_num_blocks;
+%ignore uninm_block_start;
+%ignore uninm_block_end;
+%ignore uninm_block_name;
 
 #ifdef SWIGPYTHON
 
@@ -39,32 +46,28 @@ using namespace libunicodenames;
     try {
         $action
     }
-    catch (unicodenames_exception) {
-        PyErr_SetString(PyExc_RuntimeError, "unknown exception");
+    catch (memory_exhausted &e)
+    {
+        PyErr_SetString(PyExc_MemoryError, e.what());
+        SWIG_fail;
+    }
+    catch (open_failed &e)
+    {
+        PyErr_SetString(PyExc_IOError, e.what());
+        SWIG_fail;
+    }
+    catch (index_error &e)
+    {
+        PyErr_SetString(PyExc_IndexError, e.what());
+        SWIG_fail;
+    }
+    catch (unicodenames_exception &e)
+    {
+        PyErr_SetString(PyExc_RuntimeError, e.what());
         SWIG_fail;
     }
 }
 
-%exception {
-    try {
-        $action
-    }
-    catch (memory_exhausted) {
-        PyErr_SetString(PyExc_MemoryError, "virtual memory exhausted");
-        SWIG_fail;
-    }
-}
-
-%exception {
-    try {
-        $action
-    }
-    catch (open_failed) {
-        PyErr_SetString(PyExc_IOError, "open failed");
-        SWIG_fail;
-    }
-}
-
-#endif  // SWIG_PYTHON
+#endif  // SWIGPYTHON
 
 %include <libunicodenames.h>

@@ -71,7 +71,6 @@ while codepoint <= 0x10FFFF:
 i = 0
 while i <= random_codepoint_count:
     codepoint = random.randint(0, 0xffffffff)
-    #print codepoint
     patch = make_patch(db, codepoint)
     if patch is not None:
         if nameslist.find(patch) < 0:

@@ -29,40 +29,13 @@ typedef struct uninm_blocks___db
 {
   unsigned int version;
   unsigned int block_count;
-  uninm_blocks_record *records;
+  unsigned int *start_points;
+  unsigned int *end_points;
   unsigned int *string_offsets;
   char *strings;
 } uninm_blocks___db;
 
 static const char *blocks_db_id_string = "libunicodenames blocks db      ";
-
-static bool
-read_records (FILE * f, uninm_blocks_record ** records,
-              unsigned int **offsets, unsigned int size)
-{
-  *records =
-    (uninm_blocks_record *) malloc (size * sizeof (uninm_blocks_record));
-  *offsets = (unsigned int *) malloc (size * sizeof (unsigned int));
-  bool successful = (*records != NULL && *offsets != NULL);
-  size_t j = 0;
-  while (successful && j < size)
-    {
-      successful = __read_uint (f, &(*records)[j].start_point);
-      if (successful)
-        successful = __read_uint (f, &(*records)[j].end_point);
-      if (successful)
-        successful = __read_uint (f, &(*offsets)[j]);
-      j++;
-    }
-  if (!successful)
-    {
-      free (*offsets);
-      free (*records);
-      *offsets = NULL;
-      *records = NULL;
-    }
-  return successful;
-}
 
 static bool
 read_blocks_db_tables (FILE * f, uninm_blocks_db handle)
@@ -75,8 +48,13 @@ read_blocks_db_tables (FILE * f, uninm_blocks_db handle)
     successful = __read_uint (f, &handle->block_count);
   if (successful)
     successful =
-      read_records (f, &handle->records, &handle->string_offsets,
-                    handle->block_count);
+      __read_uint_array (f, &handle->start_points, handle->block_count);
+  if (successful)
+    successful =
+      __read_uint_array (f, &handle->end_points, handle->block_count);
+  if (successful)
+    successful =
+      __read_uint_array (f, &handle->string_offsets, handle->block_count);
   if (successful)
     successful = __read_uint (f, &strings_size);
   if (successful)
@@ -97,7 +75,8 @@ uninm_blocks_db_open (const char *filename)
           handle = (uninm_blocks_db) malloc (sizeof (uninm_blocks___db));
           if (handle != NULL)
             {
-              handle->records = NULL;
+              handle->start_points = NULL;
+              handle->end_points = NULL;
               handle->string_offsets = NULL;
               handle->strings = NULL;
               bool successful = read_blocks_db_tables (f, handle);
@@ -117,10 +96,42 @@ uninm_blocks_db_open (const char *filename)
 void
 uninm_blocks_db_close (uninm_blocks_db handle)
 {
-  free (handle->records);
+  free (handle->start_points);
+  free (handle->end_points);
   free (handle->string_offsets);
   free (handle->strings);
   free (handle);
+}
+
+size_t
+uninm_num_blocks (uninm_blocks_db handle)
+{
+  return handle->block_count;
+}
+
+static inline bool
+in_range (uninm_blocks_db handle, int i)
+{
+  return (0 <= i && (size_t) i < handle->block_count);
+}
+
+unsigned int
+uninm_block_start (uninm_blocks_db handle, int i)
+{
+  return in_range (handle, i) ? handle->start_points[i] : 0xffffffff;
+}
+
+unsigned int
+uninm_block_end (uninm_blocks_db handle, int i)
+{
+  return in_range (handle, i) ? handle->end_points[i] : 0xffffffff;
+}
+
+const char *
+uninm_block_name (uninm_blocks_db handle, int i)
+{
+  return in_range (handle, i) ? (handle->strings +
+                                 handle->string_offsets[i]) : NULL;
 }
 
 

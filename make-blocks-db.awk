@@ -43,27 +43,33 @@ END {
     printf("%s%c", id_string, 0)
     print_uint(db_version)
     print_uint(block_count)
-    strings_size = print_records()
+    print_uint_array(start_point)
+    print_uint_array(end_point)
+    strings_size = print_offsets()
     print_uint(strings_size)
     print_strings()
 }
 
-function print_records()
+function print_offsets()
 {
     offset = 0
     for (i = 0; i < block_count; i++) {
-        print_uint(start_point[i])
-        print_uint(end_point[i])
         print_uint(offset)
         offset += length(description[i]) + 1
     }
-    return offset;
+    return offset
 }
 
 function print_strings()
 {
     for (i = 0; i < block_count; i++)
         printf("%s%c", description[i], 0)
+}
+
+function print_uint_array(a)
+{
+    for (i = 0; i < block_count; i++)
+        print_uint(a[i])
 }
 
 function print_uint(n)

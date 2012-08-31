@@ -53,8 +53,8 @@ $(TESTSUITE): $(srcdir)/testsuite.at $(srcdir)/package.m4
 	$(AUTOTEST) -I '$(srcdir)' -o $@.tmp $@.at
 	mv $@.tmp $@
 
-dist_noinst_SCRIPTS = import_unicodenames.py create_delete.py	\
-	names_db_locale.py patch_test.py
+dist_noinst_SCRIPTS = import_unicodenames.py create_delete.py			\
+	names_db_locale.py patch_test.py blocks.py blocks_index_error.py
 
 noinst_PROGRAMS =
 

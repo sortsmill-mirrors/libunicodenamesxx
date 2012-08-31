@@ -21,16 +21,12 @@
 #ifndef _LIBUNICODENAMES_H
 #define _LIBUNICODENAMES_H
 
+#include <stdlib.h>
+
 #ifdef __cplusplus
 extern "C"
 {
 #endif
-
-  typedef struct uninm_blocks_record
-  {
-    unsigned int start_point;
-    unsigned int end_point;
-  } uninm_blocks_record;
 
   /* A names db handle. */
   typedef struct uninm_names___db *uninm_names_db;
@@ -71,6 +67,14 @@ extern "C"
   const char *uninm_annotation (uninm_names_db handle,
                                 unsigned int codepoint);
 
+  size_t uninm_num_blocks (uninm_blocks_db handle);
+
+  unsigned int uninm_block_start (uninm_blocks_db handle, int i);
+
+  unsigned int uninm_block_end (uninm_blocks_db handle, int i);
+
+  const char *uninm_block_name (uninm_blocks_db handle, int i);
+
 #ifdef __cplusplus
 }
 #endif
@@ -83,17 +87,26 @@ namespace libunicodenames
 {
 
   class unicodenames_exception:public std::exception
-  {
-    virtual const char *what () throw ();
-  };
+    {
+    public:
+      virtual const char *what () throw ();
+    };
 
   class memory_exhausted:public unicodenames_exception
   {
+  public:
     virtual const char *what () throw ();
   };
 
   class open_failed:public unicodenames_exception
   {
+  public:
+    virtual const char *what () throw ();
+  };
+
+  class index_error:public unicodenames_exception
+  {
+  public:
     virtual const char *what () throw ();
   };
 
@@ -107,7 +120,7 @@ namespace libunicodenames
 
   public:
     unicodenames (const char *filename);
-     ~unicodenames ();
+    ~unicodenames ();
 
     const char *name (unsigned int codepoint)
     {
@@ -119,6 +132,31 @@ namespace libunicodenames
       return uninm_annotation (db, codepoint);
     }
   };                            /* class unicodenames */
+
+  class unicodeblocks
+  {
+  private:
+    uninm_blocks_db db;
+
+    void check_index (int i)
+    {
+      if (i < 0 || uninm_num_blocks (db) <= (size_t) i)
+        throw index_error ();
+    }
+
+  public:
+    unicodeblocks (const char *filename);
+    ~unicodeblocks ();
+
+    size_t num_blocks ()
+    {
+      return uninm_num_blocks (db);
+    }
+
+    unsigned int block_start (int i);
+    unsigned int block_end (int i);
+    const char *name (int i);
+  };                            /* class unicodeblocks */
 
 };                              /* namespace libunicodenames */
 

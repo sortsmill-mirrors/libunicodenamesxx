@@ -106,12 +106,6 @@ pkg-config --libs libunicodenames
 @end example
 
 @example
-typedef struct uninm_blocks_record
-@{
-  unsigned int start_point;
-  unsigned int end_point;
-@} uninm_blocks_record;
-
 /* A names db handle. */
 typedef struct uninm_names___db *uninm_names_db;
 
@@ -150,6 +144,15 @@ const char *uninm_name (uninm_names_db handle, unsigned int codepoint);
    not be freed by the caller. */
 const char *uninm_annotation (uninm_names_db handle,
                               unsigned int codepoint);
+
+size_t uninm_num_blocks (uninm_blocks_db handle);
+
+int uninm_block_start (uninm_blocks_db handle, int i);
+
+int uninm_block_end (uninm_blocks_db handle, int i);
+
+const char *uninm_block_description (uninm_blocks_db handle, int i);
+
 @end example
 
 
