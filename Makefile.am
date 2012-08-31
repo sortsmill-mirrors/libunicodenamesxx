@@ -62,7 +62,7 @@ nodist_libunicodenames___la_SOURCES = $(nodist_libunicodenames_la_SOURCES)
 libunicodenames___la_LIBADD = libunicodenames.la
 libunicodenames___la_LDFLAGS = -no-undefined -version-info 1:0:0
 
-EXTRA_DIST = $(srcdir)/libunicodenames.sym
+EXTRA_DIST = $(srcdir)/libunicodenames.sym $(srcdir)/po/Rules-doc
 
 EXTRA_SCRIPTS = make-names-db.awk make-blocks-db.awk
 MAKE_NAMES_DB = $(ENV) LC_ALL=C $(GAWK) -f $(srcdir)/make-names-db.awk
