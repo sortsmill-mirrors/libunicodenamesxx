@@ -41,13 +41,18 @@ static const char pkgdatadir[] = PKGDATADIR;
 static const char localedir[] = LOCALEDIR;
 static const char textdomain_name[] = TEXTDOMAIN;
 
-static char *
-db_for_current_locale (const char *locale_base, const char *db_name)
+static void
+bind_domain (const char *locale_base)
 {
   if (locale_base == NULL)
     (void) bindtextdomain (textdomain_name, localedir);
   else
     (void) bindtextdomain (textdomain_name, locale_base);
+}
+
+static char *
+db_for_current_locale (const char *locale_base, const char *db_name)
+{
   char *full_path =
     (char *) malloc (strlen (pkgdatadir) + strlen (db_name) + 1);
   strcpy (full_path, pkgdatadir);
@@ -58,12 +63,14 @@ db_for_current_locale (const char *locale_base, const char *db_name)
 char *
 uninm_find_names_db (const char *locale_base)
 {
+  bind_domain (locale_base);
   return db_for_current_locale (locale_base, _("en.names-db"));
 }
 
 char *
 uninm_find_blocks_db (const char *locale_base)
 {
+  bind_domain (locale_base);
   return db_for_current_locale (locale_base, _("en.blocks-db"));
 }
 
