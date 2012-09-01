@@ -51,7 +51,7 @@ bind_domain (const char *locale_base)
 }
 
 static char *
-db_for_current_locale (const char *locale_base, const char *db_name)
+db_full_path (const char *db_name)
 {
   char *full_path =
     (char *) malloc (strlen (pkgdatadir) + strlen (db_name) + 1);
@@ -64,14 +64,14 @@ char *
 uninm_find_names_db (const char *locale_base)
 {
   bind_domain (locale_base);
-  return db_for_current_locale (locale_base, _("en.names-db"));
+  return db_full_path (_("en.names-db"));
 }
 
 char *
 uninm_find_blocks_db (const char *locale_base)
 {
   bind_domain (locale_base);
-  return db_for_current_locale (locale_base, _("en.blocks-db"));
+  return db_full_path (_("en.blocks-db"));
 }
 
 

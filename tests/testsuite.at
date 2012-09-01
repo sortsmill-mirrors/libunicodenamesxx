@@ -75,27 +75,27 @@ AT_CHECK(["${abs_builddir}"/c_create_delete  "${abs_top_builddir}/Makefile"],
          [1],[ignore],[ignore])
 AT_CLEANUP
 
-#AT_SETUP([C names db locale: en_CA])
-#AT_KEYWORDS([C no-patch])
-#AT_SKIP_IF([true])
-#AT_SKIP_IF([test x${LIBUNICODENAMES_INSTALLED} != xyes])
-#AT_CHECK([LANGUAGE=en_CA "${abs_builddir}"/c_names_db_locale en_CA 0x0022 ""],[0],
-#[en_CA
-#en.names-db
-#QUOTATION MARK
-#],[ignore])
-#AT_CLEANUP
-#
-#AT_SETUP([C names db locale: fr_CA])
-#AT_KEYWORDS([C no-patch])
-#AT_SKIP_IF([true])
-#AT_SKIP_IF([test x${LIBUNICODENAMES_INSTALLED} != xyes])
-#AT_CHECK([LANGUAGE=fr_CA "${abs_builddir}"/c_names_db_locale fr_CA 0x0022 ""],[0],
-#[fr_CA
-#fr.names-db
-#GUILLEMET ANGLAIS
-#],[ignore])
-#AT_CLEANUP
+# FIXME: Make this work as a "make check".
+AT_SETUP([C names db locale: en_CA])
+AT_KEYWORDS([C no-patch])
+AT_SKIP_IF([test x${LIBUNICODENAMES_INSTALLED} != xyes])
+AT_CHECK([LANGUAGE=en_CA "${abs_builddir}"/c_names_db_locale en_CA 0x0022 ""],[0],
+[en_CA
+en.names-db
+QUOTATION MARK
+],[ignore])
+AT_CLEANUP
+
+# FIXME: Make this work as a "make check".
+AT_SETUP([C names db locale: fr_CA])
+AT_KEYWORDS([C no-patch])
+AT_SKIP_IF([test x${LIBUNICODENAMES_INSTALLED} != xyes])
+AT_CHECK([LANGUAGE=fr_CA "${abs_builddir}"/c_names_db_locale fr_CA 0x0022 ""],[0],
+[fr_CA
+fr.names-db
+GUILLEMET ANGLAIS
+],[ignore])
+AT_CLEANUP
 
 en_patch_banner
 AT_SETUP([C patch test: en.names-db])
@@ -141,27 +141,27 @@ AT_CHECK(["${abs_builddir}"/cxx_create_delete  "${abs_top_builddir}/Makefile"],
          [1],[ignore],[ignore])
 AT_CLEANUP
 
-#AT_SETUP([C++ names db locale: en_CA])
-#AT_KEYWORDS([C++ no-patch])
-#AT_SKIP_IF([true])
-#AT_SKIP_IF([test x${LIBUNICODENAMES_INSTALLED} != xyes])
-#AT_CHECK([LANGUAGE=en_CA "${abs_builddir}"/cxx_names_db_locale en_CA 0x0022 ""],[0],
-#[en_CA
-#en.names-db
-#QUOTATION MARK
-#],[ignore])
-#AT_CLEANUP
-#
-#AT_SETUP([C++ names db locale: fr_CA])
-#AT_KEYWORDS([C++ no-patch])
-#AT_SKIP_IF([true])
-#AT_SKIP_IF([test x${LIBUNICODENAMES_INSTALLED} != xyes])
-#AT_CHECK([LANGUAGE=fr_CA "${abs_builddir}"/cxx_names_db_locale fr_CA 0x0022 ""],[0],
-#[fr_CA
-#fr.names-db
-#GUILLEMET ANGLAIS
-#],[ignore])
-#AT_CLEANUP
+# FIXME: Make this work as a "make check".
+AT_SETUP([C++ names db locale: en_CA])
+AT_KEYWORDS([C++ no-patch])
+AT_SKIP_IF([test x${LIBUNICODENAMES_INSTALLED} != xyes])
+AT_CHECK([LANGUAGE=en_CA "${abs_builddir}"/cxx_names_db_locale en_CA 0x0022 ""],[0],
+[en_CA
+en.names-db
+QUOTATION MARK
+],[ignore])
+AT_CLEANUP
+
+# FIXME: Make this work as a "make check".
+AT_SETUP([C++ names db locale: fr_CA])
+AT_KEYWORDS([C++ no-patch])
+AT_SKIP_IF([test x${LIBUNICODENAMES_INSTALLED} != xyes])
+AT_CHECK([LANGUAGE=fr_CA "${abs_builddir}"/cxx_names_db_locale fr_CA 0x0022 ""],[0],
+[fr_CA
+fr.names-db
+GUILLEMET ANGLAIS
+],[ignore])
+AT_CLEANUP
 
 en_patch_banner
 AT_SETUP([C++ patch test: en.names-db])
@@ -217,29 +217,29 @@ AT_CHECK([${PYTHON} "${abs_srcdir}"/create_delete.py "${abs_top_builddir}/Makefi
          [1],[ignore],[ignore])
 AT_CLEANUP
 
-#AT_SETUP([Python names db locale: en_CA])
-#AT_KEYWORDS([Python no-patch])
-#AT_SKIP_IF([true])
-#AT_SKIP_IF([${skip_python}])
-#AT_SKIP_IF([test x${LIBUNICODENAMES_INSTALLED} != xyes])
-#AT_CHECK([LANGUAGE=en_CA ${PYTHON} "${abs_srcdir}"/names_db_locale.py en_CA 0x0022 ""],[0],
-#[en_CA
-#en.names-db
-#QUOTATION MARK
-#],[ignore])
-#AT_CLEANUP
-#
-#AT_SETUP([Python names db locale: fr_CA])
-#AT_KEYWORDS([Python no-patch])
-#AT_SKIP_IF([true])
-#AT_SKIP_IF([${skip_python}])
-#AT_SKIP_IF([test x${LIBUNICODENAMES_INSTALLED} != xyes])
-#AT_CHECK([LANGUAGE=fr_CA ${PYTHON} "${abs_srcdir}"/names_db_locale.py fr_CA 0x0022 ""],[0],
-#[fr_CA
-#fr.names-db
-#GUILLEMET ANGLAIS
-#],[ignore])
-#AT_CLEANUP
+# FIXME: Make this work as a "make check".
+AT_SETUP([Python names db locale: en_CA])
+AT_KEYWORDS([Python no-patch])
+AT_SKIP_IF([${skip_python}])
+AT_SKIP_IF([test x${LIBUNICODENAMES_INSTALLED} != xyes])
+AT_CHECK([LANGUAGE=en_CA ${PYTHON} "${abs_srcdir}"/names_db_locale.py en_CA 0x0022 ""],[0],
+[en_CA
+en.names-db
+QUOTATION MARK
+],[ignore])
+AT_CLEANUP
+
+# FIXME: Make this work as a "make check".
+AT_SETUP([Python names db locale: fr_CA])
+AT_KEYWORDS([Python no-patch])
+AT_SKIP_IF([${skip_python}])
+AT_SKIP_IF([test x${LIBUNICODENAMES_INSTALLED} != xyes])
+AT_CHECK([LANGUAGE=fr_CA ${PYTHON} "${abs_srcdir}"/names_db_locale.py fr_CA 0x0022 ""],[0],
+[fr_CA
+fr.names-db
+GUILLEMET ANGLAIS
+],[ignore])
+AT_CLEANUP
 
 en_patch_banner
 AT_SETUP([Python patch test: en.names-db])
