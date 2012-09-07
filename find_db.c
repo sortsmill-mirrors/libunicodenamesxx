@@ -55,8 +55,11 @@ db_full_path (const char *db_name)
 {
   char *full_path =
     (char *) malloc (strlen (pkgdatadir) + strlen (db_name) + 1);
-  strcpy (full_path, pkgdatadir);
-  strcat (full_path, db_name);
+  if (full_path != NULL)
+    {
+      strcpy (full_path, pkgdatadir);
+      strcat (full_path, db_name);
+    }
   return full_path;
 }
 
