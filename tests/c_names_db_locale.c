@@ -55,8 +55,8 @@ main (int argc, char *argv[])
 	  uninm_names_db_close (db);
 	}
       free (db_file);
-      return exit_code;
     }
+  return exit_code;
 }
 
 // local variables:
