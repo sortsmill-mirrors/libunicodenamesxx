@@ -20,7 +20,7 @@
 #  <http://www.gnu.org/licenses/>.
 
 
-AC_PREREQ([2.69])
+AC_PREREQ([2.68])
 AC_INIT([libunicodenames],[1.0.0-beta1],[https://github.com/chemoelectric/libunicodenames/issues])
 AC_CONFIG_SRCDIR([libunicodenames.h])
 AC_CONFIG_MACRO_DIR([m4])
