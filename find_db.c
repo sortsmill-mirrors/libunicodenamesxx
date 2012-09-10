@@ -76,3 +76,7 @@ uninm_find_blocks_db (const char *locale_base)
   bind_domain (locale_base);
   return db_full_path (_("en.blocks-db"));
 }
+
+// local variables:
+// c-file-style: "gnu"
+// end:

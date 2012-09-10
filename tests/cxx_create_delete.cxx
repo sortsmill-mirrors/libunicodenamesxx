@@ -41,3 +41,7 @@ main (int argc, char *argv[])
   }
   return exit_code;
 }
+
+// local variables:
+// c-file-style: "gnu"
+// end:

@@ -169,3 +169,7 @@ uninm_annotation (uninm_names_db handle, unsigned int codepoint)
     annot = annot_at_index (handle, index);
   return annot;
 }
+
+// local variables:
+// c-file-style: "gnu"
+// end:

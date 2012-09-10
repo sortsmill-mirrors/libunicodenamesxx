@@ -35,3 +35,7 @@ bool __string_matches (FILE *f, const char *s);
 bool __read_uint (FILE *f, unsigned int *i);
 bool __read_uint_array (FILE *f, unsigned int **i_array, size_t size);
 bool __read_strings (FILE *f, char **strings, size_t size);
+
+// local variables:
+// c-file-style: "gnu"
+// end:

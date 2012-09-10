@@ -133,3 +133,7 @@ uninm_block_name (uninm_blocks_db handle, int i)
   return in_range (handle, i) ? (handle->strings +
 				 handle->string_offsets[i]) : NULL;
 }
+
+// local variables:
+// c-file-style: "gnu"
+// end:

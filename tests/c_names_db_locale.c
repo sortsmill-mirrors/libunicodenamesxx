@@ -38,16 +38,27 @@ main (int argc, char *argv[])
 
   int exit_code = 1;
   const char *loc = setlocale (LC_MESSAGES, locale);
-  printf ("%s\n", loc);
-  char *db_file = uninm_find_names_db (localedir);
-  printf ("%s\n", basename (db_file));
-  uninm_names_db db = uninm_names_db_open (db_file);
-  if (db != NULL)
+  if (loc == NULL)
     {
-      exit_code = 0;
-      printf ("%s\n", uninm_name (db, codepoint));
-      uninm_names_db_close (db);
+      exit_code = 77;		// The locale is unsupported. Skip the test.
     }
-  free (db_file);
-  return exit_code;
+  else
+    {
+      printf ("%s\n", loc);
+      char *db_file = uninm_find_names_db (localedir);
+      printf ("%s\n", basename (db_file));
+      uninm_names_db db = uninm_names_db_open (db_file);
+      if (db != NULL)
+	{
+	  exit_code = 0;
+	  printf ("%s\n", uninm_name (db, codepoint));
+	  uninm_names_db_close (db);
+	}
+      free (db_file);
+      return exit_code;
+    }
 }
+
+// local variables:
+// c-file-style: "gnu"
+// end:

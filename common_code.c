@@ -77,3 +77,7 @@ __read_strings (FILE *f, char **strings, size_t size)
     }
   return successful;
 }
+
+// local variables:
+// c-file-style: "gnu"
+// end:

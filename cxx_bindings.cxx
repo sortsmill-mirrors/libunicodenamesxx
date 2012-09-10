@@ -124,3 +124,7 @@ unicodeblocks::name (int i)
   check_index (i);
   return uninm_block_name (db, i);
 }
+
+// local variables:
+// c-file-style: "gnu"
+// end:

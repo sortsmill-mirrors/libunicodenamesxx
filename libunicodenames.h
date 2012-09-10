@@ -163,3 +163,7 @@ namespace libunicodenames
 # endif/* __cplusplus */
 
 #endif /* _LIBUNICODENAMES_H */
+
+// local variables:
+// c-file-style: "gnu"
+// end:
