@@ -138,5 +138,5 @@ AC_CONFIG_FILES([.indent.pro:indent.pro.in])
 AC_CONFIG_FILES([tests/.indent.pro:indent.pro.in])
 AC_CONFIG_FILES([indent.mk:indent.mk.in])
 AC_CONFIG_FILES([tests/indent.mk:indent.mk.in])
-AC_SUBST([include],[include])
+AC_SUBST([INCLUDE],[include])
 AC_OUTPUT

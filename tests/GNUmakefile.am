@@ -94,7 +94,7 @@ DISTCLEANFILES = atconfig
 
 #--------------------------------------------------------------------------
 
-@include@ indent.mk
+@INCLUDE@ indent.mk
 
 indent:
 	$(call do-indent, $(c_create_delete_SOURCES))
