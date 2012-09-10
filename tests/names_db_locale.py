@@ -27,6 +27,11 @@ exit_code = 0
 
 try:
     loc = locale.setlocale(locale.LC_MESSAGES, my_locale)
+except:
+    print('locale not supported; skipping test')
+    exit_code = 77
+
+try:
     print(loc)
     names_db = unicodenames.find_names_db(localedir)
     print(os.path.basename(names_db))
