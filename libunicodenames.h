@@ -19,14 +19,14 @@
 */
 
 #ifndef _LIBUNICODENAMES_H
-#define _LIBUNICODENAMES_H
+# define _LIBUNICODENAMES_H 1
 
-#include <stdlib.h>
+# include <stdlib.h>
 
-#ifdef __cplusplus
+# ifdef __cplusplus
 extern "C"
 {
-#endif
+# endif
 
   /* A names db handle. */
   typedef struct uninm_names___db *uninm_names_db;
@@ -65,7 +65,7 @@ extern "C"
   /* Retrieve the annotation of a Unicode codepoint. The string must
      not be freed by the caller. */
   const char *uninm_annotation (uninm_names_db handle,
-                                unsigned int codepoint);
+				unsigned int codepoint);
 
   size_t uninm_num_blocks (uninm_blocks_db handle);
 
@@ -75,22 +75,22 @@ extern "C"
 
   const char *uninm_block_name (uninm_blocks_db handle, int i);
 
-#ifdef __cplusplus
+# ifdef __cplusplus
 }
-#endif
+# endif
 
-#ifdef __cplusplus              /* C++ bindings */
+# ifdef __cplusplus		/* C++ bindings */
 
-#include <exception>
+#  include <exception>
 
 namespace libunicodenames
 {
 
   class unicodenames_exception:public std::exception
-    {
-    public:
-      virtual const char *what () throw ();
-    };
+  {
+  public:
+    virtual const char *what () throw ();
+  };
 
   class memory_exhausted:public unicodenames_exception
   {
@@ -119,8 +119,8 @@ namespace libunicodenames
     uninm_names_db db;
 
   public:
-    unicodenames (const char *filename);
-    ~unicodenames ();
+      unicodenames (const char *filename);
+     ~unicodenames ();
 
     const char *name (unsigned int codepoint)
     {
@@ -131,7 +131,7 @@ namespace libunicodenames
     {
       return uninm_annotation (db, codepoint);
     }
-  };                            /* class unicodenames */
+  };				/* class unicodenames */
 
   class unicodeblocks
   {
@@ -141,11 +141,11 @@ namespace libunicodenames
     void check_index (int i)
     {
       if (i < 0 || uninm_num_blocks (db) <= (size_t) i)
-        throw index_error ();
+	throw index_error ();
     }
 
   public:
-    unicodeblocks (const char *filename);
+      unicodeblocks (const char *filename);
     ~unicodeblocks ();
 
     size_t num_blocks ()
@@ -156,14 +156,10 @@ namespace libunicodenames
     unsigned int block_start (int i);
     unsigned int block_end (int i);
     const char *name (int i);
-  };                            /* class unicodeblocks */
+  };				/* class unicodeblocks */
 
-};                              /* namespace libunicodenames */
+};				/* namespace libunicodenames */
 
-#endif /* __cplusplus */
+# endif/* __cplusplus */
 
 #endif /* _LIBUNICODENAMES_H */
-
-/* local variables:    */
-/* c-file-style: "gnu" */
-/* end:                */

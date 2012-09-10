@@ -16,6 +16,7 @@
 #  License along with LibUnicodeNames.  If not, see
 #  <http://www.gnu.org/licenses/>.
 
+#--------------------------------------------------------------------------
 
 # The `:;' works around a Bash 3.2 bug when the output is not writable.
 $(srcdir)/package.m4: $(top_srcdir)/configure.ac
@@ -53,6 +54,8 @@ $(TESTSUITE): $(srcdir)/testsuite.at $(srcdir)/package.m4
 	$(AUTOTEST) -I '$(srcdir)' -o $@.tmp $@.at
 	mv $@.tmp $@
 
+#--------------------------------------------------------------------------
+
 dist_noinst_SCRIPTS = import_unicodenames.py create_delete.py			\
 	names_db_locale.py patch_test.py blocks.py blocks_index_error.py
 
@@ -88,3 +91,17 @@ check-local: override TESTSUITEFLAGS += LIBUNICODENAMES_INSTALLED=no
 installcheck-local: override TESTSUITEFLAGS += LIBUNICODENAMES_INSTALLED=yes
 
 DISTCLEANFILES = atconfig
+
+#--------------------------------------------------------------------------
+
+@include@ indent.mk
+
+indent:
+	$(call do-indent, $(c_create_delete_SOURCES))
+	$(call do-indent, $(cxx_create_delete_SOURCES))
+	$(call do-indent, $(c_names_db_locale_SOURCES))
+	$(call do-indent, $(cxx_names_db_locale_SOURCES))
+	$(call do-indent, $(c_patch_test_SOURCES))
+	$(call do-indent, $(cxx_patch_test_SOURCES))
+
+#--------------------------------------------------------------------------

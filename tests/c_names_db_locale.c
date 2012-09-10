@@ -51,7 +51,3 @@ main (int argc, char *argv[])
   free (db_file);
   return exit_code;
 }
-
-// local variables:
-// c-file-style: "gnu"
-// end:

@@ -18,9 +18,9 @@
 
 
 #if ! defined (__cplusplus)
-#if ! defined (__STDC_VERSION__) || __STDC_VERSION__ < 199901L
-#error C99 or C++ is required.
-#endif
+# if ! defined (__STDC_VERSION__) || __STDC_VERSION__ < 199901L
+#  error C99 or C++ is required.
+# endif
 #endif
 
 #include "noinst_header.h"
@@ -38,12 +38,12 @@ typedef struct uninm_names___db
 static const char *names_db_id_string = "libunicodenames names db       ";
 
 static bool
-read_names_db_tables (FILE * f, uninm_names_db handle)
+read_names_db_tables (FILE *f, uninm_names_db handle)
 {
   unsigned int strings_size;
 
   bool successful = (__read_uint (f, &handle->version)
-                     && handle->version == 1);
+		     && handle->version == 1);
   if (successful)
     successful = __read_uint (f, &handle->codepoint_count);
   if (successful)
@@ -71,22 +71,22 @@ uninm_names_db_open (const char *filename)
   if (f != NULL)
     {
       if (__string_matches (f, names_db_id_string))
-        {
-          handle = (uninm_names_db) malloc (sizeof (uninm_names___db));
-          if (handle != NULL)
-            {
-              handle->codepoints = NULL;
-              handle->name_offsets = NULL;
-              handle->annot_offsets = NULL;
-              handle->strings = NULL;
-              bool successful = read_names_db_tables (f, handle);
-              if (!successful)
-                {
-                  uninm_names_db_close (handle);
-                  handle = NULL;
-                }
-            }
-        }
+	{
+	  handle = (uninm_names_db) malloc (sizeof (uninm_names___db));
+	  if (handle != NULL)
+	    {
+	      handle->codepoints = NULL;
+	      handle->name_offsets = NULL;
+	      handle->annot_offsets = NULL;
+	      handle->strings = NULL;
+	      bool successful = read_names_db_tables (f, handle);
+	      if (!successful)
+		{
+		  uninm_names_db_close (handle);
+		  handle = NULL;
+		}
+	    }
+	}
       fclose (f);
     }
 
@@ -116,9 +116,9 @@ codepoint_index (uninm_names_db handle, unsigned int codepoint)
 {
   int index = -1;
   unsigned int *p = (unsigned int *) bsearch (&codepoint, handle->codepoints,
-                                              handle->codepoint_count,
-                                              sizeof (unsigned int),
-                                              compare_codepoints);
+					      handle->codepoint_count,
+					      sizeof (unsigned int),
+					      compare_codepoints);
   if (p != NULL)
     index = p - handle->codepoints;
   return index;
@@ -140,14 +140,14 @@ static inline const char *
 name_at_index (uninm_names_db handle, int index)
 {
   return (const char *) (handle->strings +
-                         name_offset_at_index (handle, index));
+			 name_offset_at_index (handle, index));
 }
 
 static inline const char *
 annot_at_index (uninm_names_db handle, int index)
 {
   return (const char *) (handle->strings +
-                         annot_offset_at_index (handle, index));
+			 annot_offset_at_index (handle, index));
 }
 
 const char *
@@ -169,7 +169,3 @@ uninm_annotation (uninm_names_db handle, unsigned int codepoint)
     annot = annot_at_index (handle, index);
   return annot;
 }
-
-// local variables:
-// c-file-style: "gnu"
-// end:

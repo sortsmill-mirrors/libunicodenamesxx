@@ -62,6 +62,7 @@ AC_PROG_SED
 AC_PATH_PROGS([ENV],[env],[env])
 AC_PATH_PROGS([GAWK],[gawk],[gawk])
 AC_PATH_PROGS([ICONV],[iconv],[iconv])
+AC_PATH_PROGS([INDENT],[indent],[indent])
 AC_PATH_PROGS([WGET],[wget],[wget])
 
 AC_ARG_ENABLE([python],
@@ -127,10 +128,15 @@ AC_FUNC_REALLOC
 AC_CHECK_FUNCS([__argz_count __argz_next __argz_stringify floor getcwd localeconv mblen mbrlen memchr mempcpy memset munmap nl_langinfo setlocale stpcpy strcasecmp strchr strcspn strdup strstr strtoul])
 
 
-AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([Makefile GNUmakefile])
 AC_CONFIG_FILES([libunicodenames.pc libunicodenames++.pc])
 AC_CONFIG_FILES([unicodenames.i])
 AC_CONFIG_FILES([po/Makefile.in])
 AC_CONFIG_FILES([tests/GNUmakefile tests/atlocal])
 AC_CONFIG_FILES([tests/Makefile])
+AC_CONFIG_FILES([.indent.pro:indent.pro.in])
+AC_CONFIG_FILES([tests/.indent.pro:indent.pro.in])
+AC_CONFIG_FILES([indent.mk:indent.mk.in])
+AC_CONFIG_FILES([tests/indent.mk:indent.mk.in])
+AC_SUBST([include],[include])
 AC_OUTPUT

@@ -17,7 +17,7 @@
 // <http://www.gnu.org/licenses/>.
 
 #ifndef TEXTDOMAIN
-#error You must define TEXTDOMAIN.
+# error You must define TEXTDOMAIN.
 #endif
 
 #include "config.h"
@@ -31,7 +31,7 @@
 
 #define _(String) dgettext (TEXTDOMAIN, String)
 
-bool __string_matches (FILE * f, const char *s);
-bool __read_uint (FILE * f, unsigned int *i);
-bool __read_uint_array (FILE * f, unsigned int **i_array, size_t size);
-bool __read_strings (FILE * f, char **strings, size_t size);
+bool __string_matches (FILE *f, const char *s);
+bool __read_uint (FILE *f, unsigned int *i);
+bool __read_uint_array (FILE *f, unsigned int **i_array, size_t size);
+bool __read_strings (FILE *f, char **strings, size_t size);

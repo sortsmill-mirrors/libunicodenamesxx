@@ -18,15 +18,15 @@
 
 
 #if ! defined (__cplusplus)
-#if ! defined (__STDC_VERSION__) || __STDC_VERSION__ < 199901L
-#error C99 or C++ is required.
-#endif
+# if ! defined (__STDC_VERSION__) || __STDC_VERSION__ < 199901L
+#  error C99 or C++ is required.
+# endif
 #endif
 
 #include "noinst_header.h"
 
 bool
-__string_matches (FILE * f, const char *s)
+__string_matches (FILE *f, const char *s)
 {
   const size_t s_len = strlen (s);
   char buffer[s_len + 1];
@@ -35,7 +35,7 @@ __string_matches (FILE * f, const char *s)
 }
 
 bool
-__read_uint (FILE * f, unsigned int *i)
+__read_uint (FILE *f, unsigned int *i)
 {
   unsigned char buffer[4];
   size_t num_bytes = fread (buffer, 1, 4, f);
@@ -47,7 +47,7 @@ __read_uint (FILE * f, unsigned int *i)
 }
 
 bool
-__read_uint_array (FILE * f, unsigned int **i_array, size_t size)
+__read_uint_array (FILE *f, unsigned int **i_array, size_t size)
 {
   *i_array = (unsigned int *) malloc (size * sizeof (unsigned int));
   bool successful = (*i_array != NULL);
@@ -66,7 +66,7 @@ __read_uint_array (FILE * f, unsigned int **i_array, size_t size)
 }
 
 bool
-__read_strings (FILE * f, char **strings, size_t size)
+__read_strings (FILE *f, char **strings, size_t size)
 {
   *strings = (char *) malloc (size);
   bool successful = (*strings != NULL);
@@ -77,7 +77,3 @@ __read_strings (FILE * f, char **strings, size_t size)
     }
   return successful;
 }
-
-// local variables:
-// c-file-style: "gnu"
-// end:

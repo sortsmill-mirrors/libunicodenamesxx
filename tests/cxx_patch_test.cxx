@@ -58,34 +58,34 @@ make_patch (unicodenames & db, unsigned int codepoint)
       int i = 0;
       int j = strchr (patch, '\0') - patch;
       while (annot[i] != '\0')
-        {
-          if (strncmp (annot + i, bullet, bullet_len) == 0)
-            {
-              patch[j] = '*';
-              i += bullet_len;
-            }
-          else if (strncmp (annot + i, arrow, arrow_len) == 0)
-            {
-              patch[j] = 'x';
-              i += arrow_len;
-            }
-          else if (strncmp (annot + i, equiv, equiv_len) == 0)
-            {
-              patch[j] = ':';
-              i += equiv_len;
-            }
-          else if (strncmp (annot + i, approx, approx_len) == 0)
-            {
-              patch[j] = '#';
-              i += approx_len;
-            }
-          else
-            {
-              patch[j] = annot[i];
-              i++;
-            }
-          j++;
-        }
+	{
+	  if (strncmp (annot + i, bullet, bullet_len) == 0)
+	    {
+	      patch[j] = '*';
+	      i += bullet_len;
+	    }
+	  else if (strncmp (annot + i, arrow, arrow_len) == 0)
+	    {
+	      patch[j] = 'x';
+	      i += arrow_len;
+	    }
+	  else if (strncmp (annot + i, equiv, equiv_len) == 0)
+	    {
+	      patch[j] = ':';
+	      i += equiv_len;
+	    }
+	  else if (strncmp (annot + i, approx, approx_len) == 0)
+	    {
+	      patch[j] = '#';
+	      i += approx_len;
+	    }
+	  else
+	    {
+	      patch[j] = annot[i];
+	      i++;
+	    }
+	  j++;
+	}
     }
   return patch;
 }
@@ -118,14 +118,14 @@ main (int argc, char *argv[])
     {
       char *patch = make_patch (db, codepoint);
       if (patch != NULL)
-        {
-          if (strstr (nameslist, patch) == NULL)
-            {
-              (void) printf ("Failure: codepoint = %X\n", codepoint);
-              failure_count++;
-            }
-          free (patch);
-        }
+	{
+	  if (strstr (nameslist, patch) == NULL)
+	    {
+	      (void) printf ("Failure: codepoint = %X\n", codepoint);
+	      failure_count++;
+	    }
+	  free (patch);
+	}
     }
 
   if (failure_count == 0)
@@ -133,7 +133,3 @@ main (int argc, char *argv[])
 
   return exit_code;
 }
-
-// local variables:
-// c-file-style: "gnu"
-// end:

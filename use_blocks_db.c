@@ -18,9 +18,9 @@
 
 
 #if ! defined (__cplusplus)
-#if ! defined (__STDC_VERSION__) || __STDC_VERSION__ < 199901L
-#error C99 or C++ is required.
-#endif
+# if ! defined (__STDC_VERSION__) || __STDC_VERSION__ < 199901L
+#  error C99 or C++ is required.
+# endif
 #endif
 
 #include "noinst_header.h"
@@ -38,12 +38,12 @@ typedef struct uninm_blocks___db
 static const char *blocks_db_id_string = "libunicodenames blocks db      ";
 
 static bool
-read_blocks_db_tables (FILE * f, uninm_blocks_db handle)
+read_blocks_db_tables (FILE *f, uninm_blocks_db handle)
 {
   unsigned int strings_size;
 
   bool successful = (__read_uint (f, &handle->version)
-                     && handle->version == 1);
+		     && handle->version == 1);
   if (successful)
     successful = __read_uint (f, &handle->block_count);
   if (successful)
@@ -71,22 +71,22 @@ uninm_blocks_db_open (const char *filename)
   if (f != NULL)
     {
       if (__string_matches (f, blocks_db_id_string))
-        {
-          handle = (uninm_blocks_db) malloc (sizeof (uninm_blocks___db));
-          if (handle != NULL)
-            {
-              handle->start_points = NULL;
-              handle->end_points = NULL;
-              handle->string_offsets = NULL;
-              handle->strings = NULL;
-              bool successful = read_blocks_db_tables (f, handle);
-              if (!successful)
-                {
-                  uninm_blocks_db_close (handle);
-                  handle = NULL;
-                }
-            }
-        }
+	{
+	  handle = (uninm_blocks_db) malloc (sizeof (uninm_blocks___db));
+	  if (handle != NULL)
+	    {
+	      handle->start_points = NULL;
+	      handle->end_points = NULL;
+	      handle->string_offsets = NULL;
+	      handle->strings = NULL;
+	      bool successful = read_blocks_db_tables (f, handle);
+	      if (!successful)
+		{
+		  uninm_blocks_db_close (handle);
+		  handle = NULL;
+		}
+	    }
+	}
       fclose (f);
     }
 
@@ -131,10 +131,5 @@ const char *
 uninm_block_name (uninm_blocks_db handle, int i)
 {
   return in_range (handle, i) ? (handle->strings +
-                                 handle->string_offsets[i]) : NULL;
+				 handle->string_offsets[i]) : NULL;
 }
-
-
-// local variables:
-// c-file-style: "gnu"
-// end:

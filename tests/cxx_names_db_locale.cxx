@@ -47,7 +47,3 @@ main (int argc, char *argv[])
   delete db_file;
   return 0;
 }
-
-// local variables:
-// c-file-style: "gnu"
-// end:
