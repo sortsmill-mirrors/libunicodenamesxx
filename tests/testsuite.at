@@ -43,6 +43,9 @@ AT_BANNER([     -- The patch tests for fr.blocks-db will be skipped
      -- unless ListeDesNoms.UTF-8 is in the top build directory.])
 ])
 
+m4_defun([locale_is_not_supported],
+         [(locale -a | grep -F -v $1 2> /dev/null > /dev/null)])
+
 #--------------------------------------------------------------------------
 
 # FIXME: Write a fuller set of blocks db tests.
@@ -79,6 +82,7 @@ AT_CLEANUP
 AT_SETUP([C names db locale: en_CA])
 AT_KEYWORDS([C no-patch])
 AT_SKIP_IF([test x${LIBUNICODENAMES_INSTALLED} != xyes])
+AT_SKIP_IF([locale_is_not_supported([en_CA])])
 AT_CHECK([LANGUAGE=en_CA "${abs_builddir}"/c_names_db_locale en_CA 0x0022 ""],[0],
 [en_CA
 en.names-db
@@ -90,6 +94,7 @@ AT_CLEANUP
 AT_SETUP([C names db locale: fr_CA])
 AT_KEYWORDS([C no-patch])
 AT_SKIP_IF([test x${LIBUNICODENAMES_INSTALLED} != xyes])
+AT_SKIP_IF([locale_is_not_supported([fr_CA])])
 AT_CHECK([LANGUAGE=fr_CA "${abs_builddir}"/c_names_db_locale fr_CA 0x0022 ""],[0],
 [fr_CA
 fr.names-db
@@ -145,6 +150,7 @@ AT_CLEANUP
 AT_SETUP([C++ names db locale: en_CA])
 AT_KEYWORDS([C++ no-patch])
 AT_SKIP_IF([test x${LIBUNICODENAMES_INSTALLED} != xyes])
+AT_SKIP_IF([locale_is_not_supported([en_CA])])
 AT_CHECK([LANGUAGE=en_CA "${abs_builddir}"/cxx_names_db_locale en_CA 0x0022 ""],[0],
 [en_CA
 en.names-db
@@ -156,6 +162,7 @@ AT_CLEANUP
 AT_SETUP([C++ names db locale: fr_CA])
 AT_KEYWORDS([C++ no-patch])
 AT_SKIP_IF([test x${LIBUNICODENAMES_INSTALLED} != xyes])
+AT_SKIP_IF([locale_is_not_supported([fr_CA])])
 AT_CHECK([LANGUAGE=fr_CA "${abs_builddir}"/cxx_names_db_locale fr_CA 0x0022 ""],[0],
 [fr_CA
 fr.names-db
@@ -222,6 +229,7 @@ AT_SETUP([Python names db locale: en_CA])
 AT_KEYWORDS([Python no-patch])
 AT_SKIP_IF([${skip_python}])
 AT_SKIP_IF([test x${LIBUNICODENAMES_INSTALLED} != xyes])
+AT_SKIP_IF([locale_is_not_supported([en_CA])])
 AT_CHECK([LANGUAGE=en_CA ${PYTHON} "${abs_srcdir}"/names_db_locale.py en_CA 0x0022 ""],[0],
 [en_CA
 en.names-db
@@ -234,6 +242,7 @@ AT_SETUP([Python names db locale: fr_CA])
 AT_KEYWORDS([Python no-patch])
 AT_SKIP_IF([${skip_python}])
 AT_SKIP_IF([test x${LIBUNICODENAMES_INSTALLED} != xyes])
+AT_SKIP_IF([locale_is_not_supported([fr_CA])])
 AT_CHECK([LANGUAGE=fr_CA ${PYTHON} "${abs_srcdir}"/names_db_locale.py fr_CA 0x0022 ""],[0],
 [fr_CA
 fr.names-db
