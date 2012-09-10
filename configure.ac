@@ -29,17 +29,17 @@ AC_CONFIG_TESTDIR([tests])
 AC_CANONICAL_BUILD
 AC_CANONICAL_HOST
 AC_CONFIG_HEADERS([config.h])
-AM_INIT_AUTOMAKE([1.12.2 -Wall])
+AM_INIT_AUTOMAKE([1.11.1 -Wall])
 AM_MAINTAINER_MODE([enable])
 AC_USE_SYSTEM_EXTENSIONS
-AM_PROG_AR
+m4_ifdef([AM_PROG_AR],[AM_PROG_AR])
 LT_INIT
 AM_GNU_GETTEXT_VERSION([0.18.1])
 
 # I am going to try enabling silent-rules by default, so builders are
 # more likely to see warnings. Use --disable-silent-rules or "make
 # V=1" if you need to see the rules.
-AM_SILENT_RULES([yes])
+m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
 AC_ARG_ENABLE([tests],
    [AS_HELP_STRING([--disable-tests],[do not build the test suite])],
