@@ -31,15 +31,16 @@ except:
     print('locale not supported; skipping test')
     exit_code = 77
 
-try:
-    print(loc)
-    names_db = unicodenames.find_names_db(localedir)
-    print(os.path.basename(names_db))
-    db = unicodenames.unicodenames(names_db)
-    print(db.name(codepoint))
-    del db
-except:
-    print('exception caught')
-    exit_code = 1
+if exit_code == 0:
+    try:
+        print(loc)
+        names_db = unicodenames.find_names_db(localedir)
+        print(os.path.basename(names_db))
+        db = unicodenames.unicodenames(names_db)
+        print(db.name(codepoint))
+        del db
+    except:
+        print('exception caught')
+        exit_code = 1
 
 exit(exit_code)
