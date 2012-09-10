@@ -102,6 +102,7 @@ AX_CHECK_COMPILE_FLAG([-Wextra],[WARNING_CFLAGS+=" -Wextra"])
 AX_CHECK_COMPILE_FLAG([-Wcast-align],[WARNING_CFLAGS+=" -Wcast-align"])
 AX_CHECK_COMPILE_FLAG([-Wbad-function-cast],[WARNING_CFLAGS+=" -Wbad-function-cast"])
 AX_CHECK_COMPILE_FLAG([-Wc++-compat],[WARNING_CFLAGS+=" -Wc++-compat"])
+AX_CHECK_COMPILE_FLAG([-Wno-unused-result],[WARNING_CFLAGS+=" -Wno-unused-result"])
 AC_LANG_POP
 
 AC_LANG_PUSH([C++])
@@ -109,6 +110,7 @@ AC_SUBST([WARNING_CXXFLAGS],[])
 AX_CHECK_COMPILE_FLAG([-Wall],[WARNING_CXXFLAGS+=" -Wall"])
 AX_CHECK_COMPILE_FLAG([-Wextra],[WARNING_CXXFLAGS+=" -Wextra"])
 AX_CHECK_COMPILE_FLAG([-Wcast-align],[WARNING_CXXFLAGS+=" -Wcast-align"])
+AX_CHECK_COMPILE_FLAG([-Wno-unused-result],[WARNING_CXXFLAGS+=" -Wno-unused-result"])
 AC_LANG_POP
 
 AC_LANG_PUSH([C++])
