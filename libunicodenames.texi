@@ -162,7 +162,7 @@ const char *uninm_block_description (uninm_blocks_db handle, int i);
 FIXME: This chapter needs to be written.
 
 @example
-#include <libunicodenames.h>
+#include <libunicodenames++.h>
 @end example
 
 @example
