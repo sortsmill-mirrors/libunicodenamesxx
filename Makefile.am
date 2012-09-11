@@ -62,6 +62,7 @@ AM_CXXFLAGS = $(WARNING_CXXFLAGS)
 nodist_pkgconfig_DATA += libunicodenames++.pc
 
 lib_LTLIBRARIES += libunicodenames++.la
+include_HEADERS += libunicodenames++.h
 
 libunicodenames___la_SOURCES = cxx_bindings.cxx libunicodenames.h	\
 	libunicodenames++.h noinst_header.h libgettext.h
