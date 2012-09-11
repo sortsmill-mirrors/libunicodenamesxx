@@ -18,23 +18,23 @@
 
 
 #if ! defined (__cplusplus)
-# if ! defined (__STDC_VERSION__) || __STDC_VERSION__ < 199901L
-#  error C99 or C++ is required.
-# endif
+#if ! defined (__STDC_VERSION__) || __STDC_VERSION__ < 199901L
+#error C99 or C++ is required.
+#endif
 #endif
 
 #include "noinst_header.h"
 
 #ifndef PKGDATADIR
-# error You must define PKGDATADIR.
+#error You must define PKGDATADIR.
 #endif
 
 #ifndef TEXTDOMAIN
-# error You must define TEXTDOMAIN.
+#error You must define TEXTDOMAIN.
 #endif
 
 #ifndef LOCALEDIR
-# error You must define LOCALEDIR.
+#error You must define LOCALEDIR.
 #endif
 
 static const char pkgdatadir[] = PKGDATADIR;

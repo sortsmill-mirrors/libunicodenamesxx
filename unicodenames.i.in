@@ -20,7 +20,7 @@
 %module unicodenames
 
 %{
-#include <libunicodenames.h>
+#include <libunicodenames++.h>
 using namespace libunicodenames;
 %}
 
@@ -70,4 +70,4 @@ using namespace libunicodenames;
 
 #endif  // SWIGPYTHON
 
-%include <libunicodenames.h>
+%include <libunicodenames++.h>

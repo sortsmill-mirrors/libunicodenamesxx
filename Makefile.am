@@ -33,38 +33,79 @@ NAMESLIST_FR_ENCODING = UTF-8
 #--------------------------------------------------------------------------
 
 pkgconfigdir = ${libdir}/pkgconfig
-nodist_pkgconfig_DATA = libunicodenames.pc libunicodenames++.pc
+nodist_pkgconfig_DATA = libunicodenames.pc
 
-lib_LTLIBRARIES = libunicodenames.la libunicodenames++.la
+lib_LTLIBRARIES = libunicodenames.la
 include_HEADERS = libunicodenames.h
-dist_pkgdata_DATA = en.names-db fr.names-db
-dist_pkgdata_DATA += en.blocks-db fr.blocks-db
+dist_pkgdata_DATA = en.names-db fr.names-db en.blocks-db fr.blocks-db
 info_TEXINFOS = libunicodenames.texi
 
-AM_CPPFLAGS = -DPKGDATADIR=\"${pkgdatadir}/\"
-AM_CPPFLAGS += -DLOCALEDIR=\"${localedir}/\"
-AM_CPPFLAGS += -DTEXTDOMAIN=\"${PACKAGE}\"
-AM_CFLAGS = $(WARNING_CFLAGS)
-AM_CXXFLAGS = $(WARNING_CXXFLAGS)
+AM_CPPFLAGS = 							\
+	-DPKGDATADIR=\"${pkgdatadir}/\" 	\
+	-DLOCALEDIR=\"${localedir}/\" 		\
+	-DTEXTDOMAIN=\"${PACKAGE}\"
 
-libunicodenames_la_SOURCES = use_names_db.c use_blocks_db.c find_db.c
-libunicodenames_la_SOURCES += common_code.c
-libunicodenames_la_SOURCES += libunicodenames.h noinst_header.h
-libunicodenames_la_SOURCES += libgettext.h
+AM_CFLAGS = $(WARNING_CFLAGS)
+
+libunicodenames_la_SOURCES = use_names_db.c use_blocks_db.c find_db.c	\
+	common_code.c libunicodenames.h noinst_header.h libgettext.h
 nodist_libunicodenames_la_SOURCES = config.h
 libunicodenames_la_LDFLAGS = -no-undefined -version-info 1:0:0
 libunicodenames_la_LDFLAGS += -export-symbols $(srcdir)/libunicodenames.sym
 
-libunicodenames___la_SOURCES = cxx_bindings.cxx
-libunicodenames___la_SOURCES += libunicodenames.h noinst_header.h
-libunicodenames___la_SOURCES += libgettext.h
-nodist_libunicodenames___la_SOURCES = $(nodist_libunicodenames_la_SOURCES)
+#--------------------------------------------------------------------------
+
+if CXX_FFI
+
+AM_CXXFLAGS = $(WARNING_CXXFLAGS)
+
+nodist_pkgconfig_DATA += libunicodenames++.pc
+
+lib_LTLIBRARIES += libunicodenames++.la
+
+libunicodenames___la_SOURCES = cxx_bindings.cxx libunicodenames.h	\
+	libunicodenames++.h noinst_header.h libgettext.h
+nodist_libunicodenames___la_SOURCES = config.h
 libunicodenames___la_LIBADD = libunicodenames.la
 libunicodenames___la_LDFLAGS = -no-undefined -version-info 1:0:0
 
+endif CXX_FFI
+
+#--------------------------------------------------------------------------
+
+if PYTHON_FFI
+
+python_PYTHON = unicodenames.py
+pyexec_LTLIBRARIES = _unicodenames.la
+
+_unicodenames_la_SOURCES = unicodenames_wrap.cxx
+_unicodenames_la_CPPFLAGS = $(AX_SWIG_PYTHON_CPPFLAGS) $(AM_CPPFLAGS)
+_unicodenames_la_CXXFLAGS = $(WARNING_CXXFLAGS) $(SWIG_PYTHON_WARNING_CXXFLAGS)
+_unicodenames_la_LIBS = $(AX_SWIG_PYTHON_LIBS)
+_unicodenames_la_LIBADD = libunicodenames++.la libunicodenames.la
+_unicodenames_la_LDFLAGS = -module -shared -avoid-version
+
+# This ugly code exists so SWIG gets run if _either one_ of
+# unicodenames.py and unicodenames_wrap.cxx is out of date or missing.
+unicodenames.py unicodenames_wrap.cxx: stamp-pyffi
+	@if test ! -f $@; then rm -f stamp-pyffi; else :; fi
+	@if test ! -f $@; then $(MAKE) $(AM_MAKEFLAGS) stamp-pyffi; else :; fi
+
+stamp-pyffi: unicodenames.i libunicodenames.h
+	$(SWIG) -c++ $(AX_SWIG_PYTHON_OPT) -I$(srcdir) unicodenames.i
+	@touch stamp-pyffi
+
+# A hack to make the C and C++ libraries be installed before the
+# Python extension, so the latter can be relinked against the former.
+install-pyexecLTLIBRARIES: install-libLTLIBRARIES
+
+endif PYTHON_FFI
+
+#--------------------------------------------------------------------------
+
 EXTRA_DIST = $(srcdir)/libunicodenames.sym $(srcdir)/po/Rules-doc
 
-EXTRA_SCRIPTS = make-names-db.awk make-blocks-db.awk
+dist_noinst_SCRIPTS = make-names-db.awk make-blocks-db.awk
 MAKE_NAMES_DB = $(ENV) LC_ALL=C $(GAWK) -f $(srcdir)/make-names-db.awk
 MAKE_BLOCKS_DB = $(ENV) LC_ALL=C $(GAWK) -f $(srcdir)/make-blocks-db.awk
 
@@ -94,32 +135,6 @@ NamesList.txt:
 
 ListeDesNoms.txt:
 	$(WGET) $(NAMESLIST_FR) -O $@
-
-#--------------------------------------------------------------------------
-
-if PYTHON_FFI
-
-python_PYTHON = unicodenames.py
-python_LTLIBRARIES = _unicodenames.la
-
-_unicodenames_la_SOURCES = unicodenames_wrap.cxx libunicodenames.h
-_unicodenames_la_CPPFLAGS = $(AX_SWIG_PYTHON_CPPFLAGS)
-_unicodenames_la_CXXFLAGS = $(WARNING_CXXFLAGS) $(SWIG_PYTHON_WARNING_CXXFLAGS)
-_unicodenames_la_LIBS = $(AX_SWIG_PYTHON_LIBS)
-_unicodenames_la_LIBADD = libunicodenames++.la libunicodenames.la
-_unicodenames_la_LDFLAGS = -module -shared -avoid-version
-
-# This ugly code exists so SWIG gets run if _either one_ of
-# unicodenames.py and unicodenames_wrap.cxx is out of date or missing.
-unicodenames.py unicodenames_wrap.cxx: stamp-pyffi
-	@if test ! -f $@; then rm -f stamp-pyffi; else :; fi
-	@if test ! -f $@; then $(MAKE) $(AM_MAKEFLAGS) stamp-pyffi; else :; fi
-
-stamp-pyffi: unicodenames.i libunicodenames.h
-	$(SWIG) -c++ $(AX_SWIG_PYTHON_OPT) -I$(srcdir) unicodenames.i
-	@touch stamp-pyffi
-
-endif PYTHON_FFI
 
 #--------------------------------------------------------------------------
 

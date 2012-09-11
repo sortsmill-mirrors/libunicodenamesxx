@@ -64,26 +64,37 @@ noinst_PROGRAMS =
 noinst_PROGRAMS += c_create_delete
 c_create_delete_SOURCES = c_create_delete.c
 c_create_delete_LDADD = $(top_builddir)/libunicodenames.la
+
+noinst_PROGRAMS += c_names_db_locale
+c_names_db_locale_SOURCES = c_names_db_locale.c
+c_names_db_locale_LDADD = $(top_builddir)/libunicodenames.la
+
+noinst_PROGRAMS += c_patch_test
+c_patch_test_SOURCES = c_patch_test.c
+c_patch_test_LDADD = $(top_builddir)/libunicodenames.la
+
+#--------------------------------------------------------------------------
+
+if CXX_FFI
+
 noinst_PROGRAMS += cxx_create_delete
 cxx_create_delete_SOURCES = cxx_create_delete.cxx
 cxx_create_delete_LDADD = $(top_builddir)/libunicodenames++.la	\
 	$(top_builddir)/libunicodenames.la
 
-noinst_PROGRAMS += c_names_db_locale
-c_names_db_locale_SOURCES = c_names_db_locale.c
-c_names_db_locale_LDADD = $(top_builddir)/libunicodenames.la
 noinst_PROGRAMS += cxx_names_db_locale
 cxx_names_db_locale_SOURCES = cxx_names_db_locale.cxx
 cxx_names_db_locale_LDADD = $(top_builddir)/libunicodenames++.la	\
 	$(top_builddir)/libunicodenames.la
 
-noinst_PROGRAMS += c_patch_test
-c_patch_test_SOURCES = c_patch_test.c
-c_patch_test_LDADD = $(top_builddir)/libunicodenames.la
 noinst_PROGRAMS += cxx_patch_test
 cxx_patch_test_SOURCES = cxx_patch_test.cxx
 cxx_patch_test_LDADD = $(top_builddir)/libunicodenames++.la \
 	$(top_builddir)/libunicodenames.la
+
+endif CXX_FFI
+
+#--------------------------------------------------------------------------
 
 AM_CPPFLAGS = -I$(top_srcdir)
 AM_CFLAGS = $(WARNING_CFLAGS)

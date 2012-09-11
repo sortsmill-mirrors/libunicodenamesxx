@@ -17,11 +17,14 @@
 // <http://www.gnu.org/licenses/>.
 
 #ifndef TEXTDOMAIN
-# error You must define TEXTDOMAIN.
+#error You must define TEXTDOMAIN.
 #endif
 
 #include "config.h"
 #include "libunicodenames.h"
+#ifdef __cplusplus
+#include "libunicodenames++.h"
+#endif
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>

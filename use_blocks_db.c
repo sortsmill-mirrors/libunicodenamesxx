@@ -18,9 +18,9 @@
 
 
 #if ! defined (__cplusplus)
-# if ! defined (__STDC_VERSION__) || __STDC_VERSION__ < 199901L
-#  error C99 or C++ is required.
-# endif
+#if ! defined (__STDC_VERSION__) || __STDC_VERSION__ < 199901L
+#error C99 or C++ is required.
+#endif
 #endif
 
 #include "noinst_header.h"

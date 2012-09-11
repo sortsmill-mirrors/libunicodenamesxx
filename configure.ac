@@ -22,7 +22,7 @@
 
 AC_PREREQ([2.68])
 AC_INIT([libunicodenames],[1.0.0-beta2],[https://github.com/chemoelectric/libunicodenames/issues])
-AC_CONFIG_SRCDIR([libunicodenames.h])
+AC_CONFIG_SRCDIR([make-names-db.awk])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR([config])
 AC_CONFIG_TESTDIR([tests])
@@ -48,9 +48,11 @@ AM_CONDITIONAL([TESTSUITE],[test x"${enable_tests}" = xyes])
 
 
 # Checks for programs.
-AC_PROG_CXX
+AC_PROG_CC
 AC_PROG_CC_C99
 AM_PROG_CC_C_O
+AC_PROG_CXX
+AC_PROG_CXX_C_O
 AC_PROG_CPP
 AC_PROG_AWK
 AC_PROG_YACC
@@ -65,15 +67,24 @@ AC_PATH_PROGS([ICONV],[iconv],[iconv])
 AC_PATH_PROGS([INDENT],[indent],[indent])
 AC_PATH_PROGS([WGET],[wget],[wget])
 
+AC_ARG_ENABLE([c++],[AS_HELP_STRING([--enable-c++],[build C++ bindings])])
+AC_SUBST([enable_c__])
+AM_CONDITIONAL([CXX_FFI],[test x"${enable_c__}" = xyes])
+
 AC_ARG_ENABLE([python],
-   [AS_HELP_STRING([--enable-python],[build Python bindings (requires SWIG >= 2.0.4)])],
+   [AS_HELP_STRING([--enable-python],
+                   [build Python bindings (requires --enable-c++ and SWIG >= 2.0.4)])],
    [
       AM_PATH_PYTHON
       AX_PKG_SWIG([2.0.4],[],[AC_MSG_ERROR([SWIG is required to build the Python bindings.])])
       AX_SWIG_PYTHON
    ])
-AM_CONDITIONAL([PYTHON_FFI],[test x"${enable_python}" = xyes])
 AC_SUBST([enable_python])
+AM_CONDITIONAL([PYTHON_FFI],[test x"${enable_python}" = xyes])
+
+if test x"${enable_python}" = xyes -a x"${enable_c__}" != xyes; then
+   AC_MSG_ERROR([--enable-python requires --enable-c++])
+fi
 
 
 # Checks for libraries.
@@ -105,20 +116,21 @@ AX_CHECK_COMPILE_FLAG([-Wc++-compat],[WARNING_CFLAGS+=" -Wc++-compat"])
 AX_CHECK_COMPILE_FLAG([-Wno-unused-result],[WARNING_CFLAGS+=" -Wno-unused-result"])
 AC_LANG_POP
 
-AC_LANG_PUSH([C++])
-AC_SUBST([WARNING_CXXFLAGS],[])
-AX_CHECK_COMPILE_FLAG([-Wall],[WARNING_CXXFLAGS+=" -Wall"])
-AX_CHECK_COMPILE_FLAG([-Wextra],[WARNING_CXXFLAGS+=" -Wextra"])
-AX_CHECK_COMPILE_FLAG([-Wcast-align],[WARNING_CXXFLAGS+=" -Wcast-align"])
-AX_CHECK_COMPILE_FLAG([-Wno-unused-result],[WARNING_CXXFLAGS+=" -Wno-unused-result"])
-AC_LANG_POP
+if test x"${enable_c__}" = xyes; then
+   AC_LANG_PUSH([C++])
 
-AC_LANG_PUSH([C++])
-AC_SUBST([SWIG_PYTHON_WARNING_CXXFLAGS],[])
-AX_CHECK_COMPILE_FLAG([-Wno-unused-but-set-variable],
-                      [SWIG_PYTHON_WARNING_CXXFLAGS+=" -Wno-unused-but-set-variable"])
-AC_LANG_POP
+   AC_SUBST([WARNING_CXXFLAGS],[])
+   AX_CHECK_COMPILE_FLAG([-Wall],[WARNING_CXXFLAGS+=" -Wall"])
+   AX_CHECK_COMPILE_FLAG([-Wextra],[WARNING_CXXFLAGS+=" -Wextra"])
+   AX_CHECK_COMPILE_FLAG([-Wcast-align],[WARNING_CXXFLAGS+=" -Wcast-align"])
+   AX_CHECK_COMPILE_FLAG([-Wno-unused-result],[WARNING_CXXFLAGS+=" -Wno-unused-result"])
 
+   AC_SUBST([SWIG_PYTHON_WARNING_CXXFLAGS],[])
+   AX_CHECK_COMPILE_FLAG([-Wno-unused-but-set-variable],
+                         [SWIG_PYTHON_WARNING_CXXFLAGS+=" -Wno-unused-but-set-variable"])
+
+   AC_LANG_POP
+fi
 
 # Checks for library functions.
 AC_FUNC_MALLOC

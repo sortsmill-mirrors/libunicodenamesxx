@@ -17,7 +17,7 @@
 // <http://www.gnu.org/licenses/>.
 
 
-#include <libunicodenames.h>
+#include <libunicodenames++.h>
 #include <stdlib.h>
 
 using namespace libunicodenames;

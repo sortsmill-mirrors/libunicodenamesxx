@@ -19,14 +19,14 @@
 */
 
 #ifndef _LIBUNICODENAMES_H
-# define _LIBUNICODENAMES_H 1
+#define _LIBUNICODENAMES_H 1
 
-# include <stdlib.h>
+#include <stdlib.h>
 
-# ifdef __cplusplus
+#ifdef __cplusplus
 extern "C"
 {
-# endif
+#endif
 
   /* A names db handle. */
   typedef struct uninm_names___db *uninm_names_db;
@@ -75,94 +75,11 @@ extern "C"
 
   const char *uninm_block_name (uninm_blocks_db handle, int i);
 
-# ifdef __cplusplus
+#ifdef __cplusplus
 }
-# endif
+#endif
 
-# ifdef __cplusplus		/* C++ bindings */
-
-#  include <exception>
-
-namespace libunicodenames
-{
-
-  class unicodenames_exception:public std::exception
-  {
-  public:
-    virtual const char *what () throw ();
-  };
-
-  class memory_exhausted:public unicodenames_exception
-  {
-  public:
-    virtual const char *what () throw ();
-  };
-
-  class open_failed:public unicodenames_exception
-  {
-  public:
-    virtual const char *what () throw ();
-  };
-
-  class index_error:public unicodenames_exception
-  {
-  public:
-    virtual const char *what () throw ();
-  };
-
-  char *find_names_db (const char *locale_base = 0);
-  char *find_blocks_db (const char *locale_base = 0);
-
-  class unicodenames
-  {
-  private:
-    uninm_names_db db;
-
-  public:
-      unicodenames (const char *filename);
-     ~unicodenames ();
-
-    const char *name (unsigned int codepoint)
-    {
-      return uninm_name (db, codepoint);
-    }
-
-    const char *annotation (unsigned int codepoint)
-    {
-      return uninm_annotation (db, codepoint);
-    }
-  };				/* class unicodenames */
-
-  class unicodeblocks
-  {
-  private:
-    uninm_blocks_db db;
-
-    void check_index (int i)
-    {
-      if (i < 0 || uninm_num_blocks (db) <= (size_t) i)
-	throw index_error ();
-    }
-
-  public:
-      unicodeblocks (const char *filename);
-    ~unicodeblocks ();
-
-    size_t num_blocks ()
-    {
-      return uninm_num_blocks (db);
-    }
-
-    unsigned int block_start (int i);
-    unsigned int block_end (int i);
-    const char *name (int i);
-  };				/* class unicodeblocks */
-
-};				/* namespace libunicodenames */
-
-# endif/* __cplusplus */
-
-#endif /* _LIBUNICODENAMES_H */
+#endif				/* _LIBUNICODENAMES_H */
 
 // local variables:
 // c-file-style: "gnu"
