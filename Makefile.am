@@ -50,7 +50,7 @@ AM_CFLAGS = $(WARNING_CFLAGS)
 libunicodenames_la_SOURCES = use_names_db.c use_blocks_db.c find_db.c	\
 	common_code.c libunicodenames.h noinst_header.h libgettext.h
 nodist_libunicodenames_la_SOURCES = config.h
-libunicodenames_la_LDFLAGS = -no-undefined -version-info 1:0:0
+libunicodenames_la_LDFLAGS = -no-undefined -version-info 1:1:0
 libunicodenames_la_LDFLAGS += -export-symbols $(srcdir)/libunicodenames.sym
 
 #--------------------------------------------------------------------------
@@ -95,10 +95,6 @@ unicodenames.py unicodenames_wrap.cxx: stamp-pyffi
 stamp-pyffi: unicodenames.i libunicodenames.h
 	$(SWIG) -c++ $(AX_SWIG_PYTHON_OPT) -I$(srcdir) unicodenames.i
 	@touch stamp-pyffi
-
-# A hack to make the C and C++ libraries be installed before the
-# Python extension, so the latter can be relinked against the former.
-install-pyexecLTLIBRARIES: install-libLTLIBRARIES
 
 endif PYTHON_FFI
 

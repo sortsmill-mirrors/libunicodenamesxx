@@ -21,7 +21,7 @@
 
 
 AC_PREREQ([2.68])
-AC_INIT([libunicodenames],[1.0.0-beta2],[https://github.com/chemoelectric/libunicodenames/issues])
+AC_INIT([libunicodenames],[1.0.0_beta3],[https://github.com/chemoelectric/libunicodenames/issues])
 AC_CONFIG_SRCDIR([make-names-db.awk])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR([config])
@@ -61,6 +61,7 @@ AC_PROG_LN_S
 AC_PROG_MAKE_SET
 AC_PROG_MKDIR_P
 AC_PROG_SED
+AM_PATH_PYTHON([],[],[:])
 AC_PATH_PROGS([ENV],[env],[env])
 AC_PATH_PROGS([GAWK],[gawk],[gawk])
 AC_PATH_PROGS([ICONV],[iconv],[iconv])
