@@ -48,7 +48,7 @@ AM_CPPFLAGS = 							\
 AM_CFLAGS = $(WARNING_CFLAGS)
 
 libunicodenames_la_SOURCES = use_names_db.c use_blocks_db.c find_db.c	\
-	common_code.c libunicodenames.h noinst_header.h libgettext.h
+	common_code.c noinst_header.h libgettext.h
 nodist_libunicodenames_la_SOURCES = config.h
 libunicodenames_la_LDFLAGS = -no-undefined -version-info 1:1:0
 libunicodenames_la_LDFLAGS += -export-symbols $(srcdir)/libunicodenames.sym
@@ -64,11 +64,11 @@ nodist_pkgconfig_DATA += libunicodenames++.pc
 lib_LTLIBRARIES += libunicodenames++.la
 include_HEADERS += libunicodenames++.h
 
-libunicodenames___la_SOURCES = cxx_bindings.cxx libunicodenames.h	\
-	libunicodenames++.h noinst_header.h libgettext.h
+libunicodenames___la_SOURCES = cxx_bindings.cxx noinst_header.h	\
+	libgettext.h
 nodist_libunicodenames___la_SOURCES = config.h
 libunicodenames___la_LIBADD = libunicodenames.la
-libunicodenames___la_LDFLAGS = -no-undefined -version-info 1:0:0
+libunicodenames___la_LDFLAGS = -no-undefined -version-info 1:1:0
 
 endif CXX_FFI
 
@@ -77,14 +77,14 @@ endif CXX_FFI
 if PYTHON_FFI
 
 python_PYTHON = unicodenames.py
-pyexec_LTLIBRARIES = _unicodenames.la
+EXTRA_LTLIBRARIES = _unicodenames.la
 
 _unicodenames_la_SOURCES = unicodenames_wrap.cxx
 _unicodenames_la_CPPFLAGS = $(AX_SWIG_PYTHON_CPPFLAGS) $(AM_CPPFLAGS)
 _unicodenames_la_CXXFLAGS = $(WARNING_CXXFLAGS) $(SWIG_PYTHON_WARNING_CXXFLAGS)
 _unicodenames_la_LIBS = $(AX_SWIG_PYTHON_LIBS)
 _unicodenames_la_LIBADD = libunicodenames++.la libunicodenames.la
-_unicodenames_la_LDFLAGS = -module -shared -avoid-version
+_unicodenames_la_LDFLAGS = -module -shared -avoid-version -rpath '$(pyexecdir)'
 
 # This ugly code exists so SWIG gets run if _either one_ of
 # unicodenames.py and unicodenames_wrap.cxx is out of date or missing.
@@ -95,6 +95,22 @@ unicodenames.py unicodenames_wrap.cxx: stamp-pyffi
 stamp-pyffi: unicodenames.i libunicodenames.h
 	$(SWIG) -c++ $(AX_SWIG_PYTHON_OPT) -I$(srcdir) unicodenames.i
 	@touch stamp-pyffi
+
+# Install the Python extension after the C and C++ libraries, so it
+# can be re-linked with them.
+install-exec-hook: _unicodenames.la
+	$(MKDIR_P) "$(DESTDIR)$(pyexecdir)" || exit 1
+	$(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install	\
+		$(INSTALL) $(INSTALL_STRIP_FLAG) _unicodenames.la			\
+		'$(DESTDIR)$(pyexecdir)'
+
+uninstall-hook:
+	$(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall	\
+		rm -f '$(DESTDIR)$(pyexecdir)/_unicodenames.la'
+
+mostlyclean-local:
+	$(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall	\
+		rm -f _unicodenames.la
 
 endif PYTHON_FFI
 

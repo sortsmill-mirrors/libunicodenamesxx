@@ -54,12 +54,6 @@ FIXME: This chapter needs to be written.
 
      pkg-config --libs libunicodenames
 
-     typedef struct uninm_blocks_record
-     {
-       unsigned int start_point;
-       unsigned int end_point;
-     } uninm_blocks_record;
-
      /* A names db handle. */
      typedef struct uninm_names___db *uninm_names_db;
 
@@ -99,12 +93,20 @@ FIXME: This chapter needs to be written.
      const char *uninm_annotation (uninm_names_db handle,
                                    unsigned int codepoint);
 
+     size_t uninm_num_blocks (uninm_blocks_db handle);
+
+     int uninm_block_start (uninm_blocks_db handle, int i);
+
+     int uninm_block_end (uninm_blocks_db handle, int i);
+
+     const char *uninm_block_description (uninm_blocks_db handle, int i);
+
 4 Using LibUnicodeNames in C++
 ******************************
 
 FIXME: This chapter needs to be written.
 
-     #include <libunicodenames.h>
+     #include <libunicodenames++.h>
 
      using namespace libunicodenames;
 

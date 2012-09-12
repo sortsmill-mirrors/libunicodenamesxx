@@ -21,7 +21,7 @@
 
 
 AC_PREREQ([2.68])
-AC_INIT([libunicodenames],[1.0.0_beta3],[https://github.com/chemoelectric/libunicodenames/issues])
+AC_INIT([libunicodenames],[1.0.0_beta4],[https://github.com/chemoelectric/libunicodenames/issues])
 AC_CONFIG_SRCDIR([make-names-db.awk])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR([config])
