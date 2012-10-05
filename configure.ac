@@ -21,7 +21,7 @@
 
 
 AC_PREREQ([2.68])
-AC_INIT([libunicodenames],[1.0.0_beta4],[https://github.com/chemoelectric/libunicodenames/issues])
+AC_INIT([libunicodenames],[1.0.0_beta5],[https://github.com/sortsmill/libunicodenames/issues])
 AC_CONFIG_SRCDIR([make-names-db.awk])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR([config])
@@ -29,7 +29,7 @@ AC_CONFIG_TESTDIR([tests])
 AC_CANONICAL_BUILD
 AC_CANONICAL_HOST
 AC_CONFIG_HEADERS([config.h])
-AM_INIT_AUTOMAKE([1.11.1 -Wall])
+AM_INIT_AUTOMAKE([1.12.2 -Wall -Wno-portability])
 AM_MAINTAINER_MODE([enable])
 AC_USE_SYSTEM_EXTENSIONS
 m4_ifdef([AM_PROG_AR],[AM_PROG_AR])
@@ -41,15 +41,11 @@ AM_GNU_GETTEXT_VERSION([0.18.1])
 # V=1" if you need to see the rules.
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
-AC_ARG_ENABLE([tests],
-   [AS_HELP_STRING([--disable-tests],[do not build the test suite])],
-   [],[enable_tests=yes])
-AM_CONDITIONAL([TESTSUITE],[test x"${enable_tests}" = xyes])
-
-
 # Checks for programs.
 AC_PROG_CC
 AC_PROG_CC_C99
+gl_EARLY
+gl_INIT
 AM_PROG_CC_C_O
 AC_PROG_CXX
 AC_PROG_CXX_C_O
@@ -62,9 +58,7 @@ AC_PROG_MAKE_SET
 AC_PROG_MKDIR_P
 AC_PROG_SED
 AM_PATH_PYTHON([],[],[:])
-AC_PATH_PROGS([ENV],[env],[env])
 AC_PATH_PROGS([GAWK],[gawk],[gawk])
-AC_PATH_PROGS([ICONV],[iconv],[iconv])
 AC_PATH_PROGS([INDENT],[indent],[indent])
 AC_PATH_PROGS([WGET],[wget],[wget])
 
@@ -133,6 +127,12 @@ if test x"${enable_c__}" = xyes; then
    AC_LANG_POP
 fi
 
+VISIBLE=''
+test x"${HAVE_VISIBILITY}" = x1 && VISIBLE='__attribute__((__visibility__("default")))'
+AC_DEFINE_UNQUOTED([VISIBLE],[${VISIBLE}],
+        [Define to the attribute for a visible symbol in a shared library.])
+
+
 # Checks for library functions.
 AC_FUNC_MALLOC
 AM_GNU_GETTEXT([external])
@@ -143,15 +143,27 @@ AC_FUNC_REALLOC
 AC_CHECK_FUNCS([__argz_count __argz_next __argz_stringify floor getcwd localeconv mblen mbrlen memchr mempcpy memset munmap nl_langinfo setlocale stpcpy strcasecmp strchr strcspn strdup strstr strtoul])
 
 
+
 AC_CONFIG_FILES([Makefile GNUmakefile])
 AC_CONFIG_FILES([libunicodenames.pc libunicodenames++.pc])
 AC_CONFIG_FILES([unicodenames.i])
+AC_CONFIG_FILES([lib/Makefile])
 AC_CONFIG_FILES([po/Makefile.in])
 AC_CONFIG_FILES([tests/GNUmakefile tests/atlocal])
 AC_CONFIG_FILES([tests/Makefile])
-AC_CONFIG_FILES([.indent.pro:indent.pro.in])
-AC_CONFIG_FILES([tests/.indent.pro:indent.pro.in])
 AC_CONFIG_FILES([indent.mk:indent.mk.in])
 AC_CONFIG_FILES([tests/indent.mk:indent.mk.in])
-AC_SUBST([INCLUDE],[include])
+
+AC_CONFIG_COMMANDS([.indent.pro],
+   [
+      if test "${ac_srcdir}" -ef "${ac_builddir}"; then
+         :
+      else
+         for dir in . tests; do
+             rm -f "${ac_builddir}/${dir}/.indent.pro"
+             (cd "${ac_builddir}/${dir}" && ${LN_S} "${ac_srcdir}"/.indent.pro .indent.pro)
+         done
+      fi
+   ])
+
 AC_OUTPUT

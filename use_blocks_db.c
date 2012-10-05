@@ -62,7 +62,7 @@ read_blocks_db_tables (FILE *f, uninm_blocks_db handle)
   return successful;
 }
 
-uninm_blocks_db
+VISIBLE uninm_blocks_db
 uninm_blocks_db_open (const char *filename)
 {
   uninm_blocks_db handle = NULL;
@@ -93,7 +93,7 @@ uninm_blocks_db_open (const char *filename)
   return handle;
 }
 
-void
+VISIBLE void
 uninm_blocks_db_close (uninm_blocks_db handle)
 {
   free (handle->start_points);
@@ -103,7 +103,7 @@ uninm_blocks_db_close (uninm_blocks_db handle)
   free (handle);
 }
 
-size_t
+VISIBLE size_t
 uninm_num_blocks (uninm_blocks_db handle)
 {
   return handle->block_count;
@@ -115,19 +115,19 @@ in_range (uninm_blocks_db handle, int i)
   return (0 <= i && (size_t) i < handle->block_count);
 }
 
-unsigned int
+VISIBLE unsigned int
 uninm_block_start (uninm_blocks_db handle, int i)
 {
   return in_range (handle, i) ? handle->start_points[i] : 0xffffffff;
 }
 
-unsigned int
+VISIBLE unsigned int
 uninm_block_end (uninm_blocks_db handle, int i)
 {
   return in_range (handle, i) ? handle->end_points[i] : 0xffffffff;
 }
 
-const char *
+VISIBLE const char *
 uninm_block_name (uninm_blocks_db handle, int i)
 {
   return in_range (handle, i) ? (handle->strings +

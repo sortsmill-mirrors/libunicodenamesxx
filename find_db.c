@@ -63,14 +63,14 @@ db_full_path (const char *db_name)
   return full_path;
 }
 
-char *
+VISIBLE char *
 uninm_find_names_db (const char *locale_base)
 {
   bind_domain (locale_base);
   return db_full_path (_("en.names-db"));
 }
 
-char *
+VISIBLE char *
 uninm_find_blocks_db (const char *locale_base)
 {
   bind_domain (locale_base);

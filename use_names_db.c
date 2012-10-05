@@ -62,7 +62,7 @@ read_names_db_tables (FILE *f, uninm_names_db handle)
   return successful;
 }
 
-uninm_names_db
+VISIBLE uninm_names_db
 uninm_names_db_open (const char *filename)
 {
   uninm_names_db handle = NULL;
@@ -93,7 +93,7 @@ uninm_names_db_open (const char *filename)
   return handle;
 }
 
-void
+VISIBLE void
 uninm_names_db_close (uninm_names_db handle)
 {
   free (handle->codepoints);
@@ -150,7 +150,7 @@ annot_at_index (uninm_names_db handle, int index)
 			 annot_offset_at_index (handle, index));
 }
 
-const char *
+VISIBLE const char *
 uninm_name (uninm_names_db handle, unsigned int codepoint)
 {
   const char *name = NULL;
@@ -160,7 +160,7 @@ uninm_name (uninm_names_db handle, unsigned int codepoint)
   return name;
 }
 
-const char *
+VISIBLE const char *
 uninm_annotation (uninm_names_db handle, unsigned int codepoint)
 {
   const char *annot = NULL;

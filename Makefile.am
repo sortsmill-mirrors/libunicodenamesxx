@@ -16,19 +16,14 @@
 #  License along with LibUnicodeNames.  If not, see
 #  <http://www.gnu.org/licenses/>.
 
-ACLOCAL_AMFLAGS = -I m4
+ACLOCAL_AMFLAGS = -I m4 -I m4_ax
 
-SUBDIRS = . po
-if TESTSUITE
-SUBDIRS += tests
-endif TESTSUITE
+SUBDIRS = lib . po tests
 
 #--------------------------------------------------------------------------
 
 NAMESLIST_EN = "http://www.unicode.org/Public/UNIDATA/NamesList.txt"
-NAMESLIST_EN_ENCODING = ISO-8859-1
 NAMESLIST_FR = "http://hapax.qc.ca/ListeDesNoms-5.0.0.txt"
-NAMESLIST_FR_ENCODING = UTF-8
 
 #--------------------------------------------------------------------------
 
@@ -45,13 +40,12 @@ AM_CPPFLAGS = 							\
 	-DLOCALEDIR=\"${localedir}/\" 		\
 	-DTEXTDOMAIN=\"${PACKAGE}\"
 
-AM_CFLAGS = $(WARNING_CFLAGS)
+AM_CFLAGS = $(WARNING_CFLAGS) $(CFLAG_VISIBILITY)
 
 libunicodenames_la_SOURCES = use_names_db.c use_blocks_db.c find_db.c	\
 	common_code.c noinst_header.h libgettext.h
 nodist_libunicodenames_la_SOURCES = config.h
-libunicodenames_la_LDFLAGS = -no-undefined -version-info 1:1:0
-libunicodenames_la_LDFLAGS += -export-symbols $(srcdir)/libunicodenames.sym
+libunicodenames_la_LDFLAGS = -no-undefined -version-info 1:2:0
 
 #--------------------------------------------------------------------------
 
@@ -116,11 +110,11 @@ endif PYTHON_FFI
 
 #--------------------------------------------------------------------------
 
-EXTRA_DIST = $(srcdir)/libunicodenames.sym $(srcdir)/po/Rules-doc
+EXTRA_DIST = $(srcdir)/po/Rules-doc m4/gnulib-cache.m4 .indent.pro
 
 dist_noinst_SCRIPTS = make-names-db.awk make-blocks-db.awk
-MAKE_NAMES_DB = $(ENV) LC_ALL=C $(GAWK) -f $(srcdir)/make-names-db.awk
-MAKE_BLOCKS_DB = $(ENV) LC_ALL=C $(GAWK) -f $(srcdir)/make-blocks-db.awk
+MAKE_NAMES_DB = LC_ALL=C $(GAWK) -f $(srcdir)/make-names-db.awk
+MAKE_BLOCKS_DB = LC_ALL=C $(GAWK) -f $(srcdir)/make-blocks-db.awk
 
 nodist_EXTRA_DATA = NamesList.txt ListeDesNoms.txt
 nodist_EXTRA_DATA += NamesList.UTF-8 ListeDesNoms.UTF-8
@@ -137,16 +131,10 @@ rebuild-blocks-db: NamesList.UTF-8 ListeDesNoms.UTF-8
 
 CRLF_TO_LF = $(SED) -e 's/\r//g'
 
-NamesList.UTF-8: NamesList.txt
-	$(ICONV) -f $(NAMESLIST_EN_ENCODING) NamesList.txt -t UTF-8 | $(CRLF_TO_LF) > NamesList.UTF-8
-
-ListeDesNoms.UTF-8: ListeDesNoms.txt
-	$(ICONV) -f $(NAMESLIST_FR_ENCODING) ListeDesNoms.txt -t UTF-8 | $(CRLF_TO_LF) > ListeDesNoms.UTF-8
-
-NamesList.txt:
+NamesList.UTF-8:
 	$(WGET) $(NAMESLIST_EN) -O $@
 
-ListeDesNoms.txt:
+ListeDesNoms.UTF-8:
 	$(WGET) $(NAMESLIST_FR) -O $@
 
 #--------------------------------------------------------------------------
@@ -188,5 +176,16 @@ MOSTLYCLEANFILES += stamp-pyffi
 
 DISTCLEANFILES = NamesList.txt ListeDesNoms.txt
 DISTCLEANFILES += NamesList.UTF-8 ListeDesNoms.UTF-8
+
+#--------------------------------------------------------------------------
+
+distclean-local:
+	if test '$(top_srcdir)' -ef '$(top_builddir)'; then		\
+		:; 													\
+	else													\
+		for dir in . tests; do								\
+             rm -f "$(top_builddir)/$${dir}/.indent.pro";	\
+		done;												\
+	fi
 
 #--------------------------------------------------------------------------
