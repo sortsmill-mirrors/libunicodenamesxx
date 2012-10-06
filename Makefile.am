@@ -63,7 +63,7 @@ libunicodenames___la_SOURCES = cxx_bindings.cxx noinst_header.h	\
 	libgettext.h
 nodist_libunicodenames___la_SOURCES = config.h
 libunicodenames___la_LIBADD = libunicodenames.la lib/libgnu.la
-libunicodenames___la_LDFLAGS = -version-info 1:1:0
+libunicodenames___la_LDFLAGS = -version-info 1:2:0
 
 endif CXX_FFI
 
@@ -199,7 +199,7 @@ distclean-local:
 #--------------------------------------------------------------------------
 
 $(srcdir)/README: libunicodenames.texi
-	$(MAKEINFO) --plaintext --no-split $< > $(srcdir)/README
+	$(MAKEINFO) --plaintext --no-split $< > README
 
 #--------------------------------------------------------------------------
 
