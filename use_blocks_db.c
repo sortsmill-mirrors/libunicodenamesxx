@@ -17,6 +17,8 @@
 // <http://www.gnu.org/licenses/>.
 
 
+#include <config.h>
+
 #if ! defined (__cplusplus)
 #if ! defined (__STDC_VERSION__) || __STDC_VERSION__ < 199901L
 #error C99 or C++ is required.

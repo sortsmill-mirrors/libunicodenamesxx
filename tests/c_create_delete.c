@@ -17,6 +17,8 @@
 // <http://www.gnu.org/licenses/>.
 
 
+#include <config.h>
+
 #include <libunicodenames.h>
 #include <stdio.h>
 #include <stdlib.h>

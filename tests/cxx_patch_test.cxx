@@ -24,6 +24,8 @@
 // cover only the annotation and nothing past it.
 
 
+#include <config.h>
+
 #include <libunicodenames++.h>
 #include <stdio.h>
 #include <stdlib.h>

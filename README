@@ -37,16 +37,25 @@ C, C++, and Python.
 2 Installing LibUnicodeNames
 ****************************
 
-For installation instructions, see the file `INSTALL' that accompanies
-the source code.
+To build LibUnicodeNames, you will need GNU Make.  (1)
+
+   For installation instructions, see the file `INSTALL' that
+accompanies the source code.
 
    To build from Git or Mercurial sources, run `autoreconf --install'
 and then follow the instructions in the `INSTALL' file.
+
+   ---------- Footnotes ----------
+
+   (1) <http://www.gnu.org/software/make/>
 
 3 Using LibUnicodeNames in C
 ****************************
 
 FIXME: This chapter needs to be written.
+
+     LIBUNICODENAMES_DB_DIR=dir
+     LIBUNICODENAMES_LOCALE_DIR=dir
 
      #include <libunicodenames.h>
 

@@ -23,6 +23,9 @@
 // FIXME: Include a test that the patches do not overflow -- that they
 // cover only the annotation and nothing past it.
 
+
+#include <config.h>
+
 #include <libunicodenames.h>
 #include <stdio.h>
 #include <stdlib.h>

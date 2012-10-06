@@ -9,7 +9,7 @@ localedir=@localedir@
 
 Name: libunicodenames
 Description: retrieves Unicode names and annotations
-Version: @VERSION@
+Version: @VERSION_MAJOR@.@VERSION_MINOR@.@VERSION_PATCH@
 Libs: -L${libdir} -lunicodenames
 Cflags: -I${includedir}
 

@@ -17,6 +17,8 @@
 // <http://www.gnu.org/licenses/>.
 
 
+#include <config.h>
+
 #include <libunicodenames++.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -46,11 +48,12 @@ main (int argc, char *argv[])
     }
   else
     {
-      printf ("%s\n", loc);
+      printf ("|");
+      printf ("%s|", loc);
       char *db_file = find_names_db (localedir);
-      printf ("%s\n", basename (db_file));
+      printf ("%s|", basename (db_file));
       unicodenames db (db_file);
-      printf ("%s\n", db.name (codepoint));
+      printf ("%s|", db.name (codepoint));
       delete db_file;
       exit_code = 0;
     }

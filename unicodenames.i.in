@@ -20,6 +20,7 @@
 %module unicodenames
 
 %{
+#include <config.h>
 #include <libunicodenames++.h>
 using namespace libunicodenames;
 %}
@@ -43,30 +44,30 @@ using namespace libunicodenames;
 #ifdef SWIGPYTHON
 
 %exception {
-    try {
-        $action
-    }
-    catch (memory_exhausted &e)
+  try {
+    $action
+      }
+  catch (memory_exhausted &e)
     {
-        PyErr_SetString(PyExc_MemoryError, e.what());
-        SWIG_fail;
+      PyErr_SetString(PyExc_MemoryError, e.what());
+      SWIG_fail;
     }
-    catch (open_failed &e)
+  catch (open_failed &e)
     {
-        PyErr_SetString(PyExc_IOError, e.what());
-        SWIG_fail;
+      PyErr_SetString(PyExc_IOError, e.what());
+      SWIG_fail;
     }
-    catch (index_error &e)
+  catch (index_error &e)
     {
-        PyErr_SetString(PyExc_IndexError, e.what());
-        SWIG_fail;
+      PyErr_SetString(PyExc_IndexError, e.what());
+      SWIG_fail;
     }
-    catch (unicodenames_exception &e)
+  catch (unicodenames_exception &e)
     {
-        PyErr_SetString(PyExc_RuntimeError, e.what());
-        SWIG_fail;
+      PyErr_SetString(PyExc_RuntimeError, e.what());
+      SWIG_fail;
     }
-}
+ }
 
 #endif  // SWIGPYTHON
 

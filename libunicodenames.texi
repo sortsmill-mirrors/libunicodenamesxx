@@ -82,6 +82,9 @@ Python.
 @node Installing
 @chapter Installing LibUnicodeNames
 
+To build LibUnicodeNames, you will need GNU Make.
+@footnote{@indicateurl{http://www.gnu.org/software/make/}}
+
 For installation instructions, see the file @file{INSTALL} that
 accompanies the source code.
 
@@ -92,6 +95,11 @@ and then follow the instructions in the @file{INSTALL} file.
 @chapter Using LibUnicodeNames in C
 
 FIXME: This chapter needs to be written.
+
+@example
+LIBUNICODENAMES_DB_DIR=dir
+LIBUNICODENAMES_LOCALE_DIR=dir
+@end example
 
 @example
 #include <libunicodenames.h>

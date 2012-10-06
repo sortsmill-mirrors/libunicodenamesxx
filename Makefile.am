@@ -35,9 +35,10 @@ include_HEADERS = libunicodenames.h
 dist_pkgdata_DATA = en.names-db fr.names-db en.blocks-db fr.blocks-db
 info_TEXINFOS = libunicodenames.texi
 
-AM_CPPFLAGS = 							\
-	-DPKGDATADIR=\"${pkgdatadir}/\" 	\
-	-DLOCALEDIR=\"${localedir}/\" 		\
+AM_CPPFLAGS = 											\
+	-I$(top_builddir)/lib -I$(top_srcdir)/lib			\
+	-DPKGDATADIR=\"${pkgdatadir}/\"	 					\
+	-DLOCALEDIR=\"${localedir}/\" 						\
 	-DTEXTDOMAIN=\"${PACKAGE}\"
 
 AM_CFLAGS = $(WARNING_CFLAGS) $(CFLAG_VISIBILITY)
@@ -45,7 +46,7 @@ AM_CFLAGS = $(WARNING_CFLAGS) $(CFLAG_VISIBILITY)
 libunicodenames_la_SOURCES = use_names_db.c use_blocks_db.c find_db.c	\
 	common_code.c noinst_header.h libgettext.h
 nodist_libunicodenames_la_SOURCES = config.h
-libunicodenames_la_LDFLAGS = -no-undefined -version-info 1:2:0
+libunicodenames_la_LDFLAGS = -version-info 1:2:0
 
 #--------------------------------------------------------------------------
 
@@ -61,8 +62,8 @@ include_HEADERS += libunicodenames++.h
 libunicodenames___la_SOURCES = cxx_bindings.cxx noinst_header.h	\
 	libgettext.h
 nodist_libunicodenames___la_SOURCES = config.h
-libunicodenames___la_LIBADD = libunicodenames.la
-libunicodenames___la_LDFLAGS = -no-undefined -version-info 1:1:0
+libunicodenames___la_LIBADD = libunicodenames.la lib/libgnu.la
+libunicodenames___la_LDFLAGS = -version-info 1:1:0
 
 endif CXX_FFI
 
@@ -77,7 +78,8 @@ _unicodenames_la_SOURCES = unicodenames_wrap.cxx
 _unicodenames_la_CPPFLAGS = $(AX_SWIG_PYTHON_CPPFLAGS) $(AM_CPPFLAGS)
 _unicodenames_la_CXXFLAGS = $(WARNING_CXXFLAGS) $(SWIG_PYTHON_WARNING_CXXFLAGS)
 _unicodenames_la_LIBS = $(AX_SWIG_PYTHON_LIBS)
-_unicodenames_la_LIBADD = libunicodenames++.la libunicodenames.la
+_unicodenames_la_LIBADD = libunicodenames++.la libunicodenames.la	\
+	lib/libgnu.la
 _unicodenames_la_LDFLAGS = -module -shared -avoid-version -rpath '$(pyexecdir)'
 
 # This ugly code exists so SWIG gets run if _either one_ of
@@ -131,10 +133,16 @@ rebuild-blocks-db: NamesList.UTF-8 ListeDesNoms.UTF-8
 
 CRLF_TO_LF = $(SED) -e 's/\r//g'
 
-NamesList.UTF-8:
+NamesList.UTF-8: NamesList.txt
+	$(CRLF_TO_LF) < $< > $@
+
+ListeDesNoms.UTF-8: ListeDesNoms.txt
+	$(CRLF_TO_LF) < $< > $@
+
+NamesList.txt:
 	$(WGET) $(NAMESLIST_EN) -O $@
 
-ListeDesNoms.UTF-8:
+ListeDesNoms.txt:
 	$(WGET) $(NAMESLIST_FR) -O $@
 
 #--------------------------------------------------------------------------
@@ -187,5 +195,24 @@ distclean-local:
              rm -f "$(top_builddir)/$${dir}/.indent.pro";	\
 		done;												\
 	fi
+
+#--------------------------------------------------------------------------
+
+$(srcdir)/README: libunicodenames.texi
+	$(MAKEINFO) --plaintext --no-split $< > $(srcdir)/README
+
+#--------------------------------------------------------------------------
+
+include indent.mk
+
+blacklist_for_indent += config.h libgettext.h
+
+indent: indent-recursive
+	$(call do_indent, $(libunicodenames_la_SOURCES))
+	$(call do_indent, $(libunicodenames___la_SOURCES))
+	$(call do_indent, $(include_HEADERS))
+
+indent-recursive:
+	$(MAKE) -C tests $(AM_MAKEFLAGS) indent
 
 #--------------------------------------------------------------------------

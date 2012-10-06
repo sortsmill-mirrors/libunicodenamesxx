@@ -16,6 +16,8 @@
 // License along with LibUnicodeNames.  If not, see
 // <http://www.gnu.org/licenses/>.
 
+#include <config.h>
+
 #include "noinst_header.h"
 
 using namespace libunicodenames;

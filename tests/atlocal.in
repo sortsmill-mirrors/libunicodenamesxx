@@ -2,7 +2,11 @@
 # @configure_input@
 # Configurable variable values for Autoconf test suite.
 
-LC_ALL=C
+LOCALE_FR='@LOCALE_FR@'
+LOCALE_FR_UTF8='@LOCALE_FR_UTF8@'
+LOCALE_JA='@LOCALE_JA@'
+LOCALE_ZH_CN='@LOCALE_ZH_CN@'
+LOCALE_POSIX='C'
 
 srcdir="@srcdir@"
 builddir="@builddir@"
@@ -32,5 +36,6 @@ PYTHON="@PYTHON@"
 if test x${LIBUNICODENAMES_INSTALLED} = xyes; then
     :
 else
-    PYTHONPATH="@abs_top_builddir@/.libs:@abs_top_srcdir@/.libs:@abs_top_builddir@:@abs_top_srcdir@"
+    PYTHONPATH="@abs_top_builddir@/@LT_OBJDIR@:@abs_top_builddir@:@abs_top_srcdir@"
+    LD_LIBRARY_PATH="@abs_top_builddir@/@LT_OBJDIR@"
 fi

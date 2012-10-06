@@ -1,5 +1,3 @@
-#  -*- Makefile -*-
-#
 #  Copyright (C) 2012 Barry Schwartz
 # 
 #  This file is part of LibUnicodeNames.
@@ -18,14 +16,8 @@
 #  License along with LibUnicodeNames.  If not, see
 #  <http://www.gnu.org/licenses/>.
 
+INDENT_FLAGS =
+blacklist_for_indent =
 
-check installcheck: need-gnu-make
-
-need-gnu-make:
-	@echo ""
-	@echo ""
-	@echo ""
-	@echo ""
-	@echo "To run the test suite you should use GNU Make."
-	@echo ""
-	@echo "--"
+filter_for_indent = $(filter-out $(blacklist_for_indent), $(1))
+do_indent = $(INDENT) $(INDENT_FLAGS) $(addprefix $(srcdir)/, $(call filter_for_indent, $(1)))

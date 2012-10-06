@@ -17,6 +17,8 @@
 // <http://www.gnu.org/licenses/>.
 
 
+#include <config.h>
+
 #include <libunicodenames.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -44,14 +46,15 @@ main (int argc, char *argv[])
     }
   else
     {
-      printf ("%s\n", loc);
+      printf ("|");
+      printf ("%s|", loc);
       char *db_file = uninm_find_names_db (localedir);
-      printf ("%s\n", basename (db_file));
+      printf ("%s|", basename (db_file));
       uninm_names_db db = uninm_names_db_open (db_file);
       if (db != NULL)
 	{
 	  exit_code = 0;
-	  printf ("%s\n", uninm_name (db, codepoint));
+	  printf ("%s|", uninm_name (db, codepoint));
 	  uninm_names_db_close (db);
 	}
       free (db_file);

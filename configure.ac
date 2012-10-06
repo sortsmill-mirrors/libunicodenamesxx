@@ -19,6 +19,7 @@
 #  License along with LibUnicodeNames.  If not, see
 #  <http://www.gnu.org/licenses/>.
 
+#--------------------------------------------------------------------------
 
 AC_PREREQ([2.68])
 AC_INIT([libunicodenames],[1.0.0_beta5],[https://github.com/sortsmill/libunicodenames/issues])
@@ -29,7 +30,7 @@ AC_CONFIG_TESTDIR([tests])
 AC_CANONICAL_BUILD
 AC_CANONICAL_HOST
 AC_CONFIG_HEADERS([config.h])
-AM_INIT_AUTOMAKE([1.12.2 -Wall])
+AM_INIT_AUTOMAKE([1.12.2 -Wall -Wno-portability])
 AM_MAINTAINER_MODE([enable])
 AC_USE_SYSTEM_EXTENSIONS
 m4_ifdef([AM_PROG_AR],[AM_PROG_AR])
@@ -41,7 +42,23 @@ AM_GNU_GETTEXT_VERSION([0.18.1])
 # V=1" if you need to see the rules.
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
+VERSION_MAJOR=`AS_ECHO(["${PACKAGE_VERSION}"]) | sed -e 's/^\([[0-9]][[0-9]]*\).*/\1/'`
+VERSION_MINOR=`AS_ECHO(["${PACKAGE_VERSION}"]) | sed -e 's/^[[0-9]][[0-9]]*\.\([[0-9]][[0-9]]*\).*/\1/'`
+VERSION_PATCH=`AS_ECHO(["${PACKAGE_VERSION}"]) | sed -e 's/^[[0-9]][[0-9]]*\.[[0-9]][[0-9]]*\.\([[0-9]][[0-9]]*\).*/\1/'`
+VERSION_EXTRA=`AS_ECHO(["${PACKAGE_VERSION}"]) | sed -e 's/^[[0-9]][[0-9]]*\.[[0-9]][[0-9]]*\.[[0-9]][[0-9]]*\(.*\)/\1/' \
+                                                     -e 's/^_//'`
+VERSION_EXTRA_SHORT=`AS_ECHO(["${VERSION_EXTRA}"]) | sed -e 's/alpha/a/' -e 's/beta/b/'`
+AC_SUBST([VERSION_MAJOR])
+AC_SUBST([VERSION_MINOR])
+AC_SUBST([VERSION_PATCH])
+AC_SUBST([VERSION_EXTRA])
+AC_SUBST([VERSION_EXTRA_SHORT])
+
+
+#--------------------------------------------------------------------------
+#
 # Checks for programs.
+
 AC_PROG_CC
 AC_PROG_CC_C99
 gl_EARLY
@@ -82,16 +99,24 @@ if test x"${enable_python}" = xyes -a x"${enable_c__}" != xyes; then
 fi
 
 
+#--------------------------------------------------------------------------
+#
 # Checks for libraries.
 
 
+#--------------------------------------------------------------------------
+#
 # Checks for header files.
+
 AC_CHECK_HEADERS([argz.h fcntl.h float.h inttypes.h langinfo.h libintl.h limits.h locale.h malloc.h stddef.h stdint.h stdio_ext.h stdlib.h string.h sys/param.h unistd.h wchar.h])
 AC_HEADER_STDBOOL
 AC_FUNC_ALLOCA
 
 
+#--------------------------------------------------------------------------
+#
 # Checks for typedefs, structures, and compiler characteristics.
+
 AC_C_INLINE
 AC_TYPE_INT32_T
 AC_TYPE_INT64_T
@@ -133,7 +158,10 @@ AC_DEFINE_UNQUOTED([VISIBLE],[${VISIBLE}],
         [Define to the attribute for a visible symbol in a shared library.])
 
 
+#--------------------------------------------------------------------------
+#
 # Checks for library functions.
+
 AC_FUNC_MALLOC
 AM_GNU_GETTEXT([external])
 AC_FUNC_MALLOC
@@ -142,17 +170,16 @@ AC_FUNC_MMAP
 AC_FUNC_REALLOC
 AC_CHECK_FUNCS([__argz_count __argz_next __argz_stringify floor getcwd localeconv mblen mbrlen memchr mempcpy memset munmap nl_langinfo setlocale stpcpy strcasecmp strchr strcspn strdup strstr strtoul])
 
+#--------------------------------------------------------------------------
 
+AC_SUBST([LT_OBJDIR],["${lt_cv_objdir}"])
 
-AC_CONFIG_FILES([Makefile GNUmakefile])
+AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([libunicodenames.pc libunicodenames++.pc])
 AC_CONFIG_FILES([unicodenames.i])
 AC_CONFIG_FILES([lib/Makefile])
 AC_CONFIG_FILES([po/Makefile.in])
-AC_CONFIG_FILES([tests/GNUmakefile tests/atlocal])
-AC_CONFIG_FILES([tests/Makefile])
-AC_CONFIG_FILES([indent.mk:indent.mk.in])
-AC_CONFIG_FILES([tests/indent.mk:indent.mk.in])
+AC_CONFIG_FILES([tests/Makefile tests/atlocal])
 
 AC_CONFIG_COMMANDS([.indent.pro],
    [
@@ -167,3 +194,5 @@ AC_CONFIG_COMMANDS([.indent.pro],
    ])
 
 AC_OUTPUT
+
+#--------------------------------------------------------------------------

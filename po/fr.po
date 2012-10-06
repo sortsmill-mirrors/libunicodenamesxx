@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: libunicodenames 1.0.0-beta1\n"
 "Report-Msgid-Bugs-To: https://github.com/chemoelectric/libunicodenames/"
 "issues\n"
-"POT-Creation-Date: 2012-10-05 18:31-0500\n"
+"POT-Creation-Date: 2012-10-05 20:18-0500\n"
 "PO-Revision-Date: 2012-08-30 03:22-0500\n"
 "Last-Translator:  <github@crudfactory.com>\n"
 "Language-Team: French\n"
@@ -18,26 +18,26 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: find_db.c:70
+#: find_db.c:72
 msgid "en.names-db"
 msgstr "fr.names-db"
 
-#: find_db.c:77
+#: find_db.c:79
 msgid "en.blocks-db"
 msgstr "fr.blocks-db"
 
-#: cxx_bindings.cxx:27
+#: cxx_bindings.cxx:29
 msgid "unknown exception"
 msgstr ""
 
-#: cxx_bindings.cxx:34
+#: cxx_bindings.cxx:36
 msgid "virtual memory exhausted"
 msgstr ""
 
-#: cxx_bindings.cxx:41
+#: cxx_bindings.cxx:43
 msgid "open failed"
 msgstr ""
 
-#: cxx_bindings.cxx:48
+#: cxx_bindings.cxx:50
 msgid "index error"
 msgstr ""
