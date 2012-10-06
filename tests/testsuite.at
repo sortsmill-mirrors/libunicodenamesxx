@@ -123,6 +123,7 @@ AT_SETUP([C++ names db locale: POSIX])
 AT_KEYWORDS([C++ no-patch])
 AT_SKIP_IF([test x${LIBUNICODENAMES_INSTALLED} != xyes])
 AT_SKIP_IF([test x"${LOCALE_POSIX}" = xnone])
+AT_SKIP_IF([${skip_cxx}])
 AT_CHECK_UNQUOTED(["${abs_builddir}"/cxx_names_db_locale "${LOCALE_POSIX}" 0x0022 ""],[0],
                   [|${LOCALE_POSIX}|en.names-db|QUOTATION MARK|],[ignore])
 AT_CLEANUP
@@ -131,6 +132,7 @@ AT_SETUP([C++ names db locale: French])
 AT_KEYWORDS([C++ no-patch])
 AT_SKIP_IF([test x${LIBUNICODENAMES_INSTALLED} != xyes])
 AT_SKIP_IF([test x"${LOCALE_FR}" = xnone])
+AT_SKIP_IF([${skip_cxx}])
 AT_CHECK_UNQUOTED([LANGUAGE="${LOCALE_FR}" "${abs_builddir}"/cxx_names_db_locale "${LOCALE_FR}" 0x0022 ""],[0],
                   [|${LOCALE_FR}|fr.names-db|GUILLEMET ANGLAIS|],[ignore])
 AT_CLEANUP
@@ -139,6 +141,7 @@ AT_SETUP([C++ names db locale: French UTF-8])
 AT_KEYWORDS([C++ no-patch])
 AT_SKIP_IF([test x${LIBUNICODENAMES_INSTALLED} != xyes])
 AT_SKIP_IF([test x"${LOCALE_FR_UTF8}" = xnone])
+AT_SKIP_IF([${skip_cxx}])
 AT_CHECK_UNQUOTED([LANGUAGE="${LOCALE_FR_UTF8}" "${abs_builddir}"/cxx_names_db_locale "${LOCALE_FR_UTF8}" 0x0022 ""],[0],
                   [|${LOCALE_FR_UTF8}|fr.names-db|GUILLEMET ANGLAIS|],[ignore])
 AT_CLEANUP
