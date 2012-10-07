@@ -76,6 +76,7 @@ AC_PROG_MKDIR_P
 AC_PROG_SED
 AM_PATH_PYTHON([],[],[:])
 AC_PATH_PROGS([GAWK],[gawk],[gawk])
+AC_PATH_PROGS([GUILE],[guile],[guile])
 AC_PATH_PROGS([INDENT],[indent],[indent])
 AC_PATH_PROGS([WGET],[wget],[wget])
 

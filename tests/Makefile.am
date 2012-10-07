@@ -65,18 +65,15 @@ check_PROGRAMS =
 
 check_PROGRAMS += c_create_delete
 c_create_delete_SOURCES = c_create_delete.c
-c_create_delete_LDADD = $(top_builddir)/libunicodenames.la	\
-	$(top_builddir)/lib/libgnu.la
+c_create_delete_LDADD = $(top_builddir)/libunicodenames.la $(LDADD)
 
 check_PROGRAMS += c_names_db_locale
 c_names_db_locale_SOURCES = c_names_db_locale.c
-c_names_db_locale_LDADD = $(top_builddir)/libunicodenames.la	\
-	$(top_builddir)/lib/libgnu.la
+c_names_db_locale_LDADD = $(top_builddir)/libunicodenames.la $(LDADD)
 
 check_PROGRAMS += c_patch_test
 c_patch_test_SOURCES = c_patch_test.c
-c_patch_test_LDADD = $(top_builddir)/libunicodenames.la	\
-	$(top_builddir)/lib/libgnu.la
+c_patch_test_LDADD = $(top_builddir)/libunicodenames.la $(LDADD)
 
 #--------------------------------------------------------------------------
 
@@ -85,17 +82,17 @@ if CXX_FFI
 check_PROGRAMS += cxx_create_delete
 cxx_create_delete_SOURCES = cxx_create_delete.cxx
 cxx_create_delete_LDADD = $(top_builddir)/libunicodenames++.la			\
-	$(top_builddir)/libunicodenames.la $(top_builddir)/lib/libgnu.la
+	$(top_builddir)/libunicodenames.la $(LDADD)
 
 check_PROGRAMS += cxx_names_db_locale
 cxx_names_db_locale_SOURCES = cxx_names_db_locale.cxx
 cxx_names_db_locale_LDADD = $(top_builddir)/libunicodenames++.la		\
-	$(top_builddir)/libunicodenames.la $(top_builddir)/lib/libgnu.la
+	$(top_builddir)/libunicodenames.la $(LDADD)
 
 check_PROGRAMS += cxx_patch_test
 cxx_patch_test_SOURCES = cxx_patch_test.cxx
 cxx_patch_test_LDADD = $(top_builddir)/libunicodenames++.la \
-	$(top_builddir)/libunicodenames.la	$(top_builddir)/lib/libgnu.la
+	$(top_builddir)/libunicodenames.la $(LDADD)
 
 endif CXX_FFI
 
@@ -105,6 +102,8 @@ AM_CPPFLAGS = -I$(top_builddir)/lib -I$(top_srcdir)/lib	\
 	-I$(top_srcdir)
 AM_CFLAGS = $(WARNING_CFLAGS)
 AM_CXXFLAGS = $(WARNING_CXXFLAGS)
+AM_LDFLAGS = $(LTLIBINTL)
+LDADD = $(top_builddir)/lib/libgnu.la
 
 check-local: override TESTSUITEFLAGS += LIBUNICODENAMES_INSTALLED=no
 

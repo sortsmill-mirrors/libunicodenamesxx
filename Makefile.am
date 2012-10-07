@@ -42,11 +42,12 @@ AM_CPPFLAGS = 											\
 	-DTEXTDOMAIN=\"${PACKAGE}\"
 
 AM_CFLAGS = $(WARNING_CFLAGS) $(CFLAG_VISIBILITY)
+AM_LDFLAGS = $(LTLIBINTL)
 
 libunicodenames_la_SOURCES = use_names_db.c use_blocks_db.c find_db.c	\
 	common_code.c noinst_header.h libgettext.h
 nodist_libunicodenames_la_SOURCES = config.h
-libunicodenames_la_LDFLAGS = -version-info 1:2:0
+libunicodenames_la_LDFLAGS = -version-info 1:2:0 $(AM_LDFLAGS)
 
 #--------------------------------------------------------------------------
 
@@ -63,7 +64,7 @@ libunicodenames___la_SOURCES = cxx_bindings.cxx noinst_header.h	\
 	libgettext.h
 nodist_libunicodenames___la_SOURCES = config.h
 libunicodenames___la_LIBADD = libunicodenames.la lib/libgnu.la
-libunicodenames___la_LDFLAGS = -version-info 1:2:0
+libunicodenames___la_LDFLAGS = -version-info 1:2:0 $(AM_LDFLAGS)
 
 endif CXX_FFI
 
@@ -114,7 +115,28 @@ endif PYTHON_FFI
 
 EXTRA_DIST = $(srcdir)/po/Rules-doc m4/gnulib-cache.m4 .indent.pro
 
-dist_noinst_SCRIPTS = make-names-db.awk make-blocks-db.awk
+#--------------------------------------------------------------------------
+
+dist_noinst_SCRIPTS = extract-text.scm
+
+EXTRACT_TEXT = LC_ALL=C $(GUILE) --no-auto-compile -s	\
+	$(srcdir)/extract-text.scm
+
+extract_text = \
+	 $(EXTRACT_TEXT) \
+	-e '^[[:space:]]*(//|\*)[[:space:]]*$1--[[:space:]]*(.*)[[:space:]]*' \
+	-s '(: 2)'
+
+%.struct.texi: %.h
+	$(call extract_text,s) $< > $@
+
+%.func.texi: %.h
+	$(call extract_text,f) $< > $@
+
+#--------------------------------------------------------------------------
+
+dist_noinst_SCRIPTS += make-names-db.awk make-blocks-db.awk
+
 MAKE_NAMES_DB = LC_ALL=C $(GAWK) -f $(srcdir)/make-names-db.awk
 MAKE_BLOCKS_DB = LC_ALL=C $(GAWK) -f $(srcdir)/make-blocks-db.awk
 
