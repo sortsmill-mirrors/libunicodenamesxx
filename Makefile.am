@@ -121,11 +121,20 @@ extract_text = $(GAWK) ' \
 BEGIN { pattern = "^[[:space:]]*(//|*)[[:space:]]*$1--[[:space:]]*(.*)[[:space:]]*" } \
 $$0 ~ pattern { match($$0, pattern, matches); print matches[2] }'
 
-%.struct.texi: %.h
-	$(call extract_text,s) $< > $@
+$(srcdir)/%.type.texi: %.h
+	$(call extract_text,t) $< > $@
 
-%.func.texi: %.h
+$(srcdir)/%.func.texi: %.h
 	$(call extract_text,f) $< > $@
+
+extract-text: extract-libunicodenames-text
+
+extract-libunicodenames-text: $(LIBUNICODENAMES_TEXI)
+
+LIBUNICODENAMES_TEXI = $(srcdir)/libunicodenames.type.texi	\
+	$(srcdir)/libunicodenames.func.texi
+
+EXTRA_DIST += $(LIBUNICODENAMES_TEXI)
 
 #--------------------------------------------------------------------------
 
