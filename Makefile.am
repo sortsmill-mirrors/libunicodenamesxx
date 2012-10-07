@@ -119,13 +119,9 @@ EXTRA_DIST = $(srcdir)/po/Rules-doc m4/gnulib-cache.m4 .indent.pro
 
 dist_noinst_SCRIPTS = extract-text.scm
 
-EXTRACT_TEXT = LC_ALL=C $(GUILE) --no-auto-compile -s	\
-	$(srcdir)/extract-text.scm
-
-extract_text = \
-	 $(EXTRACT_TEXT) \
-	-e '^[[:space:]]*(//|\*)[[:space:]]*$1--[[:space:]]*(.*)[[:space:]]*' \
-	-s '(: 2)'
+extract_text = $(GAWK) ' \
+BEGIN { pattern = "^[[:space:]]*(//|*)[[:space:]]*$1--[[:space:]]*(.*)[[:space:]]*" } \
+$$0 ~ pattern { match($$0, pattern, matches); print matches[2] }'
 
 %.struct.texi: %.h
 	$(call extract_text,s) $< > $@
