@@ -32,7 +32,7 @@ extern "C"
    * t--
    * t-- @deftp {Data type} uninm_names_db
    * t--
-   * t-- A names db handle.
+   * t-- A handle for a names database.
    * t--
    * t-- @end deftp
    * t--
@@ -43,7 +43,7 @@ extern "C"
    * t--
    * t-- @deftp {Data type} uninm_blocks_db
    * t--
-   * t-- A blocks db handle.
+   * t-- A handle for a blocks database.
    * t--
    * t-- @end deftp
    * t--
@@ -54,7 +54,7 @@ extern "C"
    * f--
    * f-- @deftypefn {Library Function} {char *} uninm_find_names_db (const char *@var{locale_base})
    * f--
-   * f-- Get the path of the names db for the current locale. The
+   * f-- Get the path of the names database for the current locale. The
    * f-- string should be freed by the caller. If @var{locale_base} is
    * f-- non-@var{NULL}, then use it as the base directory for MO files;
    * f-- otherwise use the compiled-in locale directory.
@@ -68,7 +68,7 @@ extern "C"
    * f--
    * f-- @deftypefn {Library Function} {char *} uninm_find_blocks_db (const char *@var{locale_base})
    * f--
-   * f-- Get the path of the blocks db for the current locale.
+   * f-- Get the path of the blocks database for the current locale.
    * f-- The string should be freed by the caller.
    * f-- If @var{locale_base} is non-@var{NULL}, then use it as
    * f-- the base directory for MO files; otherwise use the
@@ -83,7 +83,7 @@ extern "C"
    * f--
    * f-- @deftypefn {Library Function} uninm_names_db uninm_names_db_open (const char *@var{filename})
    * f--
-   * f-- Open a names db.
+   * f-- Open a names database.
    * f--
    * f-- @end deftypefn
    * f--
@@ -94,7 +94,7 @@ extern "C"
    * f--
    * f-- @deftypefn {Library Function} uninm_blocks_db uninm_blocks_db_open (const char *@var{filename})
    * f--
-   * f-- Open a blocks db.
+   * f-- Open a blocks database.
    * f--
    * f-- @end deftypefn
    * f--
@@ -105,7 +105,7 @@ extern "C"
    * f--
    * f-- @deftypefn {Library Function} void uninm_names_db_close (uninm_names_db @var{handle})
    * f--
-   * f-- Close a names db.
+   * f-- Close a names database.
    * f--
    * f-- @end deftypefn
    * f--
@@ -116,7 +116,7 @@ extern "C"
    * f--
    * f-- @deftypefn {Library Function} void uninm_blocks_db_close (uninm_blocks_db @var{handle})
    * f--
-   * f-- Close a blocks db.
+   * f-- Close a blocks database.
    * f--
    * f-- @end deftypefn
    * f--

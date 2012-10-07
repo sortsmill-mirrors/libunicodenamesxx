@@ -61,46 +61,46 @@ FIXME: This chapter needs to be written.
      pkg-config --libs libunicodenames
 
  -- Data type: uninm_names_db
-     A names db handle.
+     A handle for a names database.
 
 
  -- Data type: uninm_blocks_db
-     A blocks db handle.
+     A handle for a blocks database.
 
 
  -- Library Function: char * uninm_find_names_db (const char
           *LOCALE_BASE)
-     Get the path of the names db for the current locale. The string
-     should be freed by the caller. If LOCALE_BASE is non-NULL, then
-     use it as the base directory for MO files; otherwise use the
+     Get the path of the names database for the current locale. The
+     string should be freed by the caller. If LOCALE_BASE is non-NULL,
+     then use it as the base directory for MO files; otherwise use the
      compiled-in locale directory.
 
 
  -- Library Function: char * uninm_find_blocks_db (const char
           *LOCALE_BASE)
-     Get the path of the blocks db for the current locale.  The string
-     should be freed by the caller.  If LOCALE_BASE is non-NULL, then
-     use it as the base directory for MO files; otherwise use the
+     Get the path of the blocks database for the current locale.  The
+     string should be freed by the caller.  If LOCALE_BASE is non-NULL,
+     then use it as the base directory for MO files; otherwise use the
      compiled-in locale directory.
 
 
  -- Library Function: uninm_names_db uninm_names_db_open (const char
           *FILENAME)
-     Open a names db.
+     Open a names database.
 
 
  -- Library Function: uninm_blocks_db uninm_blocks_db_open (const char
           *FILENAME)
-     Open a blocks db.
+     Open a blocks database.
 
 
  -- Library Function: void uninm_names_db_close (uninm_names_db HANDLE)
-     Close a names db.
+     Close a names database.
 
 
  -- Library Function: void uninm_blocks_db_close (uninm_blocks_db
           HANDLE)
-     Close a blocks db.
+     Close a blocks database.
 
 
  -- Library Function: const char * uninm_name (uninm_names_db HANDLE,
