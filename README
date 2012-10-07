@@ -54,61 +54,77 @@ and then follow the instructions in the `INSTALL' file.
 
 FIXME: This chapter needs to be written.
 
-     LIBUNICODENAMES_DB_DIR=dir
-     LIBUNICODENAMES_LOCALE_DIR=dir
-
      #include <libunicodenames.h>
 
      pkg-config --cflags libunicodenames
 
      pkg-config --libs libunicodenames
 
-     /* A names db handle. */
-     typedef struct uninm_names___db *uninm_names_db;
+ -- Data type: uninm_names_db
+     A names db handle.
 
-     /* A blocks db handle. */
-     typedef struct uninm_blocks___db *uninm_blocks_db;
 
-     /* Get the path of the names db for the current locale. The string
-        should be freed by the caller. If locale_base is non-NULL, then
-        use it as the base directory for MO files; otherwise use the
-        compiled-in locale directory. */
-     char *uninm_find_names_db (const char *locale_base);
+ -- Data type: uninm_blocks_db
+     A blocks db handle.
 
-     /* Get the path of the blocks db for the current locale. The string
-        should be freed by the caller. If locale_base is non-NULL, then
-        use it as the base directory for MO files; otherwise use the
-        compiled-in locale directory. */
-     char *uninm_find_blocks_db (const char *locale_base);
 
-     /* Open a names db. */
-     uninm_names_db uninm_names_db_open (const char *filename);
+ -- Library Function: char * uninm_find_names_db (const char
+          *LOCALE_BASE)
+     Get the path of the names db for the current locale. The string
+     should be freed by the caller. If LOCALE_BASE is non-NULL, then
+     use it as the base directory for MO files; otherwise use the
+     compiled-in locale directory.
 
-     /* Open a blocks db. */
-     uninm_blocks_db uninm_blocks_db_open (const char *filename);
 
-     /* Close a names db. */
-     void uninm_names_db_close (uninm_names_db handle);
+ -- Library Function: char * uninm_find_blocks_db (const char
+          *LOCALE_BASE)
+     Get the path of the blocks db for the current locale.  The string
+     should be freed by the caller.  If LOCALE_BASE is non-NULL, then
+     use it as the base directory for MO files; otherwise use the
+     compiled-in locale directory.
 
-     /* Close a blocks db. */
-     void uninm_blocks_db_close (uninm_blocks_db handle);
 
-     /* Retrieve the name of a Unicode codepoint. The string must not
-        be freed by the caller. */
-     const char *uninm_name (uninm_names_db handle, unsigned int codepoint);
+ -- Library Function: uninm_names_db uninm_names_db_open (const char
+          *FILENAME)
+     Open a names db.
 
-     /* Retrieve the annotation of a Unicode codepoint. The string must
-        not be freed by the caller. */
-     const char *uninm_annotation (uninm_names_db handle,
-                                   unsigned int codepoint);
 
-     size_t uninm_num_blocks (uninm_blocks_db handle);
+ -- Library Function: uninm_blocks_db uninm_blocks_db_open (const char
+          *FILENAME)
+     Open a blocks db.
 
-     int uninm_block_start (uninm_blocks_db handle, int i);
 
-     int uninm_block_end (uninm_blocks_db handle, int i);
+ -- Library Function: void uninm_names_db_close (uninm_names_db HANDLE)
+     Close a names db.
 
-     const char *uninm_block_description (uninm_blocks_db handle, int i);
+
+ -- Library Function: void uninm_blocks_db_close (uninm_blocks_db
+          HANDLE)
+     Close a blocks db.
+
+
+ -- Library Function: const char * uninm_name (uninm_names_db HANDLE,
+          unsigned int CODEPOINT)
+     Retrieve the name of a Unicode codepoint.  The string must not be
+     freed by the caller.
+
+
+ -- Library Function: const char * uninm_annotation (uninm_names_db
+          HANDLE, unsigned int CODEPOINT)
+     Retrieve the annotation of a Unicode codepoint.  The string must
+     not be freed by the caller.
+
+
+ -- Library Function: size_t uninm_num_blocks (uninm_blocks_db HANDLE)
+
+ -- Library Function: unsigned int uninm_block_start (uninm_blocks_db
+          HANDLE, int I)
+
+ -- Library Function: unsigned int uninm_block_end (uninm_blocks_db
+          HANDLE, int I)
+
+ -- Library Function: unsigned int uninm_block_name (uninm_blocks_db
+          HANDLE, int I)
 
 4 Using LibUnicodeNames in C++
 ******************************

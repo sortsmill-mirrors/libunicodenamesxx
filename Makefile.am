@@ -129,12 +129,15 @@ $(srcdir)/%.func.texi: %.h
 
 extract-text: extract-libunicodenames-text
 
-extract-libunicodenames-text: $(LIBUNICODENAMES_TEXI)
+extract-libunicodenames-text: $(LIBUNICODENAMES_H_TEXI)
 
-LIBUNICODENAMES_TEXI = $(srcdir)/libunicodenames.type.texi	\
+LIBUNICODENAMES_H_TEXI = $(srcdir)/libunicodenames.type.texi	\
 	$(srcdir)/libunicodenames.func.texi
 
-EXTRA_DIST += $(LIBUNICODENAMES_TEXI)
+EXTRA_DIST += $(LIBUNICODENAMES_H_TEXI)
+
+$(srcdir)/README: $(srcdir)/libunicodenames.texi $(LIBUNICODENAMES_H_TEXI)
+	$(MAKEINFO) --plaintext --no-split $< > $@
 
 #--------------------------------------------------------------------------
 
@@ -220,11 +223,6 @@ distclean-local:
              rm -f "$(top_builddir)/$${dir}/.indent.pro";	\
 		done;												\
 	fi
-
-#--------------------------------------------------------------------------
-
-$(srcdir)/README: libunicodenames.texi
-	$(MAKEINFO) --plaintext --no-split $< > README
 
 #--------------------------------------------------------------------------
 
