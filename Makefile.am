@@ -117,8 +117,6 @@ EXTRA_DIST = $(srcdir)/po/Rules-doc m4/gnulib-cache.m4 .indent.pro
 
 #--------------------------------------------------------------------------
 
-dist_noinst_SCRIPTS = extract-text.scm
-
 extract_text = $(GAWK) ' \
 BEGIN { pattern = "^[[:space:]]*(//|*)[[:space:]]*$1--[[:space:]]*(.*)[[:space:]]*" } \
 $$0 ~ pattern { match($$0, pattern, matches); print matches[2] }'
@@ -131,7 +129,7 @@ $$0 ~ pattern { match($$0, pattern, matches); print matches[2] }'
 
 #--------------------------------------------------------------------------
 
-dist_noinst_SCRIPTS += make-names-db.awk make-blocks-db.awk
+dist_noinst_SCRIPTS = make-names-db.awk make-blocks-db.awk
 
 MAKE_NAMES_DB = LC_ALL=C $(GAWK) -f $(srcdir)/make-names-db.awk
 MAKE_BLOCKS_DB = LC_ALL=C $(GAWK) -f $(srcdir)/make-blocks-db.awk
