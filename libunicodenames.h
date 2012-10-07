@@ -152,6 +152,7 @@ extern "C"
    * f--
    * f-- @deftypefn {Library Function} size_t uninm_num_blocks (uninm_blocks_db @var{handle})
    * f--
+   * FIXME: Write something here.
    * f--
    * f-- @end deftypefn
    * f--
@@ -162,6 +163,7 @@ extern "C"
    * f--
    * f-- @deftypefn {Library Function} {unsigned int} uninm_block_start (uninm_blocks_db @var{handle}, int @var{i})
    * f--
+   * FIXME: Write something here.
    * f--
    * f-- @end deftypefn
    * f--
@@ -172,6 +174,7 @@ extern "C"
    * f--
    * f-- @deftypefn {Library Function} {unsigned int} uninm_block_end (uninm_blocks_db @var{handle}, int @var{i})
    * f--
+   * FIXME: Write something here.
    * f--
    * f-- @end deftypefn
    * f--
