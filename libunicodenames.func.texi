@@ -1,0 +1,89 @@
+
+@deftypefn {Library Function} {char *} uninm_find_names_db (const char *@var{locale_base})
+
+Get the path of the names database for the current locale. The
+string should be freed by the caller. If @var{locale_base} is
+non-@var{NULL}, then use it as the base directory for MO files;
+otherwise use the compiled-in locale directory.
+
+@end deftypefn
+
+
+@deftypefn {Library Function} {char *} uninm_find_blocks_db (const char *@var{locale_base})
+
+Get the path of the blocks database for the current locale.
+The string should be freed by the caller.
+If @var{locale_base} is non-@var{NULL}, then use it as
+the base directory for MO files; otherwise use the
+compiled-in locale directory.
+
+@end deftypefn
+
+
+@deftypefn {Library Function} uninm_names_db uninm_names_db_open (const char *@var{filename})
+
+Open a names database.
+
+@end deftypefn
+
+
+@deftypefn {Library Function} uninm_blocks_db uninm_blocks_db_open (const char *@var{filename})
+
+Open a blocks database.
+
+@end deftypefn
+
+
+@deftypefn {Library Function} void uninm_names_db_close (uninm_names_db @var{handle})
+
+Close a names database.
+
+@end deftypefn
+
+
+@deftypefn {Library Function} void uninm_blocks_db_close (uninm_blocks_db @var{handle})
+
+Close a blocks database.
+
+@end deftypefn
+
+
+@deftypefn {Library Function} {const char *} uninm_name (uninm_names_db @var{handle}, unsigned int @var{codepoint})
+
+Retrieve the name of a Unicode codepoint.
+The string must not be freed by the caller.
+
+@end deftypefn
+
+
+@deftypefn {Library Function} {const char *} uninm_annotation (uninm_names_db @var{handle}, unsigned int @var{codepoint})
+
+Retrieve the annotation of a Unicode codepoint.
+The string must not be freed by the caller.
+
+@end deftypefn
+
+
+@deftypefn {Library Function} size_t uninm_num_blocks (uninm_blocks_db @var{handle})
+
+
+@end deftypefn
+
+
+@deftypefn {Library Function} {unsigned int} uninm_block_start (uninm_blocks_db @var{handle}, int @var{i})
+
+
+@end deftypefn
+
+
+@deftypefn {Library Function} {unsigned int} uninm_block_end (uninm_blocks_db @var{handle}, int @var{i})
+
+
+@end deftypefn
+
+
+@deftypefn {Library Function} {unsigned int} uninm_block_name (uninm_blocks_db @var{handle}, int @var{i})
+
+
+@end deftypefn
+
