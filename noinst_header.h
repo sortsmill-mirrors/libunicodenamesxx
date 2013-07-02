@@ -25,6 +25,15 @@
 #ifdef __cplusplus
 #include "libunicodenames++.h"
 #endif
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+#if 0
+}
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -38,6 +47,13 @@ bool __string_matches (FILE *f, const char *s);
 bool __read_uint (FILE *f, unsigned int *i);
 bool __read_uint_array (FILE *f, unsigned int **i_array, size_t size);
 bool __read_strings (FILE *f, char **strings, size_t size);
+
+#if 0
+{
+#endif
+#ifdef __cplusplus
+}
+#endif
 
 // local variables:
 // c-file-style: "gnu"
