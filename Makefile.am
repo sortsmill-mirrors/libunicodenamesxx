@@ -91,6 +91,11 @@ unicodenames.py unicodenames_wrap.cxx: stamp-pyffi
 
 stamp-pyffi: unicodenames.i libunicodenames.h
 	$(SWIG) -c++ $(AX_SWIG_PYTHON_OPT) -I$(srcdir) unicodenames.i
+	@if test -f unicodenames_wrap.cxx; then				\
+		echo '#include <config.h>' > unicodenames_wrap.cxx-tmp;	\
+		cat unicodenames_wrap.cxx >> unicodenames_wrap.cxx-tmp;	\
+		mv unicodenames_wrap.cxx-tmp unicodenames_wrap.cxx;	\
+	fi
 	@touch stamp-pyffi
 
 # Install the Python extension after the C and C++ libraries, so it
@@ -208,7 +213,7 @@ make-changelog:
 
 MOSTLYCLEANFILES = unicodenames.py unicodenames.pyc
 MOSTLYCLEANFILES += unicodenames.pyo unicodenames_wrap.cxx
-MOSTLYCLEANFILES += stamp-pyffi
+MOSTLYCLEANFILES += stamp-pyffi unicodenames_wrap.cxx-tmp
 
 DISTCLEANFILES = NamesList.txt ListeDesNoms.txt
 DISTCLEANFILES += NamesList.UTF-8 ListeDesNoms.UTF-8
