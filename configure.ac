@@ -1,7 +1,7 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-#  Copyright (C) 2012 Barry Schwartz
+#  Copyright (C) 2012, 2013 Barry Schwartz
 # 
 #  This file is part of LibUnicodeNames.
 #  
@@ -22,7 +22,7 @@
 #--------------------------------------------------------------------------
 
 AC_PREREQ([2.68])
-AC_INIT([libunicodenames],[1.0.0_beta6],[https://github.com/sortsmill/libunicodenames/issues])
+AC_INIT([libunicodenames],[1.0.0],[https://github.com/sortsmill/libunicodenames/issues])
 AC_CONFIG_SRCDIR([make-names-db.awk])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR([config])
@@ -31,7 +31,6 @@ AC_CANONICAL_BUILD
 AC_CANONICAL_HOST
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([1.12.2 -Wall -Wno-portability])
-AM_MAINTAINER_MODE([enable])
 AC_USE_SYSTEM_EXTENSIONS
 m4_ifdef([AM_PROG_AR],[AM_PROG_AR])
 LT_INIT
