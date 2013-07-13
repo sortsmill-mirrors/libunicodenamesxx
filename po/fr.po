@@ -1,5 +1,5 @@
 # French translations for libunicodenames package.
-# Copyright (C) 2012 Barry Schwartz
+# Copyright (C) 2012 Khaled Hosny and Barry Schwartz
 # This file is distributed under the same license as the libunicodenames package.
 #  <github@crudfactory.com>, 2012.
 #
@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: libunicodenames 1.0.0-beta1\n"
 "Report-Msgid-Bugs-To: https://github.com/chemoelectric/libunicodenames/"
 "issues\n"
-"POT-Creation-Date: 2012-10-07 11:29-0500\n"
+"POT-Creation-Date: 2013-07-12 19:59-0500\n"
 "PO-Revision-Date: 2012-08-30 03:22-0500\n"
 "Last-Translator:  <github@crudfactory.com>\n"
 "Language-Team: French\n"

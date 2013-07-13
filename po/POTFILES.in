@@ -1,5 +1,5 @@
 # List of source files containing translatable strings.
-# Copyright (C) 2012 Barry Schwartz
+# Copyright (C) 2012 Khaled Hosny and Barry Schwartz
      
 common_code.c
 find_db.c

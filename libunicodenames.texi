@@ -19,7 +19,7 @@
 This manual is for LibUnicodeNames, a library for retrieving Unicode
 annotation data.
 
-Copyright @copyright{} 2012 Barry Schwartz
+Copyright @copyright{} 2012 Khaled Hosny and Barry Schwartz
 
 @quotation
 Permission is granted to copy, distribute and/or modify this document

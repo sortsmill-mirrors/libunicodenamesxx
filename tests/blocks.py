@@ -1,4 +1,4 @@
-#  Copyright (C) 2012 Barry Schwartz
+#  Copyright (C) 2012 Khaled Hosny and Barry Schwartz
 #
 #  This file is part of LibUnicodeNames.
 #

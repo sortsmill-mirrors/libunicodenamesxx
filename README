@@ -4,7 +4,7 @@ LibUnicodeNames
 This manual is for LibUnicodeNames, a library for retrieving Unicode
 annotation data.
 
-   Copyright (C) 2012 Barry Schwartz
+   Copyright (C) 2012 Khaled Hosny and Barry Schwartz
 
      Permission is granted to copy, distribute and/or modify this
      document under the terms of the GNU Lesser General Public License
