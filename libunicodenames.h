@@ -148,8 +148,7 @@ const char *uninm_name (uninm_names_db handle, unsigned int codepoint);
  * f-- @end deftypefn
  * f--
  */
-const char *uninm_annotation (uninm_names_db handle,
-			      unsigned int codepoint);
+const char *uninm_annotation (uninm_names_db handle, unsigned int codepoint);
 
 /*
  * f--
@@ -201,11 +200,10 @@ const char *uninm_block_name (uninm_blocks_db handle, int i);
 }
 #endif
 
-#endif				/* _LIBUNICODENAMES_H */
+#endif /* _LIBUNICODENAMES_H */
 
 /*
  * local variables:
  * c-file-style: "gnu"
  * end:
  */
-
