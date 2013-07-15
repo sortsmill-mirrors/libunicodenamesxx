@@ -76,9 +76,9 @@ python_PYTHON = unicodenames.py
 EXTRA_LTLIBRARIES = _unicodenames.la
 
 _unicodenames_la_SOURCES = unicodenames_wrap.cxx
-_unicodenames_la_CPPFLAGS = $(AX_SWIG_PYTHON_CPPFLAGS) $(AM_CPPFLAGS)
+_unicodenames_la_CPPFLAGS = $(PYTHON_CFLAGS) $(AM_CPPFLAGS)
 _unicodenames_la_CXXFLAGS = $(WARNING_CXXFLAGS) $(SWIG_PYTHON_WARNING_CXXFLAGS)
-_unicodenames_la_LIBS = $(AX_SWIG_PYTHON_LIBS)
+_unicodenames_la_LIBS =
 _unicodenames_la_LIBADD = libunicodenames++.la libunicodenames.la	\
 	lib/libgnu.la
 _unicodenames_la_LDFLAGS = -module -shared -avoid-version -rpath '$(pyexecdir)'
@@ -90,7 +90,7 @@ unicodenames.py unicodenames_wrap.cxx: stamp-pyffi
 	@if test ! -f $@; then $(MAKE) $(AM_MAKEFLAGS) stamp-pyffi; else :; fi
 
 stamp-pyffi: unicodenames.i libunicodenames.h
-	$(SWIG) -c++ $(AX_SWIG_PYTHON_OPT) -I$(srcdir) unicodenames.i
+	$(SWIG) -c++ -python -I$(srcdir) unicodenames.i
 	@if test -f unicodenames_wrap.cxx; then				\
 		echo '#include <config.h>' > unicodenames_wrap.cxx-tmp;	\
 		cat unicodenames_wrap.cxx >> unicodenames_wrap.cxx-tmp;	\

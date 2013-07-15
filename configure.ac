@@ -22,7 +22,7 @@
 #--------------------------------------------------------------------------
 
 AC_PREREQ([2.68])
-AC_INIT([libunicodenames],[1.0.0],[https://github.com/sortsmill/libunicodenames/issues])
+AC_INIT([libunicodenames],[1.0.1],[https://github.com/sortsmill/libunicodenames/issues])
 AC_CONFIG_SRCDIR([make-names-db.awk])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR([config])
@@ -84,19 +84,18 @@ AM_CONDITIONAL([CXX_FFI],[test x"${enable_c__}" = xyes])
 
 AC_ARG_ENABLE([python],
    [AS_HELP_STRING([--enable-python],
-                   [build Python bindings (requires --enable-c++ and SWIG >= 2.0.4)])],
-   [
-      AM_PATH_PYTHON
-      AX_PKG_SWIG([2.0.4],[],[AC_MSG_ERROR([SWIG is required to build the Python bindings.])])
-      AX_SWIG_PYTHON
-   ])
+                   [build Python bindings (requires --enable-c++ and SWIG >= 2.0.4)])])
 AC_SUBST([enable_python])
 AM_CONDITIONAL([PYTHON_FFI],[test x"${enable_python}" = xyes])
 
-if test x"${enable_python}" = xyes -a x"${enable_c__}" != xyes; then
-   AC_MSG_ERROR([--enable-python requires --enable-c++])
+if test x"${enable_python}" = xyes; then
+   if test x"${enable_c__}" != xyes; then
+      AC_MSG_ERROR([--enable-python requires --enable-c++])
+   fi
+   AM_PATH_PYTHON
+   PKG_CHECK_MODULES([PYTHON],[python-"${PYTHON_VERSION}"])
+   AX_PKG_SWIG([2.0.4],[],[AC_MSG_ERROR([SWIG is required to build the Python bindings.])])
 fi
-
 
 #--------------------------------------------------------------------------
 #
