@@ -87,7 +87,7 @@ make-changelog:
 		echo; \
 	else \
 		echo "If you do not mind, please report that the ChangeLog is missing." > $(distdir)/ChangeLog; \
-		echo "Report at: https://bitbucket.org/sortsmill/libunicodenames/issues" >> $(distdir)/ChangeLog; \
+		echo "Report at: https://bitbucket.org/sortsmill/libunicodenamesxx/issues" >> $(distdir)/ChangeLog; \
 		echo; \
 		echo "----------------------------------------------------------------"; \
 		echo "The ChangeLog was not made! You need Mercurial to make it."; \
