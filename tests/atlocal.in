@@ -28,14 +28,5 @@ localedir="@localedir@"
 
 doing_installcheck="test x\"${1}\" = x\"AUTOTEST_PATH=@bindir@\""
 
-skip_cxx="test x@enable_c__@ != xyes"
-
-skip_python="test x@enable_python@ != xyes"
-PYTHON="@PYTHON@"
-
-if test x${LIBUNICODENAMES_INSTALLED} = xyes; then
-    :
-else
-    PYTHONPATH="@abs_top_builddir@/@LT_OBJDIR@:@abs_top_builddir@:@abs_top_srcdir@"
-    LD_LIBRARY_PATH="@abs_top_builddir@/@LT_OBJDIR@"
-fi
+LIBUNICODENAMES_DATAROOTDIR="@LIBUNICODENAMES_DATAROOTDIR@"
+DB_DIR="${LIBUNICODENAMES_DATAROOTDIR}/libunicodenames"

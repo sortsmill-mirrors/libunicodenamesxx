@@ -27,17 +27,15 @@
 
 
 # Specification in the form of a command-line invocation:
-#   gnulib-tool --import --dir=. --lib=libgnu --source-base=lib --m4-base=m4 --doc-base=doc --tests-base=tests --aux-dir=config --lgpl=3 --no-conditional-dependencies --libtool --macro-prefix=gl btowc lib-symbol-visibility locale malloc-gnu stdbool stdio string
+#   gnulib-tool --import --dir=. --lib=libgnu --source-base=lib --m4-base=m4 --doc-base=doc --tests-base=tests --aux-dir=config --lgpl=3 --no-conditional-dependencies --libtool --macro-prefix=gl locale malloc-gnu stdio stdlib string
 
 # Specification in the form of a few gnulib-tool.m4 macro invocations:
 gl_LOCAL_DIR([])
 gl_MODULES([
-  btowc
-  lib-symbol-visibility
   locale
   malloc-gnu
-  stdbool
   stdio
+  stdlib
   string
 ])
 gl_AVOID([])

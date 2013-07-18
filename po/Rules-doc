@@ -1,3 +1,0 @@
-# Avoid Make failing when you are installing optional documentation.
-
-install-html install-dvi install-pdf install-ps:
