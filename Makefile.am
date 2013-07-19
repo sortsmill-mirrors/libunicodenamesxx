@@ -46,7 +46,7 @@ nodist_libunicodenames___la_SOURCES = config.h
 libunicodenames___la_CFLAGS = $(LIBUNICODENAMES_CFLAGS)
 libunicodenames___la_LIBADD = lib/libgnu.la
 libunicodenames___la_LDFLAGS = -version-info 1:2:0 $(AM_LDFLAGS)	\
-	$(LIBUNICODENAMES_LDFLAGS)
+	$(LIBUNICODENAMES_LIBS)
 
 #--------------------------------------------------------------------------
 
