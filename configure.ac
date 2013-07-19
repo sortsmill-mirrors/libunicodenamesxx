@@ -80,7 +80,7 @@ AC_PATH_PROGS([WGET],[wget],[wget])
 # Checks for libraries.
 
 PKG_CHECK_MODULES([LIBUNICODENAMES],[libunicodenames])
-PKG_CHECK_VAR([LIBUNICODENAMES_DATAROOTDIR],[libunicodenames],[datarootdir])
+PKG_CHECK_VAR([LIBUNICODENAMES_PKGDATADIR],[libunicodenames],[pkgdatadir])
 
 #--------------------------------------------------------------------------
 #

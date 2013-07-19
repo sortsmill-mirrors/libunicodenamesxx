@@ -28,5 +28,4 @@ localedir="@localedir@"
 
 doing_installcheck="test x\"${1}\" = x\"AUTOTEST_PATH=@bindir@\""
 
-LIBUNICODENAMES_DATAROOTDIR="@LIBUNICODENAMES_DATAROOTDIR@"
-DB_DIR="${LIBUNICODENAMES_DATAROOTDIR}/libunicodenames"
+DB_DIR="@LIBUNICODENAMES_PKGDATADIR@"
