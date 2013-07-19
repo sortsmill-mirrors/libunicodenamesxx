@@ -29,3 +29,4 @@ localedir="@localedir@"
 doing_installcheck="test x\"${1}\" = x\"AUTOTEST_PATH=@bindir@\""
 
 DB_DIR="@LIBUNICODENAMES_PKGDATADIR@"
+NAMESLIST_DIR="@LIBUNICODENAMES_PKGDATADIR@"

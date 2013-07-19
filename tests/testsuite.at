@@ -73,15 +73,15 @@ AT_CLEANUP
 
 AT_SETUP([patch test: en.names-db])
 AT_KEYWORDS([patch])
-AT_SKIP_IF([test ! -f "${abs_top_builddir}/NamesList.UTF-8"])
-AT_CHECK(["${abs_builddir}"/cxx_patch_test "${DB_DIR}/en.names-db" "${abs_top_builddir}/NamesList.UTF-8"],
+AT_SKIP_IF([test ! -f "${NAMESLIST_DIR}/NamesList.UTF-8"])
+AT_CHECK(["${abs_builddir}"/cxx_patch_test "${DB_DIR}/en.names-db" "${NAMESLIST_DIR}/NamesList.UTF-8"],
          [0],[ignore],[ignore])
 AT_CLEANUP
 
 AT_SETUP([patch test: fr.names-db])
 AT_KEYWORDS([patch])
-AT_SKIP_IF([test ! -f "${abs_top_builddir}/ListeDesNoms.UTF-8"])
-AT_CHECK(["${abs_builddir}"/cxx_patch_test "${DB_DIR}/fr.names-db" "${abs_top_builddir}/ListeDesNoms.UTF-8"],
+AT_SKIP_IF([test ! -f "${NAMESLIST_DIR}/ListeDesNoms.UTF-8"])
+AT_CHECK(["${abs_builddir}"/cxx_patch_test "${DB_DIR}/fr.names-db" "${NAMESLIST_DIR}/ListeDesNoms.UTF-8"],
          [0],[ignore],[ignore])
 AT_CLEANUP
 
