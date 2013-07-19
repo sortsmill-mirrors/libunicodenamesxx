@@ -1,0 +1,6 @@
+# List of source files containing translatable strings.
+# Copyright (C) 2012, 2013 Khaled Hosny and Barry Schwartz
+     
+cxx_bindings.cxx
+
+

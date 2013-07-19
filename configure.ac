@@ -22,7 +22,7 @@
 #--------------------------------------------------------------------------
 
 AC_PREREQ([2.68])
-AC_INIT([libunicodenamespp],[1.1.0],[https://github.com/sortsmill/libunicodenames++/issues])
+AC_INIT([libunicodenamesxx],[1.1.0],[https://bitbucket.org/sortsmill/libunicodenamesxx/issues])
 AC_CONFIG_SRCDIR([libunicodenames++.pc.in])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR([config])
@@ -143,6 +143,7 @@ AC_SUBST([LT_OBJDIR],["${lt_cv_objdir}"])
 AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([libunicodenames++.pc])
 AC_CONFIG_FILES([lib/Makefile])
+AC_CONFIG_FILES([po/Makefile.in])
 AC_CONFIG_FILES([tests/Makefile tests/atlocal])
 
 AC_CONFIG_COMMANDS([.indent.pro],

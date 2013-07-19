@@ -18,7 +18,7 @@
 
 ACLOCAL_AMFLAGS = -I m4 -I m4_ax
 
-SUBDIRS = lib . tests
+SUBDIRS = lib . po tests
 
 pkgconfigdir = ${libdir}/pkgconfig
 AM_CXXFLAGS = $(WARNING_CXXFLAGS)
