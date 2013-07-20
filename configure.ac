@@ -22,7 +22,7 @@
 #--------------------------------------------------------------------------
 
 AC_PREREQ([2.68])
-AC_INIT([libunicodenamesxx],[1.1.0],[https://bitbucket.org/sortsmill/libunicodenamesxx/issues])
+AC_INIT([libunicodenamesxx],[1.1.0_beta1],[https://bitbucket.org/sortsmill/libunicodenamesxx/issues])
 AC_CONFIG_SRCDIR([libunicodenames++.pc.in])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR([config])
