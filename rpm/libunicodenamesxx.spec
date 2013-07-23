@@ -49,6 +49,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 %{_libdir}/*.so.*
 %lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/%{name}.*
+%doc AUTHORS README COPYING COPYING.LIB ChangeLog
 
 %files devel
 %defattr(-,root,root,-)
@@ -56,7 +57,6 @@ rm -rf %{buildroot}
 %{_libdir}/*.so
 %{_libdir}/*.a
 %{_libdir}/pkgconfig/*
-
 %doc AUTHORS README COPYING COPYING.LIB ChangeLog
 
 %post -p /sbin/ldconfig
