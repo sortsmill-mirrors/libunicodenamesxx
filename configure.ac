@@ -78,10 +78,7 @@ test -z "${GNU_INDENT}" && GNU_INDENT=/bin/false
 PKG_CHECK_MODULES([LIBUNICODENAMES],[libunicodenames])
 AC_ARG_VAR([LIBUNICODENAMES_PKGDATADIR],
            [directory where libunicodenames installed its shared data])
-# PKG_CHECK_VAR requires pkg-config >= 0.28
-m4_ifdef([PKG_CHECK_VAR],
-   [PKG_CHECK_VAR([LIBUNICODENAMES_PKGDATADIR],[libunicodenames],[pkgdatadir])],
-   [AC_SUBST([LIBUNICODENAMES_PKGDATADIR],['@S|@{pkgdatadir}'])])
+PKG_CHECK_VAR([LIBUNICODENAMES_PKGDATADIR],[libunicodenames],[pkgdatadir])
 
 #--------------------------------------------------------------------------
 #
