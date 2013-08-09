@@ -1,0 +1,121 @@
+.Dd August 9, 2013
+.\"
+.\" Copyright (C) 2013 Khaled Hosny and Barry Schwartz
+.\"
+.\" This file is part of LibUnicodeNames.
+.\" 
+.\" LibUnicodeNames++ is free software: you can redistribute it and/or
+.\" modify it under the terms of the GNU Lesser General Public License
+.\" as published by the Free Software Foundation, either version 3 of
+.\" the License, or (at your option) any later version.
+.\" 
+.\" LibUnicodeNames++ is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+.\" Lesser General Public License for more details.
+.\" 
+.\" You should have received a copy of the GNU Lesser General Public
+.\" License along with LibUnicodeNames++.  If not, see
+.\" <http://www.gnu.org/licenses/>.
+.\"
+.\" This manpage is written in mdoc. See groff_mdoc(7).
+.\"
+.Dt LIBUNICODENAMES++ 3
+.Os
+.Sh NAME
+.Nm libunicodenames++
+.Nd C++ library to retrieve names and annotations of Unicode code points
+.Sh LIBRARY
+.Lb libunicodenames++
+.Sh SYNOPSIS
+.In libunicodenames++.h
+.Vt "namespace libunicodenames" ;
+.Vt "class libunicodenames::unicodenames" ;
+.Vt "class libunicodenames::unicodeblocks" ;
+.Vt "class libunicodenames::unicodenames_exception : public std::exception" ;
+.Vt "class libunicodenames::memory_exhausted : public unicodenames_exception" ;
+.Vt "class libunicodenames::open_failed : public unicodenames_exception" ;
+.Vt "class libunicodenames::index_error : public unicodenames_exception" ;
+.Sh DESCRIPTION
+.\" FIXME.
+This library is a C++ wrapper around the
+.Lb libunicodenames ,
+which is written in C.
+.Pp
+For some idea how to use this wrapper library, see
+.Sx EXAMPLES ,
+below.
+.Sh IMPLEMENTATION NOTES
+This library depends on the
+.Lb libunicodenames ,
+and you should link your program with that library, as well.
+.\" .Sh RETURN VALUES <-- FIXME
+.\" .Sh FILES
+.Sh EXAMPLES
+The following program prints names and annotations corresponding to
+the code points between 0 and 999, inclusive.
+.Bd -literal -offset indent
+#include <libunicodenames++.h>
+#include <cstdio>
+#include <clocale>
+
+int
+main (int argc, char **argv)
+{
+  std::setlocale (LC_ALL, "");
+  char *dbfile = libunicodenames::find_names_db (0);
+  libunicodenames::unicodenames db (dbfile);
+  delete dbfile;
+  for (int codepoint = 0; codepoint <= 999; codepoint++)
+    {
+      const char *name = db.name (codepoint);
+      const char *annot = db.annotation (codepoint);
+      name = (name == 0) ? "\-\-none\-\-" : name;
+      annot = (annot == 0) ? "\-\-none\-\-" : annot;
+      std::printf ("\-\-\\ncode point: %u\\nname: %s\\n"
+                   "annotation:\\n%s\\n",
+                   codepoint, name, annot);
+    }
+}
+.Ed
+.Pp
+The following program prints the start points, end points, and names
+of the Unicode blocks.
+.Bd -literal -offset indent
+#include <libunicodenames++.h>
+#include <cstdio>
+#include <cstdlib>
+#include <clocale>
+
+int
+main (int argc, char **argv)
+{
+  std::setlocale (LC_ALL, "");
+  char *dbfile = libunicodenames::find_blocks_db (0);
+  libunicodenames::unicodeblocks db (dbfile);
+  delete dbfile;
+  size_t numblocks = db.num_blocks ();
+  for (int i = 0; i < numblocks; i++)
+    {
+      unsigned int start = db.block_start (i);
+      unsigned int end = db.block_end (i);
+      const char *name = db.name (i);
+      if (name == 0)
+	exit (2);
+      std::printf ("--\ni: %u\nstart: %d\nend: %d\n"
+		   "block name: %s\n",
+		   (unsigned int) i, start, end, name);
+    }
+}
+.Ed
+.\" .Sh ERRORS
+.Sh SEE ALSO
+.Xr uninm_find_names_db 3 ,
+.Xr uninm_find_blocks_db 3
+.\" .Sh STANDARDS
+.\" .Sh HISTORY
+.Sh AUTHORS
+.An Barry Schwartz
+.Sh BUGS
+The French translation of the Unicode names list is based on an older
+Unicode standard.

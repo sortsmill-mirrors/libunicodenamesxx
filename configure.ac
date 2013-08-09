@@ -22,36 +22,31 @@
 #--------------------------------------------------------------------------
 
 AC_PREREQ([2.68])
-AC_INIT([libunicodenamesxx],[1.1.0_beta1],[https://bitbucket.org/sortsmill/libunicodenamesxx/issues])
+AC_INIT([LibUnicodeNames++],
+        [1.2.0_beta1],
+        [http://bitbucket.org/sortsmill/libunicodenamesxx/issues],
+        [libunicodenamesxx],
+        [http://bitbucket.org/sortsmill/libunicodenamesxx])
+
 AC_CONFIG_SRCDIR([libunicodenames++.pc.in])
+
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR([config])
-AC_CONFIG_TESTDIR([tests])
-AC_CANONICAL_BUILD
-AC_CANONICAL_HOST
+AC_CANONICAL_BUILD                 dnl On what platform are we compiling?
+AC_CANONICAL_HOST                  dnl For what platform are we compiling?
+AC_USE_SYSTEM_EXTENSIONS           dnl Define such macros as _GNU_SOURCE.
 AC_CONFIG_HEADERS([config.h])
+
 AM_INIT_AUTOMAKE([1.11 dist-xz -Wall -Wno-portability])
-AC_USE_SYSTEM_EXTENSIONS
+AM_SILENT_RULES([yes])
+AX_CHECK_GNU_MAKE
 m4_ifdef([AM_PROG_AR],[AM_PROG_AR])
 LT_INIT
 AM_GNU_GETTEXT_VERSION([0.18.1])
 
-# I am going to try enabling silent-rules by default, so builders are
-# more likely to see warnings. Use --disable-silent-rules or "make
-# V=1" if you need to see the rules.
-m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
+AC_CONFIG_TESTDIR([tests])
 
-VERSION_MAJOR=`AS_ECHO(["${PACKAGE_VERSION}"]) | sed -e 's/^\([[0-9]][[0-9]]*\).*/\1/'`
-VERSION_MINOR=`AS_ECHO(["${PACKAGE_VERSION}"]) | sed -e 's/^[[0-9]][[0-9]]*\.\([[0-9]][[0-9]]*\).*/\1/'`
-VERSION_PATCH=`AS_ECHO(["${PACKAGE_VERSION}"]) | sed -e 's/^[[0-9]][[0-9]]*\.[[0-9]][[0-9]]*\.\([[0-9]][[0-9]]*\).*/\1/'`
-VERSION_EXTRA=`AS_ECHO(["${PACKAGE_VERSION}"]) | sed -e 's/^[[0-9]][[0-9]]*\.[[0-9]][[0-9]]*\.[[0-9]][[0-9]]*\(.*\)/\1/' \
-                                                     -e 's/^_//'`
-VERSION_EXTRA_SHORT=`AS_ECHO(["${VERSION_EXTRA}"]) | sed -e 's/alpha/a/' -e 's/beta/b/'`
-AC_SUBST([VERSION_MAJOR])
-AC_SUBST([VERSION_MINOR])
-AC_SUBST([VERSION_PATCH])
-AC_SUBST([VERSION_EXTRA])
-AC_SUBST([VERSION_EXTRA_SHORT])
+StM_ANALYZE_PACKAGE_VERSION
 
 #--------------------------------------------------------------------------
 #
@@ -72,8 +67,9 @@ AC_PROG_LN_S
 AC_PROG_MAKE_SET
 AC_PROG_MKDIR_P
 AC_PROG_SED
-AC_PATH_PROGS([INDENT],[indent],[indent])
-AC_PATH_PROGS([WGET],[wget],[wget])
+StM_PROG_GNU_INDENT
+
+test -z "${GNU_INDENT}" && GNU_INDENT=/bin/false
 
 #--------------------------------------------------------------------------
 #
@@ -103,27 +99,10 @@ AC_TYPE_UINT32_T
 AC_TYPE_UINT8_T
 AC_CHECK_TYPES([ptrdiff_t])
 
-#AC_SUBST([WARNING_CFLAGS],[])
-#if test x"${GCC}" = xyes; then
-#   AC_LANG_PUSH([C])
-#   AX_CHECK_COMPILE_FLAG([-Wall],[WARNING_CFLAGS+=" -Wall"])
-#   AX_CHECK_COMPILE_FLAG([-Wextra],[WARNING_CFLAGS+=" -Wextra"])
-#   AX_CHECK_COMPILE_FLAG([-Wcast-align],[WARNING_CFLAGS+=" -Wcast-align"])
-#   AX_CHECK_COMPILE_FLAG([-Wbad-function-cast],[WARNING_CFLAGS+=" -Wbad-function-cast"])
-#   AX_CHECK_COMPILE_FLAG([-Wc++-compat],[WARNING_CFLAGS+=" -Wc++-compat"])
-#   AX_CHECK_COMPILE_FLAG([-Wno-unused-result],[WARNING_CFLAGS+=" -Wno-unused-result"])
-#   AC_LANG_POP
-#fi
-
 AC_SUBST([WARNING_CXXFLAGS],[])
-if test x"${GXX}" = xyes; then
-   AC_LANG_PUSH([C++])
-   AX_CHECK_COMPILE_FLAG([-Wall],[WARNING_CXXFLAGS+=" -Wall"])
-   AX_CHECK_COMPILE_FLAG([-Wextra],[WARNING_CXXFLAGS+=" -Wextra"])
-   AX_CHECK_COMPILE_FLAG([-Wcast-align],[WARNING_CXXFLAGS+=" -Wcast-align"])
-   AX_CHECK_COMPILE_FLAG([-Wno-unused-result],[WARNING_CXXFLAGS+=" -Wno-unused-result"])
-   AC_LANG_POP
-fi
+StM_GNU_CXX_FLAGS([WARNING_CXXFLAGS],
+   [-Wall -Wextra -Wcast-align -Wno-unused-result],
+   [-Wl,--warn-common])
 
 #--------------------------------------------------------------------------
 #
@@ -140,11 +119,17 @@ AC_CHECK_FUNCS([__argz_count __argz_next __argz_stringify floor getcwd localecon
 
 AC_SUBST([LT_OBJDIR],["${lt_cv_objdir}"])
 
-AC_CONFIG_FILES([Makefile])
+StM_CHANGELOGGERIZE
+
+StM_CONFIG_MAKEFILES
+StM_CONFIG_MAKEFILES([tests/Makefile],[tests/GNUmakefile])
+
 AC_CONFIG_FILES([libunicodenames++.pc])
 AC_CONFIG_FILES([lib/Makefile])
 AC_CONFIG_FILES([po/Makefile.in])
-AC_CONFIG_FILES([tests/Makefile tests/atlocal])
+AC_CONFIG_FILES([tests/atlocal])
+
+AC_CONFIG_COMMANDS([doc],[AS_MKDIR_P([doc])])
 
 AC_CONFIG_COMMANDS([.indent.pro],
    [

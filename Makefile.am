@@ -16,89 +16,56 @@
 #  License along with LibUnicodeNames++.  If not, see
 #  <http://www.gnu.org/licenses/>.
 
-ACLOCAL_AMFLAGS = -I m4 -I m4_ax
+ACLOCAL_AMFLAGS = -I m4 --install
 
 SUBDIRS = lib . po tests
 
 pkgconfigdir = ${libdir}/pkgconfig
+nodist_pkgconfig_DATA =
+
+dist_pkgdata_DATA =
+nodist_pkgdata_DATA =
+lib_LTLIBRARIES =
+include_HEADERS =
+nodist_bin_SCRIPTS =
+dist_noinst_SCRIPTS =
+nodist_pkglibexec_SCRIPTS =
+nodist_EXTRA_DATA =
+dist_man_MANS =
+nodist_man_MANS =
+EXTRA_DIST =
+MOSTLYCLEANFILES =
+CLEANFILES =
+DISTCLEANFILES = Makefile GNUmakefile
+
 AM_CXXFLAGS = $(WARNING_CXXFLAGS)
 AM_CPPFLAGS = 											\
 	-I$(top_builddir)/lib -I$(top_srcdir)/lib			\
 	-DPKGDATADIR=\"${pkgdatadir}/\"	 					\
 	-DLOCALEDIR=\"${localedir}/\" 						\
 	-DTEXTDOMAIN=\"${PACKAGE}\"
+AM_LDFLAGS = -version-info 1:2:0 $(LIBUNICODENAMES_LIBS)
+
+EXTRA_DIST += examples/print_names.cxx examples/print_blocks.cxx
 
 #--------------------------------------------------------------------------
 
-NAMESLIST_EN = "http://www.unicode.org/Public/UNIDATA/NamesList.txt"
-NAMESLIST_FR = "http://hapax.qc.ca/ListeDesNoms-5.0.0.txt"
+nodist_pkgconfig_DATA += libunicodenames++.pc
 
-#--------------------------------------------------------------------------
-
-nodist_pkgconfig_DATA = libunicodenames++.pc
-
-lib_LTLIBRARIES = libunicodenames++.la
-include_HEADERS = libunicodenames++.h
+lib_LTLIBRARIES += libunicodenames++.la
+include_HEADERS += libunicodenames++.h
 
 libunicodenames___la_SOURCES = cxx_bindings.cxx noinst_header.h	\
 	libgettext.h
 nodist_libunicodenames___la_SOURCES = config.h
 libunicodenames___la_CFLAGS = $(LIBUNICODENAMES_CFLAGS)
 libunicodenames___la_LIBADD = lib/libgnu.la
-libunicodenames___la_LDFLAGS = -version-info 1:2:0 $(AM_LDFLAGS)	\
-	$(LIBUNICODENAMES_LIBS)
+
+dist_man_MANS = doc/libunicodenames++.3 doc/libunicodenames++.h.3
 
 #--------------------------------------------------------------------------
 
-EXTRA_DIST = m4/gnulib-cache.m4 .indent.pro
-
-#--------------------------------------------------------------------------
-
-nodist_EXTRA_DATA = NamesList.txt ListeDesNoms.txt
-nodist_EXTRA_DATA += NamesList.UTF-8 ListeDesNoms.UTF-8
-
-CRLF_TO_LF = $(SED) -e 's/\r//g'
-
-NamesList.UTF-8: NamesList.txt
-	$(CRLF_TO_LF) < $< > $@
-
-ListeDesNoms.UTF-8: ListeDesNoms.txt
-	$(CRLF_TO_LF) < $< > $@
-
-NamesList.txt:
-	$(WGET) $(NAMESLIST_EN) -O $@
-
-ListeDesNoms.txt:
-	$(WGET) $(NAMESLIST_FR) -O $@
-
-#--------------------------------------------------------------------------
-#
-# Use Mercurial to make a ChangeLog automatically.
-
-dist-hook: make-changelog
-
-make-changelog:
-	@if hg log -r tip > /dev/null 2> /dev/null; then \
-		hg log --style=changelog > $(distdir)/ChangeLog; \
-		echo; \
-		echo "----------------------------------------------------------------"; \
-		echo "hg log --style=changelog > $(distdir)/ChangeLog"; \
-		echo "----------------------------------------------------------------"; \
-		echo; \
-	else \
-		echo "If you do not mind, please report that the ChangeLog is missing." > $(distdir)/ChangeLog; \
-		echo "Report at: https://bitbucket.org/sortsmill/libunicodenamesxx/issues" >> $(distdir)/ChangeLog; \
-		echo; \
-		echo "----------------------------------------------------------------"; \
-		echo "The ChangeLog was not made! You need Mercurial to make it."; \
-		echo "If you are making a real release, please do it from within"; \
-		echo "a Mercurial repository. Consider using Mercurial with hg-git."; \
-		echo "----------------------------------------------------------------"; \
-		echo; \
-	fi
-
-DISTCLEANFILES = NamesList.txt ListeDesNoms.txt
-DISTCLEANFILES += NamesList.UTF-8 ListeDesNoms.UTF-8
+EXTRA_DIST += $(srcdir)/po/Rules-doc m4/gnulib-cache.m4 .indent.pro
 
 #--------------------------------------------------------------------------
 
@@ -112,16 +79,24 @@ distclean-local:
 	fi
 
 #--------------------------------------------------------------------------
+#
+# Automatic ChangeLog generation at `make dist', if one has
+# sortsmill-changelogger.
 
-include indent.mk
+dist-hook: dist-changelog
+@dist_changelog_rules@
+
+#--------------------------------------------------------------------------
+
+include indent.am
 
 blacklist_for_indent += config.h libgettext.h
 
-indent: indent-recursive
-	$(call do_indent, $(libunicodenames___la_SOURCES))
-	$(call do_indent, $(include_HEADERS))
-
-indent-recursive:
-	$(MAKE) -C tests $(AM_MAKEFLAGS) indent
+@ifGNUmake@indent: indent-recursive
+@ifGNUmake@	$(call do_indent, $(libunicodenames___la_SOURCES))
+@ifGNUmake@	$(call do_indent, $(include_HEADERS))
+@ifGNUmake@
+@ifGNUmake@indent-recursive:
+@ifGNUmake@	$(MAKE) -C tests $(AM_MAKEFLAGS) indent
 
 #--------------------------------------------------------------------------

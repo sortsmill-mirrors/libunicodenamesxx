@@ -16,6 +16,8 @@
 #  License along with LibUnicodeNames++.  If not, see
 #  <http://www.gnu.org/licenses/>.
 
+DISTCLEANFILES = Makefile GNUmakefile
+
 #--------------------------------------------------------------------------
 
 # The `:;' works around a Bash 3.2 bug when the output is not writable.
@@ -78,22 +80,19 @@ cxx_patch_test_SOURCES = cxx_patch_test.cxx
 
 #--------------------------------------------------------------------------
 
-check-local: override TESTSUITEFLAGS += LIBUNICODENAMES_INSTALLED=no
+@ifGNUmake@check-local: override TESTSUITEFLAGS += LIBUNICODENAMES_INSTALLED=no
 
-installcheck-local: override TESTSUITEFLAGS += LIBUNICODENAMES_INSTALLED=yes
+@ifGNUmake@installcheck-local: override TESTSUITEFLAGS += LIBUNICODENAMES_INSTALLED=yes
 
-DISTCLEANFILES = atconfig
+DISTCLEANFILES += atconfig
 
 #--------------------------------------------------------------------------
 
-include $(top_srcdir)/indent.mk
+include $(top_srcdir)/indent.am
 
-indent:
-	$(call do_indent, $(c_create_delete_SOURCES))
-	$(call do_indent, $(cxx_create_delete_SOURCES))
-	$(call do_indent, $(c_names_db_locale_SOURCES))
-	$(call do_indent, $(cxx_names_db_locale_SOURCES))
-	$(call do_indent, $(c_patch_test_SOURCES))
-	$(call do_indent, $(cxx_patch_test_SOURCES))
+@ifGNUmake@indent:
+@ifGNUmake@	$(call do_indent, $(cxx_create_delete_SOURCES))
+@ifGNUmake@	$(call do_indent, $(cxx_names_db_locale_SOURCES))
+@ifGNUmake@	$(call do_indent, $(cxx_patch_test_SOURCES))
 
 #--------------------------------------------------------------------------
