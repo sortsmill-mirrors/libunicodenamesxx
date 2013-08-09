@@ -61,7 +61,7 @@ nodist_libunicodenames___la_SOURCES = config.h
 libunicodenames___la_CFLAGS = $(LIBUNICODENAMES_CFLAGS)
 libunicodenames___la_LIBADD = lib/libgnu.la
 
-dist_man_MANS = doc/libunicodenames++.3 doc/libunicodenames++.h.3
+dist_man_MANS += doc/libunicodenames++.3 doc/libunicodenames++.h.3
 
 #--------------------------------------------------------------------------
 
