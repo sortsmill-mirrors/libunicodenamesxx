@@ -1,186 +1,46 @@
-LibUnicodeNames
-***************
-
-This manual is for LibUnicodeNames, a library for retrieving Unicode
-annotation data.
-
-   Copyright (C) 2012 Khaled Hosny and Barry Schwartz
-
-     Permission is granted to copy, distribute and/or modify this
-     document under the terms of the GNU Lesser General Public License
-     as published by the Free Software Foundation; either version 3, or
-     (at your option) any later version.
-
-     You should have received a copy of the GNU Lesser General Public
-     License along with LibUnicodeNames.  If not, see
-     <http://www.gnu.org/licenses/>.
-
-
-1 What is LibUnicodeNames?
-**************************
-
-LibUnicodeNames makes it easy for your program to retrieve the
-information contained in the `NamesList' file that is published by the
-Unicode Consortium.(1)
-
-   LibUnicodeNames is intended to replace the libuninameslist
-library(2), providing better handling of locales and support for a
-wider range of programming languages. Currently supported languages are
-C, C++, and Python.
-
-   ---------- Footnotes ----------
-
-   (1) <http://www.unicode.org/Public/UNIDATA/NamesList.html>
-
-   (2) <https://github.com/fontforge/libuninameslist>
-
-2 Installing LibUnicodeNames
-****************************
-
-To build LibUnicodeNames, you will need GNU Make.  (1)
-
-   For installation instructions, see the file `INSTALL' that
-accompanies the source code.
-
-   To build from Git or Mercurial sources, run `autoreconf --install'
-and then follow the instructions in the `INSTALL' file.
-
-   ---------- Footnotes ----------
-
-   (1) <http://www.gnu.org/software/make/>
-
-3 Using LibUnicodeNames in C
-****************************
-
-FIXME: This chapter needs to be written.
-
-     #include <libunicodenames.h>
-
-     pkg-config --cflags libunicodenames
-
-     pkg-config --libs libunicodenames
-
- -- Data type: uninm_names_db
-     A handle for a names database.
-
-
- -- Data type: uninm_blocks_db
-     A handle for a blocks database.
-
-
- -- Library Function: char * uninm_find_names_db (const char
-          *LOCALE_BASE)
-     Get the path of the names database for the current locale. The
-     string should be freed by the caller. If LOCALE_BASE is non-NULL,
-     then use it as the base directory for MO files; otherwise use the
-     compiled-in locale directory.
-
-
- -- Library Function: char * uninm_find_blocks_db (const char
-          *LOCALE_BASE)
-     Get the path of the blocks database for the current locale.  The
-     string should be freed by the caller.  If LOCALE_BASE is non-NULL,
-     then use it as the base directory for MO files; otherwise use the
-     compiled-in locale directory.
-
-
- -- Library Function: uninm_names_db uninm_names_db_open (const char
-          *FILENAME)
-     Open a names database.
-
-
- -- Library Function: uninm_blocks_db uninm_blocks_db_open (const char
-          *FILENAME)
-     Open a blocks database.
-
-
- -- Library Function: void uninm_names_db_close (uninm_names_db HANDLE)
-     Close a names database.
-
-
- -- Library Function: void uninm_blocks_db_close (uninm_blocks_db
-          HANDLE)
-     Close a blocks database.
-
-
- -- Library Function: const char * uninm_name (uninm_names_db HANDLE,
-          unsigned int CODEPOINT)
-     Retrieve the name of a Unicode codepoint.  The string must not be
-     freed by the caller.
-
-
- -- Library Function: const char * uninm_annotation (uninm_names_db
-          HANDLE, unsigned int CODEPOINT)
-     Retrieve the annotation of a Unicode codepoint.  The string must
-     not be freed by the caller.
-
-
- -- Library Function: size_t uninm_num_blocks (uninm_blocks_db HANDLE)
-
- -- Library Function: unsigned int uninm_block_start (uninm_blocks_db
-          HANDLE, int I)
-
- -- Library Function: unsigned int uninm_block_end (uninm_blocks_db
-          HANDLE, int I)
-
- -- Library Function: unsigned int uninm_block_name (uninm_blocks_db
-          HANDLE, int I)
-
-4 Using LibUnicodeNames in C++
-******************************
-
-FIXME: This chapter needs to be written.
-
-     #include <libunicodenames++.h>
-
-     using namespace libunicodenames;
-
-     pkg-config --cflags libunicodenames++
-
-     pkg-config --libs libunicodenames++
-
-     class unicodenames_exception:public std::exception
-     {
-       virtual const char *what () throw ();
-     };
-
-     class memory_exhausted:public unicodenames_exception
-     {
-       virtual const char *what () throw ();
-     };
-
-     class open_failed:public unicodenames_exception
-     {
-       virtual const char *what () throw ();
-     };
-
-     char *find_names_db (const char *locale_base = 0);
-     char *find_blocks_db (const char *locale_base = 0);
-
-     class unicodenames
-     {
-     private:
-       uninm_names_db db;
-
-     public:
-       unicodenames (const char *filename);
-        ~unicodenames ();
-
-       const char *name (unsigned int codepoint)
-       {
-         return uninm_name (db, codepoint);
-       }
-
-       const char *annotation (unsigned int codepoint)
-       {
-         return uninm_annotation (db, codepoint);
-       }
-     };                            /* class unicodenames */
-
-5 Using LibUnicodeNames in Python
-*********************************
-
-FIXME: This chapter needs to be written.
-
-     import unicodenames
-
+LibUnicodeNames++ -------------
+
+LibUnicodeNames++ makes it easy for your C++ program to retrieve the
+information contained in the `names list' file that is published by
+the Unicode Consortium at
+http://www.unicode.org/Public/UNIDATA/NamesList.html
+
+To build and use LibUnicodeNames++ one needs to have installed
+LibUnicodeNames beforehand.
+
+See the file INSTALL for generic compilation and installation
+instructions.
+
+
+Using LibUnicodeNames++ -------
+
+LibUnicodeNames++ includes support for pkg-config
+(http://www.freedesktop.org/wiki/Software/pkg-config/); it will appear
+under the package name `libunicodenames++'.
+
+To use LibUnicodeNames++ without pkg-config, use the `-lunicodenames++
+-lunicodenames' linker flags or the `libunicodenames++.la' libtool
+archive file.
+
+See also the manpage libunicodenames++(3) that is installed along with
+LibUnicodeNames++.
+
+
+--
+* Copyright (C) 2013 Khaled Hosny and Barry Schwartz
+*
+* This file is part of LibUnicodeNames++.
+* 
+* LibUnicodeNames++ is free software: you can redistribute it and/or
+* modify it under the terms of the GNU Lesser General Public License
+* as published by the Free Software Foundation, either version 3 of
+* the License, or (at your option) any later version.
+* 
+* LibUnicodeNames++ is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+* Lesser General Public License for more details.
+* 
+* You should have received a copy of the GNU Lesser General Public
+* License along with LibUnicodeNames++.  If not, see
+* <http://www.gnu.org/licenses/>.
